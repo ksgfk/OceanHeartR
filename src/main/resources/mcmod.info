@@ -1,0 +1,19 @@
+[
+  {
+    "modid": "oceanheartr",
+    "name": "Ocean Heart R",
+    "description": "",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": [
+      "KSGFK",
+      "kabi0210"
+    ],
+    "credits": "The Forge and FML guys",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
