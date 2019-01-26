@@ -5,10 +5,9 @@ import cn.com.breakdawn.mc.common.init.Items;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
-import java.util.Objects;
 
 /**
  * 通用代理
@@ -18,7 +17,7 @@ public class CommonProxy {
     /**
      * 注册物品
      *
-     * @param event 事件形参
+     * @param event 事件
      */
     @SubscribeEvent
     public void registerItems(RegistryEvent.Register<Item> event) {
@@ -26,7 +25,8 @@ public class CommonProxy {
         event.getRegistry().register(Items.FIRST);//以后应该会用for来注册吧
         event.getRegistry().register(Items.NATURE_SWORD);
         /*--------注册能拿在手上的方块--------*/
-        event.getRegistry().register(new ItemBlock(Blocks.FIRST_BLOCK).setRegistryName(Objects.requireNonNull(Blocks.FIRST_BLOCK.getRegistryName())));
+        registerItemBlock(Blocks.FIRST_BLOCK, event);
+        registerItemBlock(Blocks.NATURE_ORE, event);
     }
 
     /**
@@ -37,5 +37,10 @@ public class CommonProxy {
     @SubscribeEvent
     public void registerBlocks(RegistryEvent.Register<Block> event) {
         event.getRegistry().register(Blocks.FIRST_BLOCK);
+        event.getRegistry().register(Blocks.NATURE_ORE);
+    }
+
+    private void registerItemBlock(Block block, RegistryEvent.Register<Item> event) {
+        event.getRegistry().register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
     }
 }

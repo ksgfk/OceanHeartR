@@ -1,12 +1,16 @@
 #Create mode inventory
-itemGroup.oceanheartr=海洋之心R
+itemGroup.oceanheartr=Ocean Heart R
 
 #Items
-item.nature_sword.name=自然之剑
-item.first_item.name=试作型海洋之心
+item.nature_sword.name=Nature Sword
+item.first_item.name=Trial of the heart of the ocean
 
 #Blocks
-tile.first_block.name=试作型方块1号
+tile.first_block.name=Trial type 1
+tile.nature_ore.name=Nature ore
+
+#Description
+tooltip.nature_ore.normal=The Ore with translucent green crystals is full of vitality.
 
 #Enchantment level
 enchantment.level.20=XX

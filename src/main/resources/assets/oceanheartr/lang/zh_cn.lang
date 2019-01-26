@@ -7,6 +7,10 @@ item.first_item.name=试作型海洋之心
 
 # 方块
 tile.first_block.name=试作型方块1号
+tile.nature_ore.name=自然矿石
+
+# Description
+tooltip.nature_ore.normal=含有半透明绿色结晶的矿石,充满生机
 
 # 附魔等级
 enchantment.level.20=XX

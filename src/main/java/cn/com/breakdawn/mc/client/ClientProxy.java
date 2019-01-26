@@ -9,14 +9,11 @@ import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * 客户端代理
  * KSGFK 创建于 2019/1/25
  */
-@SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
     @SubscribeEvent
     public void registerItemModels(ModelRegistryEvent event) {
@@ -27,6 +24,7 @@ public class ClientProxy extends CommonProxy {
     @SubscribeEvent
     public void registerBlockModels(ModelRegistryEvent event) {
         registerBlockModel(Blocks.FIRST_BLOCK);
+        registerBlockModel(Blocks.NATURE_ORE);
     }
 
     /**
@@ -55,5 +53,14 @@ public class ClientProxy extends CommonProxy {
      */
     private void registerBlockModel(Block block) {
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
+    }
+
+    /**
+     * 注册方块模型
+     *
+     * @param block 方块
+     */
+    private void registerBlockModel(Block block, int metadata) {
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), metadata, new ModelResourceLocation(block.getRegistryName(), "inventory"));
     }
 }
