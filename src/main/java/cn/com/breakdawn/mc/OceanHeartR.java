@@ -17,7 +17,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,7 +43,8 @@ public class OceanHeartR {
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(proxy);
-        oresGen = new WorldGenOHROres();
-        GameRegistry.registerWorldGenerator(oresGen, 0);
+        //oresGen = new WorldGenOHROres();
+        //GameRegistry.registerWorldGenerator(oresGen, 0);
+        MinecraftForge.ORE_GEN_BUS.register(WorldGenOHROres.class);
     }
 }

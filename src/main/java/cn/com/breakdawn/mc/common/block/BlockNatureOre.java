@@ -12,6 +12,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 import java.util.List;
 
+/**
+ * 自然矿石
+ */
 public class BlockNatureOre extends BlockFirst {
     public BlockNatureOre(Material blockMaterialIn, String name) {
         super(blockMaterialIn, name);
