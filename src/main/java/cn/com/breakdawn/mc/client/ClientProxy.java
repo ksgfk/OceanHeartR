@@ -20,7 +20,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ClientProxy extends CommonProxy {
     @SubscribeEvent
     public void registerItemModels(ModelRegistryEvent event) {
-        registerItemModel(Items.FIRST_ITEM);
+        registerItemModel(Items.FIRST);
+        registerItemModel(Items.NATURE_SWORD);
     }
 
     @SubscribeEvent

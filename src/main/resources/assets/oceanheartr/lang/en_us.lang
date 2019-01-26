@@ -1,0 +1,24 @@
+#Create mode inventory
+itemGroup.oceanheartr=海洋之心R
+
+#Items
+item.nature_sword.name=自然之剑
+item.first_item.name=试作型海洋之心
+
+#Blocks
+tile.first_block.name=试作型方块1号
+
+#Enchantment level
+enchantment.level.20=XX
+enchantment.level.25=XXV
+enchantment.level.11=XI
+enchantment.level.15=XV
+enchantment.level.12=XII
+enchantment.level.27=XXVII
+enchantment.level.18=XVIII
+enchantment.level.35=XXXVI
+enchantment.level.45=XLV
+enchantment.level.100=C
+enchantment.level.200=CC
+enchantment.level.5000=MMMMM
+enchantment.level.10000=MMMMMMMMMM

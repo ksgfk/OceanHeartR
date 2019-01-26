@@ -23,7 +23,8 @@ public class CommonProxy {
     @SubscribeEvent
     public void registerItems(RegistryEvent.Register<Item> event) {
         /*--------注册真·物品--------*/
-        event.getRegistry().register(Items.FIRST_ITEM);//以后应该会用for来注册吧
+        event.getRegistry().register(Items.FIRST);//以后应该会用for来注册吧
+        event.getRegistry().register(Items.NATURE_SWORD);
         /*--------注册能拿在手上的方块--------*/
         event.getRegistry().register(new ItemBlock(Blocks.FIRST_BLOCK).setRegistryName(Objects.requireNonNull(Blocks.FIRST_BLOCK.getRegistryName())));
     }
@@ -31,7 +32,7 @@ public class CommonProxy {
     /**
      * 注册方块,注意方块还需要在物品里注册一次,因为能拿在手上的方块属于Item
      *
-     * @param event
+     * @param event 事件
      */
     @SubscribeEvent
     public void registerBlocks(RegistryEvent.Register<Block> event) {
