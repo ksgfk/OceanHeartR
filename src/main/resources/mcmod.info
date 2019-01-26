@@ -2,11 +2,11 @@
   {
     "modid": "oceanheartr",
     "name": "Ocean Heart R",
-    "description": "",
+    "description": "A Minecraft Forge Mod which override by my OceanHeart",
     "version": "${version}",
     "mcversion": "${mcversion}",
     "url": "",
-    "updateUrl": "",
+    "updateUrl": "https://github.com/ksgfk/OceanHeartR/",
     "authorList": [
       "KSGFK",
       "kabi0210"
