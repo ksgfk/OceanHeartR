@@ -21,7 +21,7 @@ public class WorldGenOHROres implements IWorldGenerator {
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
         switch (world.provider.getDimension()) {
             case 0:
-                GenCommonOres.overWorld(nature_ore, world, random, chunkX, chunkZ, 8, 6, 70);
+                GenCommonOres.overWorld(nature_ore, world, random, chunkX, chunkZ, 8, 6, 30);
                 break;
             case -1:
                 break;
