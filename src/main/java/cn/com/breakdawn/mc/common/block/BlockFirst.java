@@ -1,6 +1,6 @@
 package cn.com.breakdawn.mc.common.block;
 
-import cn.com.breakdawn.mc.client.CreativeTabsOHR;
+import cn.com.breakdawn.mc.common.init.CreativeTabsOHR;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 

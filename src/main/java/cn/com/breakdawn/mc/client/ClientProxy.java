@@ -1,8 +1,8 @@
 package cn.com.breakdawn.mc.client;
 
 import cn.com.breakdawn.mc.common.CommonProxy;
-import cn.com.breakdawn.mc.common.init.Blocks;
-import cn.com.breakdawn.mc.common.init.Items;
+import cn.com.breakdawn.mc.common.init.OHRBlocks;
+import cn.com.breakdawn.mc.common.init.OHRItems;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -17,14 +17,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class ClientProxy extends CommonProxy {
     @SubscribeEvent
     public void registerItemModels(ModelRegistryEvent event) {
-        registerItemModel(Items.FIRST);
-        registerItemModel(Items.NATURE_SWORD);
+        registerItemModel(OHRItems.FIRST);
+        registerItemModel(OHRItems.NATURE_SWORD);
     }
 
     @SubscribeEvent
     public void registerBlockModels(ModelRegistryEvent event) {
-        registerBlockModel(Blocks.FIRST_BLOCK);
-        registerBlockModel(Blocks.NATURE_ORE);
+        registerBlockModel(OHRBlocks.FIRST_BLOCK);
+        registerBlockModel(OHRBlocks.NATURE_ORE);
     }
 
     /**

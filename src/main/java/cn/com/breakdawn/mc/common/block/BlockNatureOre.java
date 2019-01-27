@@ -4,7 +4,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -24,6 +23,6 @@ public class BlockNatureOre extends BlockFirst {
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced) {
-        tooltip.add(TextFormatting.GREEN + I18n.format("tooltip.nature_ore.normal"));
+        tooltip.add(I18n.format("tooltip.nature_ore.normal"));
     }
 }

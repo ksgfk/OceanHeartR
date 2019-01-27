@@ -1,0 +1,17 @@
+package cn.com.breakdawn.mc.common.init;
+
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
+
+/**
+ * 创造模式物品栏
+ * KSGFK 创建于 2019/1/26
+ */
+public class CreativeTabsOHR {
+    public static CreativeTabs tabsOceanHeart = new CreativeTabs("oceanheartr") {
+        @Override
+        public ItemStack getTabIconItem() {
+            return new ItemStack(OHRItems.NATURE_SWORD);
+        }
+    };
+}

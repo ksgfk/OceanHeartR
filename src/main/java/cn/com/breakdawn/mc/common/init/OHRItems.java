@@ -10,7 +10,7 @@ import net.minecraftforge.common.util.EnumHelper;
  * 非本地话名称等于物品名
  * KSGFK 创建于 2019/1/25
  */
-public final class Items {
+public final class OHRItems {
     /*工具材料,用来设置工具的基本属性,addToolMaterial()的参数依次是:工具材料名称,硬度,最大使用次数,挖掘效率,伤害(真实伤害-4才是这里要填的),附魔因素*/
     public static final Item.ToolMaterial NATURE = EnumHelper.addToolMaterial("nature", 6, 3122, 8, 4, 10);
 

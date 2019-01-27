@@ -38,11 +38,13 @@ public class GenCommonOres {
      * @param event     触发的生成事件
      * @param generator 生成器
      * @param number    每个区块预期生成数量
+     * @param minHeight 最小高度
+     * @param maxHeight 最大高度
      */
-    static void overWorld(OreGenEvent.GenerateMinable event, WorldGenerator generator, int number) {
+    static void overWorld(OreGenEvent.GenerateMinable event, WorldGenerator generator, int number, int minHeight, int maxHeight) {
         for (int i = 0; i < number; i++) {
             int posX = event.getPos().getX() + event.getRand().nextInt(16);
-            int posY = 5 + event.getRand().nextInt(30);
+            int posY = minHeight + event.getRand().nextInt(maxHeight);
             int posZ = event.getPos().getZ() + event.getRand().nextInt(16);
             BlockPos blockpos = new BlockPos(posX, posY, posZ);
             generator.generate(event.getWorld(), event.getRand(), blockpos);

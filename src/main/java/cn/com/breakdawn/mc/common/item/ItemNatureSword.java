@@ -1,6 +1,6 @@
 package cn.com.breakdawn.mc.common.item;
 
-import cn.com.breakdawn.mc.client.CreativeTabsOHR;
+import cn.com.breakdawn.mc.common.init.CreativeTabsOHR;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;

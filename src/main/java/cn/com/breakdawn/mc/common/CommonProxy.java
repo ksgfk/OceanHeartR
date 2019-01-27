@@ -1,7 +1,7 @@
 package cn.com.breakdawn.mc.common;
 
-import cn.com.breakdawn.mc.common.init.Blocks;
-import cn.com.breakdawn.mc.common.init.Items;
+import cn.com.breakdawn.mc.common.init.OHRBlocks;
+import cn.com.breakdawn.mc.common.init.OHRItems;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -21,11 +21,11 @@ public class CommonProxy {
     @SubscribeEvent
     public void registerItems(RegistryEvent.Register<Item> event) {
         /*--------注册真·物品--------*/
-        event.getRegistry().register(Items.FIRST);//以后应该会用for来注册吧
-        event.getRegistry().register(Items.NATURE_SWORD);
+        event.getRegistry().register(OHRItems.FIRST);//以后应该会用for来注册吧
+        event.getRegistry().register(OHRItems.NATURE_SWORD);
         /*--------注册能拿在手上的方块--------*/
-        registerItemBlock(Blocks.FIRST_BLOCK, event);
-        registerItemBlock(Blocks.NATURE_ORE, event);
+        registerItemBlock(OHRBlocks.FIRST_BLOCK, event);
+        registerItemBlock(OHRBlocks.NATURE_ORE, event);
     }
 
     /**
@@ -35,8 +35,8 @@ public class CommonProxy {
      */
     @SubscribeEvent
     public void registerBlocks(RegistryEvent.Register<Block> event) {
-        event.getRegistry().register(Blocks.FIRST_BLOCK);
-        event.getRegistry().register(Blocks.NATURE_ORE);
+        event.getRegistry().register(OHRBlocks.FIRST_BLOCK);
+        event.getRegistry().register(OHRBlocks.NATURE_ORE);
     }
 
     private void registerItemBlock(Block block, RegistryEvent.Register<Item> event) {
