@@ -34,8 +34,6 @@ public class OceanHeartR {
     @SidedProxy(clientSide = OceanHeartR.CLIENT, serverSide = OceanHeartR.COMMON, modId = OceanHeartR.MODID)
     public static CommonProxy proxy;
 
-    public WorldGenOHROres oresGen;
-
     public static Logger getLogger() {
         return logger;
     }
@@ -43,8 +41,6 @@ public class OceanHeartR {
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(proxy);
-        //oresGen = new WorldGenOHROres();
-        //GameRegistry.registerWorldGenerator(oresGen, 0);
         MinecraftForge.ORE_GEN_BUS.register(WorldGenOHROres.class);
     }
 }

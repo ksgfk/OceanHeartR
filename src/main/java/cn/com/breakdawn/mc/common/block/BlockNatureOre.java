@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * 自然矿石
+ * KSGFK 创建于 2019/1/26
  */
 public class BlockNatureOre extends BlockFirst {
     public BlockNatureOre(Material blockMaterialIn, String name) {
