@@ -8,7 +8,7 @@ import java.lang.annotation.*;
  */
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.FIELD})
+@Target(ElementType.FIELD)
 public @interface RegisterBlock {
     /**
      * 方块meta值

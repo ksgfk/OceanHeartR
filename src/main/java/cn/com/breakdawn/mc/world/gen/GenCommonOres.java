@@ -13,6 +13,7 @@ import java.util.Random;
  * KSGFK 创建于2019/1/26
  */
 public class GenCommonOres {
+    @Deprecated
     static void overWorld(WorldGenerator gen, World world, Random random, int chunkX, int chunkZ, int chance, int minHeight, int maxHeight) {
         if (minHeight > maxHeight || minHeight < 0 || maxHeight > 256) throw new IllegalArgumentException("矿物生成超出世界边界");
 
