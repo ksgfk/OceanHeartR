@@ -12,5 +12,7 @@ public class ItemFirst extends Item {
         this.setRegistryName(name);
         this.setUnlocalizedName(name);
         this.setCreativeTab(CreativeTabsOHR.tabsOceanHeart);
+
+        this.setDamage(this.getDefaultInstance(),0);
     }
 }

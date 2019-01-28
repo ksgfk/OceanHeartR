@@ -1,5 +1,6 @@
 package cn.com.breakdawn.mc.world.gen;
 
+import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.common.init.OHRBlocks;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraft.world.gen.feature.WorldGenerator;
@@ -25,6 +26,13 @@ public class WorldGenOHROres {
         if (!TerrainGen.generateOre(event.getWorld(), event.getRand(), nature_ore, event.getPos(), OreGenEvent.GenerateMinable.EventType.CUSTOM))
             return;
         GenCommonOres.overWorld(event, nature_ore, 8, 5, 30);
+    }
+
+    @SubscribeEvent
+    public static void onGenerateDIM1(OreGenEvent.GenerateMinable event) {
+        if (event.getType() == OreGenEvent.GenerateMinable.EventType.QUARTZ) {
+            //OceanHeartR.getLogger().info("生成石英");
+        }
     }
     /*
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
