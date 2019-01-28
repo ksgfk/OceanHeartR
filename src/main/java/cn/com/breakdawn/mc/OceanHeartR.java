@@ -41,6 +41,6 @@ public class OceanHeartR {
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(proxy);
-        MinecraftForge.ORE_GEN_BUS.register(WorldGenOHROres.class);
+        //MinecraftForge.ORE_GEN_BUS.register(WorldGenOHROres.class);
     }
 }

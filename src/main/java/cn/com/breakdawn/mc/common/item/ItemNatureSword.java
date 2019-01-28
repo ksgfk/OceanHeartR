@@ -14,10 +14,8 @@ import java.util.Random;
  * KSGFK 创建于 2019/1/26
  */
 public class ItemNatureSword extends ItemSword {
-    public ItemNatureSword(ToolMaterial material, String name) {
+    public ItemNatureSword(ToolMaterial material) {
         super(material);
-        this.setRegistryName(name);
-        this.setUnlocalizedName(name);
         this.setCreativeTab(CreativeTabsOHR.tabsOceanHeart);
     }
 

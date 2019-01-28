@@ -1,8 +1,11 @@
 {
   "forge_marker": 1,
   "variants": {
-    "normal": {
-      "model": "oceanheartr:nature_ore"
+    "variant=overworld": {
+      "model": "oceanheartr:nature_ore_overworld"
+    },
+    "variant=ooo": {
+      "model": "oceanheartr:nature_ore_ooo"
     }
   }
 }

@@ -15,10 +15,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class WorldGenOHROres {
     private static WorldGenerator nature_ore = new WorldGenMinable(OHRBlocks.NATURE_ORE.getDefaultState(), 3);
 
-    public WorldGenOHROres() {
-        //nature_ore = new WorldGenMinable(OHRBlocks.NATURE_ORE.getDefaultState(), 3);
-    }
-
     @SubscribeEvent
     public static void onGenerateMinable(OreGenEvent.GenerateMinable event) {
         if (event.getType() != OreGenEvent.GenerateMinable.EventType.DIAMOND)
@@ -27,23 +23,11 @@ public class WorldGenOHROres {
             return;
         GenCommonOres.overWorld(event, nature_ore, 8, 5, 30);
     }
-
+    /*
     @SubscribeEvent
     public static void onGenerateDIM1(OreGenEvent.GenerateMinable event) {
         if (event.getType() == OreGenEvent.GenerateMinable.EventType.QUARTZ) {
             //OceanHeartR.getLogger().info("生成石英");
-        }
-    }
-    /*
-    public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-        switch (world.provider.getDimension()) {
-            case 0:
-                GenCommonOres.overWorld(nature_ore, world, random, chunkX, chunkZ, 8, 6, 30);
-                break;
-            case -1:
-                break;
-            case 1:
-                break;
         }
     }
     */
