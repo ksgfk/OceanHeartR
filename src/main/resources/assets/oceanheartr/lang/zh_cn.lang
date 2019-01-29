@@ -5,6 +5,8 @@ itemGroup.oceanheartr=海洋之心R
 # 物品
 item.nature_sword.name=§a自然之剑
 item.first_item.name=试作型海洋之心
+item.icon.terminal.name=终端
+item.icon.world.name=世界
 
 # 方块
 tile.first_block.name=试作型方块1号

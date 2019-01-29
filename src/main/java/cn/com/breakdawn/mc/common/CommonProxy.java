@@ -32,13 +32,14 @@ import cn.com.breakdawn.mc.util.RegBlock;
 import cn.com.breakdawn.mc.util.RegItem;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemMultiTexture;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.oredict.OreDictionary;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 
 /**
  * 通用代理
@@ -64,9 +65,6 @@ public class CommonProxy {
                 } else if (anno.isRegisterMultiTextureBlock()) {
                     event.getRegistry().register(block.setRegistryName(NameBuilder.buildRegistryName(anno.value())).setUnlocalizedName(NameBuilder.buildUnlocalizedName(anno.value())));
                 }
-
-                //注册矿物词典
-                //Arrays.asList(anno.oreDict()).forEach(s -> OreDictionary.registerOre(s, block));
             } catch (Exception e) {
                 OceanHeartR.getLogger().warn("Un-able to register block " + field.toGenericString(), e);
             }
@@ -78,13 +76,14 @@ public class CommonProxy {
         for (Field field : OHRItems.class.getFields()) {
             field.setAccessible(true);
             RegItem anno = field.getAnnotation(RegItem.class);
-            if (anno==null) continue;
+            if (anno == null) continue;
 
             try {
                 Item item = (Item) field.get(null);
                 event.getRegistry().register(item.setRegistryName(NameBuilder.buildRegistryName(anno.value())).setUnlocalizedName(NameBuilder.buildUnlocalizedName(anno.value())));
-
-                //Arrays.asList(anno.oreDict()).forEach(s -> OreDictionary.registerOre(s, item));
+                if (anno.oreDict().length != 0) {
+                    Arrays.asList(anno.oreDict()).forEach(s -> OreDictionary.registerOre(s, item));
+                }
             } catch (Exception e) {
                 OceanHeartR.getLogger().warn("Un-able to register item " + field.toGenericString(), e);
             }
@@ -102,27 +101,33 @@ public class CommonProxy {
                     Class<? extends Item> itemClass = anno.itemClass();
                     Constructor<? extends Item> con = itemClass.getDeclaredConstructor(Block.class);
                     con.setAccessible(true);
-                    event.getRegistry().register(con.newInstance(block).setRegistryName(block.getRegistryName()).setUnlocalizedName(block.getUnlocalizedName()));
+                    Item i = con.newInstance(block).setRegistryName(block.getRegistryName()).setUnlocalizedName(block.getUnlocalizedName());
+                    event.getRegistry().register(i);
+                    if (!(anno.oreDict().length == 0)) {
+                        Arrays.asList(anno.oreDict()).forEach(s -> OreDictionary.registerOre(s, i));
+                    }
                 } else if (anno.isRegisterMultiTextureBlock()) {
                     block.setUnlocalizedName(NameBuilder.buildUnlocalizedName(anno.value()));
-                    registerMultiTextureBlock(block, event);
+                    ItemMultiTexture i = registerMultiTextureBlock(block, event);
+                    if (!(anno.oreDict().length == 0)) {
+                        Arrays.asList(anno.oreDict()).forEach(s -> OreDictionary.registerOre(s, i));
+                    }
                 }
-
-                //Arrays.asList(anno.oreDict()).forEach(s -> OreDictionary.registerOre(s, block));
             } catch (Exception e) {
-                OceanHeartR.getLogger().warn("Un-able to register block " + field.toGenericString(), e);
+                OceanHeartR.getLogger().warn("Un-able to register item block " + field.toGenericString(), e);
             }
         }
     }
 
-    // 注册一个方块的物品形式
-    public void registerItemBlock(Block block, RegistryEvent.Register<Item> event) {
-        event.getRegistry().register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
-    }
-
-    // 注册一个多Metadata方块的物品形式
-    public void registerMultiTextureBlock(Block block, RegistryEvent.Register<Item> event) {
+    /**
+     * 注册多Metadata的ItemBlock
+     *
+     * @param block 要注册的blocj
+     * @param event 事件
+     */
+    public ItemMultiTexture registerMultiTextureBlock(Block block, RegistryEvent.Register<Item> event) {
         ItemMultiTexture itemBlock = new ItemMultiTexture(block, block, var1 -> BlockNatureOre.EnumType.values()[var1.getMetadata()].getName());
         event.getRegistry().register(itemBlock.setRegistryName(block.getRegistryName()));
+        return itemBlock;
     }
 }

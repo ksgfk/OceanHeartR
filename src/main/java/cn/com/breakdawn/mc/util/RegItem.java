@@ -33,6 +33,7 @@ import java.lang.annotation.Target;
 public @interface RegItem {
     /**
      * The params to build registryName and unlocalizedName.
+     *
      * @see cn.mccraft.chinacraft.util.NameBuilder
      */
     String[] value();
@@ -44,5 +45,13 @@ public @interface RegItem {
 
     boolean isRegisterRender() default true;
 
-    //TODO:多Metadata物品的实现
+    /**
+     * 注册该方块的Block子类的名字(多Metadata时使用)
+     */
+    String className() default "";
+
+    /**
+     * 是否自动注册多Metadata物品的多贴图
+     */
+    boolean isRegisterMultiTextureItem() default false;
 }

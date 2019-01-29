@@ -57,7 +57,13 @@ public class ClientProxy extends CommonProxy {
 
             try {
                 Item item = (Item) field.get(null);
-                registerRender(item, 0);
+                if (anno.isRegisterMultiTextureItem()) {
+                    Class c = Class.forName("cn.com.breakdawn.mc.common.item." + anno.className());
+                    Method method = c.getDeclaredMethod("renderModel", Item.class);
+                    method.invoke(item, item);
+                } else {
+                    registerRender(item, 0);
+                }
             } catch (Exception e) {
                 OceanHeartR.getLogger().warn("Un-able to register item " + field.toGenericString(), e);
             }
@@ -66,7 +72,6 @@ public class ClientProxy extends CommonProxy {
 
     @SubscribeEvent
     public void registerBlockModels(ModelRegistryEvent event) {
-        //int cycle = 0;
         for (Field field : OHRBlocks.class.getFields()) {
             field.setAccessible(true);
             RegBlock anno = field.getAnnotation(RegBlock.class);
@@ -79,25 +84,15 @@ public class ClientProxy extends CommonProxy {
 
                 if (anno.isRegisterItemBlock()) {
                     registerRender(block, 0);
-                    //cycle++;
                 } else if (anno.isRegisterMultiTextureBlock()) {
-                    //registerRender(block, 0);
-                    //block.getMetaFromState(block.getDefaultState().withProperty(BlockNatureOre.VARIANT, BlockNatureOre.EnumType.byMetadata()));
-
                     Class c = Class.forName("cn.com.breakdawn.mc.common.block." + anno.className());
                     Method method = c.getDeclaredMethod("renderModel", Block.class);
-
                     method.invoke(block, block);
-
-                    //block.getMetaFromState(Block.getStateById(block))
-                    //OceanHeartR.getLogger().info(block.getUnlocalizedName());
-                    //cycle++;
                 }
             } catch (Exception e) {
                 OceanHeartR.getLogger().warn("Un-able to register block " + field.toGenericString(), e);
             }
         }
-        //OceanHeartR.getLogger().info(cycle);
     }
 
     @SideOnly(Side.CLIENT)
@@ -109,46 +104,5 @@ public class ClientProxy extends CommonProxy {
     @SideOnly(Side.CLIENT)
     private void registerRender(Item item, int meta) {
         ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(item.getRegistryName(), "inventory"));
-    }
-
-    /**
-     * 注册物品模型
-     *
-     * @param item 需要被注册的物品
-     */
-    @Deprecated
-    private void registerItemModel(Item item) {
-        ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
-    }
-
-    /**
-     * 注册物品模型,需要有meta值时调用这个
-     *
-     * @param item     注册物品模型
-     * @param metadata 物品的Meta值
-     */
-    @Deprecated
-    private void registerItemModel(Item item, int metadata) {
-        ModelLoader.setCustomModelResourceLocation(item, metadata, new ModelResourceLocation(item.getRegistryName(), "inventory"));
-    }
-
-    /**
-     * 注册方块模型
-     *
-     * @param block 方块
-     */
-    @Deprecated
-    private void registerBlockModel(Block block) {
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
-    }
-
-    /**
-     * 注册方块模型
-     *
-     * @param block 方块
-     */
-    @Deprecated
-    private void registerBlockModel(Block block, int metadata) {
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), metadata, new ModelResourceLocation(block.getRegistryName(), "inventory"));
     }
 }

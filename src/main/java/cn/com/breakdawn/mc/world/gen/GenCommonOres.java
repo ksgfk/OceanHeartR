@@ -49,7 +49,6 @@ public class GenCommonOres {
             int posZ = event.getPos().getZ() + event.getRand().nextInt(16);
             BlockPos blockpos = new BlockPos(posX, posY, posZ);
             generator.generate(event.getWorld(), event.getRand(), blockpos);
-            //OceanHeartR.getLogger().info("自然矿石生成坐标:" + blockpos.toString());
         }
     }
 }

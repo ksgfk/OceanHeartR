@@ -1,6 +1,7 @@
 package cn.com.breakdawn.mc.common.init;
 
 import cn.com.breakdawn.mc.common.item.ItemFirst;
+import cn.com.breakdawn.mc.common.item.ItemIcon;
 import cn.com.breakdawn.mc.common.item.ItemNatureSword;
 import cn.com.breakdawn.mc.util.RegItem;
 import net.minecraft.item.Item;
@@ -20,4 +21,7 @@ public final class OHRItems {
 
     @RegItem("nature_sword")
     public static final Item NATURE_SWORD = new ItemNatureSword(NATURE);
+
+    @RegItem(value = "icon", isRegisterMultiTextureItem = true, className = "ItemIcon")
+    public static final Item ICON = new ItemIcon();
 }

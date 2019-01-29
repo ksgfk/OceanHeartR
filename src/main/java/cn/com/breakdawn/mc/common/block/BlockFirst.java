@@ -10,9 +10,6 @@ import net.minecraft.block.material.Material;
  * KSGFK 创建于 2019/1/26
  */
 public class BlockFirst extends Block {
-    /**
-     * @param blockMaterialIn 方块的材质
-     */
     public BlockFirst(Material blockMaterialIn) {
         super(blockMaterialIn);
         this.setCreativeTab(CreativeTabsOHR.tabsOceanHeart);
@@ -32,11 +29,11 @@ public class BlockFirst extends Block {
         return this;
     }
 
-    public float getResistance(){
+    public float getResistance() {
         return blockResistance / 3.0F;
     }
 
-    public float getHardness(){
+    public float getHardness() {
         return blockHardness / 5.0F;
     }
 }

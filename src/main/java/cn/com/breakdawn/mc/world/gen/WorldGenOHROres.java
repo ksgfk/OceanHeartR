@@ -1,6 +1,5 @@
 package cn.com.breakdawn.mc.world.gen;
 
-import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.common.init.OHRBlocks;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraft.world.gen.feature.WorldGenerator;

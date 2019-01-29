@@ -4,6 +4,8 @@ itemGroup.oceanheartr=Ocean Heart R
 #Items
 item.nature_sword.name=§aNature Sword
 item.first_item.name=Trial of the heart of the ocean
+item.icon.terminal.name=Terminal
+item.icon.world.name=World
 
 #Blocks
 tile.first_block.name=Trial type 1

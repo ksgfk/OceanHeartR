@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 
 /**
  * 拥有多Metadata的方块必须实现此接口
+ * KSGFK 创建于 2019/1/28
  */
 public interface IMetaBlockRender {
     /**
