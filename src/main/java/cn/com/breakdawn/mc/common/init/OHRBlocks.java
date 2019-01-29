@@ -16,5 +16,5 @@ public final class OHRBlocks {
     public static final Block FIRST_BLOCK = new BlockFirst(Material.ROCK).setHarvestLevelReturnBlock("pickaxe", 0).setSoundType(SoundType.STONE).setHardness(2.0F).setResistance(10.0F);
 
     @RegBlock(value = "nature_ore", oreDict = "oreNature", className = "BlockNatureOre", isRegisterItemBlock = false, isRegisterMultiTextureBlock = true)
-    public static final Block NATURE_ORE = new BlockNatureOre().setRegistryName("nature_ore").setUnlocalizedName("nature_ore");
+    public static final Block NATURE_ORE = new BlockNatureOre();
 }

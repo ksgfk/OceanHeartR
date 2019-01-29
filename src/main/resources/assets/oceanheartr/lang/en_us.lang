@@ -2,15 +2,17 @@
 itemGroup.oceanheartr=Ocean Heart R
 
 #Items
-item.nature_sword.name=§2Nature Sword
+item.nature_sword.name=§aNature Sword
 item.first_item.name=Trial of the heart of the ocean
 
 #Blocks
 tile.first_block.name=Trial type 1
-tile.nature_ore.name=§2Nature ore
+tile.nature_ore.overworld.name=§aNature ore
+tile.nature_ore.ooo.name=§2Nature ore
 
 #Description
-tooltip.nature_ore.normal=§2The Ore with translucent green crystals is full of vitality.
+tooltip.nature_ore.overworld.normal=§aThe Ore with translucent green crystals is full of vitality.
+tooltip.nature_ore.ooo.normal=§2A Glimmer Of Life In Hell
 
 #Enchantment level
 enchantment.level.20=XX

@@ -14,12 +14,17 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
+import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class BlockNatureOre extends Block implements IMetaBlockRender {
     public static final PropertyEnum<BlockNatureOre.EnumType> VARIANT = PropertyEnum.<BlockNatureOre.EnumType>create("variant", BlockNatureOre.EnumType.class);
@@ -28,7 +33,6 @@ public class BlockNatureOre extends Block implements IMetaBlockRender {
         super(Material.ROCK);
         this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumType.OVERWORLD));
         this.setCreativeTab(CreativeTabsOHR.tabsOceanHeart);
-
     }
 
     @Override
@@ -76,6 +80,19 @@ public class BlockNatureOre extends Block implements IMetaBlockRender {
             //ClientProxy.registerRender(block, a);
             Item item = Item.getItemFromBlock(block);
             ModelLoader.setCustomModelResourceLocation(item, a, new ModelResourceLocation(block.getRegistryName() + "_" + EnumType.values()[a].getName(), "inventory"));
+        }
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced) {
+        int meta = stack.getMetadata();
+        switch (meta) {
+            case 0:
+                tooltip.add(I18n.format("tooltip.nature_ore.overworld.normal"));
+                break;
+            case 1:
+                tooltip.add(I18n.format("tooltip.nature_ore.ooo.normal"));
+                break;
         }
     }
 

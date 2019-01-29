@@ -59,23 +59,12 @@ public class CommonProxy {
 
             try {
                 Block block = (Block) field.get(null);
-                //event.getRegistry().register(block.setRegistryName(NameBuilder.buildRegistryName(anno.value())).setUnlocalizedName(NameBuilder.buildUnlocalizedName(anno.value())));
-                //event.getRegistry().register(block.setUnlocalizedName(NameBuilder.buildUnlocalizedName(anno.value())));
                 if (anno.isRegisterItemBlock()) {
                     event.getRegistry().register(block.setRegistryName(NameBuilder.buildRegistryName(anno.value())).setUnlocalizedName(NameBuilder.buildUnlocalizedName(anno.value())));
                 } else if (anno.isRegisterMultiTextureBlock()) {
-                    event.getRegistry().register(block.setUnlocalizedName(NameBuilder.buildUnlocalizedName(anno.value())));
+                    event.getRegistry().register(block.setRegistryName(NameBuilder.buildRegistryName(anno.value())).setUnlocalizedName(NameBuilder.buildUnlocalizedName(anno.value())));
                 }
 
-                //Register item block.
-                /*
-                if (anno.isRegisterItemBlock()) {
-                    Class<? extends Item> itemClass = anno.itemClass();
-                    Constructor<? extends Item> con = itemClass.getDeclaredConstructor(Block.class);
-                    con.setAccessible(true);
-                    event.getRegistry().register(con.newInstance(block).setRegistryName(block.getRegistryName()).setUnlocalizedName(block.getUnlocalizedName()));
-                }
-                */
                 //注册矿物词典
                 //Arrays.asList(anno.oreDict()).forEach(s -> OreDictionary.registerOre(s, block));
             } catch (Exception e) {
@@ -107,7 +96,6 @@ public class CommonProxy {
             if (anno == null) continue;
             try {
                 Block block = (Block) field.get(null);
-                //event.getRegistry().register(block.setRegistryName(NameBuilder.buildRegistryName(anno.value())).setUnlocalizedName(NameBuilder.buildUnlocalizedName(anno.value())));
 
                 //Register item block.
                 if (anno.isRegisterItemBlock()) {
@@ -115,9 +103,6 @@ public class CommonProxy {
                     Constructor<? extends Item> con = itemClass.getDeclaredConstructor(Block.class);
                     con.setAccessible(true);
                     event.getRegistry().register(con.newInstance(block).setRegistryName(block.getRegistryName()).setUnlocalizedName(block.getUnlocalizedName()));
-                    //event.getRegistry().register(con.newInstance(block).setUnlocalizedName(block.getUnlocalizedName()));
-                    //block.setRegistryName(block.getRegistryName()).setUnlocalizedName(NameBuilder.buildUnlocalizedName(anno.value()));
-                    //registerItemBlock(block, event);
                 } else if (anno.isRegisterMultiTextureBlock()) {
                     block.setUnlocalizedName(NameBuilder.buildUnlocalizedName(anno.value()));
                     registerMultiTextureBlock(block, event);
