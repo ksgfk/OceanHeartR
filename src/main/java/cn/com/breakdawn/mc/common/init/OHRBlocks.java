@@ -2,6 +2,7 @@ package cn.com.breakdawn.mc.common.init;
 
 import cn.com.breakdawn.mc.common.block.BlockFirst;
 import cn.com.breakdawn.mc.common.block.BlockNatureOre;
+import cn.com.breakdawn.mc.common.block.BlockStrangeOre;
 import cn.com.breakdawn.mc.util.RegBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -17,4 +18,7 @@ public final class OHRBlocks {
 
     @RegBlock(value = "nature_ore", oreDict = "oreNature", className = "BlockNatureOre", isRegisterItemBlock = false, isRegisterMultiTextureBlock = true)
     public static final Block NATURE_ORE = new BlockNatureOre();
+
+    @RegBlock(value = "strange_ore", oreDict = "oreStrange", className = "BlockStrangeOre", isRegisterItemBlock = false, isRegisterMultiTextureBlock = true)
+    public static final Block STRANGE_ORE = new BlockStrangeOre();
 }

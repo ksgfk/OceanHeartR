@@ -10,6 +10,5 @@ import net.minecraft.item.Item;
 public class ItemFirst extends Item {
     public ItemFirst() {
         this.setCreativeTab(CreativeTabsOHR.tabsOceanHeart);
-        this.setDamage(this.getDefaultInstance(), 0);
     }
 }

@@ -1,6 +1,3 @@
-/*
- * 大部分CV自原版 BlockStone
- */
 package cn.com.breakdawn.mc.common.block;
 
 import cn.com.breakdawn.mc.common.init.CreativeTabsOHR;
@@ -26,30 +23,24 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 /**
- * 自然矿石系列
- * KSGFK 创建于 2019/1/28
+ * 奇怪矿石系列
+ * KSGFK 创建于 2019/1/30
  */
-public class BlockNatureOre extends Block implements IMetaBlockRender {
-    public static final PropertyEnum<BlockNatureOre.EnumType> VARIANT = PropertyEnum.create("variant", BlockNatureOre.EnumType.class);
+public class BlockStrangeOre extends Block implements IMetaBlockRender {
+    public static final PropertyEnum<BlockStrangeOre.EnumType> VARIANT = PropertyEnum.create("variant", BlockStrangeOre.EnumType.class);
 
-    public BlockNatureOre() {
+    public BlockStrangeOre() {
         super(Material.ROCK);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumType.OVERWORLD));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumType.GOLD));
         this.setCreativeTab(CreativeTabsOHR.tabsOceanHeart);
     }
 
-    @Override
-    public String getLocalizedName() {
-        return I18n.format(this.getUnlocalizedName() + "." + EnumType.OVERWORLD.getUnlocalizedName() + ".name");
-    }
-
     /*
-    @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return state.getValue(VARIANT) == EnumType.OVERWORLD ? Item.getItemFromBlock(Blocks.COBBLESTONE) : Item.getItemFromBlock(Blocks.STONE);
-    }
+        @Override
+        public String getLocalizedName() {
+            return I18n.format(this.getUnlocalizedName() + "." + EnumType.GOLD.getUnlocalizedName() + ".name");
+        }
     */
-
     @Override
     public int damageDropped(IBlockState state) {
         return state.getValue(VARIANT).getMetadata();
@@ -57,14 +48,14 @@ public class BlockNatureOre extends Block implements IMetaBlockRender {
 
     @Override
     public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
-        for (BlockNatureOre.EnumType blockstone$enumtype : BlockNatureOre.EnumType.values()) {
+        for (BlockStrangeOre.EnumType blockstone$enumtype : BlockStrangeOre.EnumType.values()) {
             items.add(new ItemStack(this, 1, blockstone$enumtype.getMetadata()));
         }
     }
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(VARIANT, BlockNatureOre.EnumType.byMetadata(meta));
+        return this.getDefaultState().withProperty(VARIANT, BlockStrangeOre.EnumType.byMetadata(meta));
     }
 
     @Override
@@ -90,22 +81,30 @@ public class BlockNatureOre extends Block implements IMetaBlockRender {
         int meta = stack.getMetadata();
         switch (meta) {
             case 0:
-                tooltip.add(I18n.format("tooltip.nature_ore.overworld.normal"));
+                tooltip.add(I18n.format("tooltip.strange_ore.gold.normal"));
                 break;
             case 1:
-                tooltip.add(I18n.format("tooltip.nature_ore.ooo.normal"));
+                tooltip.add(I18n.format("tooltip.strange_ore.leve_soul.normal"));
+                break;
+            case 2:
+                tooltip.add(I18n.format("tooltip.strange_ore.ocean_soul.normal"));
+                break;
+            case 3:
+                tooltip.add(I18n.format("tooltip.strange_ore.end.normal"));
                 break;
         }
     }
 
     public enum EnumType implements IStringSerializable {
-        OVERWORLD(0, MapColor.STONE, "overworld", true),
-        OOO(1, MapColor.STONE, "ooo", true);
+        GOLD(0, MapColor.STONE, "gold", true),
+        LEVE_SOUL(1, MapColor.STONE, "leve_soul", true),
+        OCEAN_SOUL(2, MapColor.STONE, "ocean_soul", true),
+        END(3, MapColor.STONE, "end", true);
 
         /**
          * Array of the Block's BlockStates
          */
-        private static final BlockNatureOre.EnumType[] META_LOOKUP = new BlockNatureOre.EnumType[values().length];
+        private static final BlockStrangeOre.EnumType[] META_LOOKUP = new BlockStrangeOre.EnumType[values().length];
         /**
          * The BlockState's metadata.
          */
@@ -149,7 +148,7 @@ public class BlockNatureOre extends Block implements IMetaBlockRender {
         /**
          * Returns an EnumType for the BlockState from a metadata value.
          */
-        public static BlockNatureOre.EnumType byMetadata(int meta) {
+        public static BlockStrangeOre.EnumType byMetadata(int meta) {
             if (meta < 0 || meta >= META_LOOKUP.length) {
                 meta = 0;
             }
@@ -171,7 +170,7 @@ public class BlockNatureOre extends Block implements IMetaBlockRender {
         }
 
         static {
-            for (BlockNatureOre.EnumType blockstone$enumtype : values()) {
+            for (BlockStrangeOre.EnumType blockstone$enumtype : values()) {
                 META_LOOKUP[blockstone$enumtype.getMetadata()] = blockstone$enumtype;
             }
         }

@@ -24,7 +24,6 @@
 package cn.com.breakdawn.mc.common;
 
 import cn.com.breakdawn.mc.OceanHeartR;
-import cn.com.breakdawn.mc.common.block.BlockNatureOre;
 import cn.com.breakdawn.mc.common.init.OHRBlocks;
 import cn.com.breakdawn.mc.common.init.OHRItems;
 import cn.com.breakdawn.mc.util.NameBuilder;
@@ -33,12 +32,15 @@ import cn.com.breakdawn.mc.util.RegItem;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemMultiTexture;
+import net.minecraft.util.IStringSerializable;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 
 /**
@@ -48,8 +50,6 @@ import java.util.Arrays;
 public class CommonProxy {
     /**
      * 注册方块
-     *
-     * @param event 事件
      */
     @SubscribeEvent
     public void registerBlocks(RegistryEvent.Register<Block> event) {
@@ -71,6 +71,9 @@ public class CommonProxy {
         }
     }
 
+    /**
+     * 注册物品
+     */
     @SubscribeEvent
     public void registerItems(RegistryEvent.Register<Item> event) {
         for (Field field : OHRItems.class.getFields()) {
@@ -108,7 +111,8 @@ public class CommonProxy {
                     }
                 } else if (anno.isRegisterMultiTextureBlock()) {
                     block.setUnlocalizedName(NameBuilder.buildUnlocalizedName(anno.value()));
-                    ItemMultiTexture i = registerMultiTextureBlock(block, event);
+                    ItemMultiTexture i = registerMultiTextureBlock(block, event, block.getClass());
+
                     if (!(anno.oreDict().length == 0)) {
                         Arrays.asList(anno.oreDict()).forEach(s -> OreDictionary.registerOre(s, i));
                     }
@@ -122,12 +126,33 @@ public class CommonProxy {
     /**
      * 注册多Metadata的ItemBlock
      *
-     * @param block 要注册的blocj
+     * @param block 要注册的block
      * @param event 事件
      */
-    public ItemMultiTexture registerMultiTextureBlock(Block block, RegistryEvent.Register<Item> event) {
-        ItemMultiTexture itemBlock = new ItemMultiTexture(block, block, var1 -> BlockNatureOre.EnumType.values()[var1.getMetadata()].getName());
+    private <T extends Block> ItemMultiTexture registerMultiTextureBlock(Block block, RegistryEvent.Register<Item> event, Class<T> t) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        IStringSerializable[] blockMeta = getBlockMeta(t);
+        ItemMultiTexture itemBlock = new ItemMultiTexture(block, block, var1 -> blockMeta[var1.getMetadata()].getName());
         event.getRegistry().register(itemBlock.setRegistryName(block.getRegistryName()));
         return itemBlock;
+    }
+
+    /**
+     * 从定义方块的枚举中获取meta值
+     *
+     * @param c   需要获取meta值的方块
+     * @param <T> meta类
+     * @return 枚举实现的IStringSerializable接口
+     * @throws NoSuchMethodException     无法找到枚举
+     * @throws InvocationTargetException 无法执行方法
+     * @throws IllegalAccessException    非法访问
+     */
+    private <T extends Block> IStringSerializable[] getBlockMeta(Class<T> c) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        for (Class in : c.getDeclaredClasses()) {
+            if (in.isEnum()) {
+                Method m = in.getMethod("values");
+                return (IStringSerializable[]) m.invoke(null);
+            }
+        }
+        throw new NoClassDefFoundError("Class " + c.getName() + "haven't internal class");
     }
 }

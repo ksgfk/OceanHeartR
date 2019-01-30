@@ -11,7 +11,7 @@ public class CreativeTabsOHR {
     public static CreativeTabs tabsOceanHeart = new CreativeTabs("oceanheartr") {
         @Override
         public ItemStack getTabIconItem() {
-            return new ItemStack(OHRItems.NATURE_SWORD);
+            return new ItemStack(OHRItems.FIRST);
         }
     };
 }

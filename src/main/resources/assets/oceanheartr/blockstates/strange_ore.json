@@ -1,0 +1,17 @@
+{
+  "forge_marker": 1,
+  "variants": {
+    "variant=gold": {
+      "model": "oceanheartr:strange_ore_gold"
+    },
+    "variant=leve_soul": {
+      "model": "oceanheartr:strange_ore_leve_soul"
+    },
+    "variant=ocean_soul": {
+      "model": "oceanheartr:strange_ore_ocean_soul"
+    },
+    "variant=end": {
+      "model": "oceanheartr:strange_ore_end"
+    }
+  }
+}

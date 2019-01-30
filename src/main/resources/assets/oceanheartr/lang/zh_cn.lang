@@ -1,21 +1,46 @@
-#§ atl+1+6+7
 # 创造模式物品栏
 itemGroup.oceanheartr=海洋之心R
 
 # 物品
 item.nature_sword.name=§a自然之剑
-item.first_item.name=试作型海洋之心
+item.first_item.name=§1试作型海洋之心
 item.icon.terminal.name=终端
 item.icon.world.name=世界
+item.icon.back.name=返回
+item.icon.bank.name=银行
+item.icon.home.name=家
+item.icon.signin.name=登陆
+item.icon.spawn.name=主城
+item.icon.territory.name=领地
 
 # 方块
 tile.first_block.name=试作型方块1号
-tile.nature_ore.overworld.name=§a自然矿石
-tile.nature_ore.ooo.name=§2自然矿石
+tile.nature_ore.overworld.name=自然矿石
+tile.nature_ore.ooo.name=自然矿石
 
-# Description
-tooltip.nature_ore.overworld.normal=§a含有半透明绿色结晶的矿石,充满生机
-tooltip.nature_ore.ooo.normal=§2地狱中的一线生机
+tile.strange_ore.gold.name=奇怪的金矿石
+tile.strange_ore.leve_soul.name=奇怪的地狱岩
+tile.strange_ore.ocean_soul.name=海底奇怪的石头
+tile.strange_ore.end.name=奇怪的末地石
+
+# 提示
+tooltip.shift=§o按下SHIFT查看更多
+tooltip.more=§a详情:
+
+tooltip.nature_ore.overworld.normal=含有半透明绿色结晶的矿石,充满生机
+tooltip.nature_ore.ooo.normal=地狱中的一丝生机
+
+tooltip.icon.terminal.normal=与指挥部通信的便利工具
+
+tooltip.strange_ore.gold.normal=奇怪的金矿石,放到熔炉里烧一下试试
+tooltip.strange_ore.leve_soul.normal=好烫!它似乎充满了力量...
+tooltip.strange_ore.ocean_soul.normal=海底居然还有这种石头
+tooltip.strange_ore.end.normal=嘿,别乱挖你不了解的矿石
+
+tooltip.nature_sword.normal=§a可以从怪物身上吸取生命力来治疗使用者的剑
+tooltip.nature_sword.shift.mob=§a对怪物:治疗量为当前怪物生命值的§c0.25
+tooltip.nature_sword.shift.player=§a对玩家:治疗量为§c0-5§a随机
+tooltip.nature_sword.shift.animal=§c无法攻击动物
 
 # 附魔等级
 enchantment.level.20=XX

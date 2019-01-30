@@ -3,18 +3,44 @@ itemGroup.oceanheartr=Ocean Heart R
 
 #Items
 item.nature_sword.name=§aNature Sword
-item.first_item.name=Trial of the heart of the ocean
+item.first_item.name=§1Trial of the heart of the ocean
 item.icon.terminal.name=Terminal
 item.icon.world.name=World
+item.icon.back.name=Back
+item.icon.bank.name=Bank
+item.icon.home.name=Home
+item.icon.signin.name=Sign in
+item.icon.spawn.name=Spawn
+item.icon.territory.name=Claim
 
 #Blocks
 tile.first_block.name=Trial type 1
-tile.nature_ore.overworld.name=§aNature ore
-tile.nature_ore.ooo.name=§2Nature ore
+tile.nature_ore.overworld.name=Nature ore
+tile.nature_ore.ooo.name=Nature ore
 
-#Description
-tooltip.nature_ore.overworld.normal=§aThe Ore with translucent green crystals is full of vitality.
-tooltip.nature_ore.ooo.normal=§2A Glimmer Of Life In Hell
+tile.strange_ore.gold.name=Strange gold stone
+tile.strange_ore.leve_soul.name=Strange nether rack
+tile.strange_ore.ocean_soul.name=Strange stone under ocean
+tile.strange_ore.end.name=Strange end stone
+
+#Tooltip
+tooltip.shift=§oPress SHIFT to see more
+tooltip.more=§aMore Info
+
+tooltip.nature_ore.overworld.normal=The Ore with translucent green crystals is full of vitality.
+tooltip.nature_ore.ooo.normal=A Glimmer Of Life In Hell
+
+tooltip.icon.terminal.normal=Convenience tool to communicate with the command
+
+tooltip.strange_ore.gold.normal=Strange gold ore, try to put it in the furnace.
+tooltip.strange_ore.leve_soul.normal=Oops! It's very hot.It seems to be full of power...
+tooltip.strange_ore.ocean_soul.normal=There is such a stone on the bottom of the sea...
+tooltip.strange_ore.end.normal=Hey,dude,don’t dig the ore you don’t know.
+
+tooltip.nature_sword.normal=§aCan draw life from monsters to heal users'Swords
+tooltip.nature_sword.shift.mob=Monster: 0.25 of the current monster's life
+tooltip.nature_sword.shift.player=Players: Random treatment of 0-5
+tooltip.nature_sword.shift.animal=§cCan't attack animals
 
 #Enchantment level
 enchantment.level.20=XX
