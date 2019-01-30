@@ -23,6 +23,14 @@ tile.strange_ore.leve_soul.name=Strange nether rack
 tile.strange_ore.ocean_soul.name=Strange stone under ocean
 tile.strange_ore.end.name=Strange end stone
 
+tile.decoration_black.name=Spacecraft energy pipeline
+tile.decoration_blue.name=Spacecraft energy pipeline
+tile.decoration_black_blue.name=Spacecraft energy pipeline
+tile.decoration_mac_ir.name=Spacecraft component
+tile.decoration_mac_st.name=Spacecraft component
+tile.decoration_mac.name=Machine
+tile.decoration_ore_nouse.name=Decorative ore
+
 #Tooltip
 tooltip.shift=§oPress SHIFT to see more
 tooltip.more=§aMore Info

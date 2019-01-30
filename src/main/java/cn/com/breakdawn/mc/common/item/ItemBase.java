@@ -4,11 +4,11 @@ import cn.com.breakdawn.mc.common.init.CreativeTabsOHR;
 import net.minecraft.item.Item;
 
 /**
- * 第一个物品,没啥用
+ * 基本物品
  * KSGFK 创建于 2019/1/25
  */
-public class ItemFirst extends Item {
-    public ItemFirst() {
+public class ItemBase extends Item {
+    public ItemBase() {
         this.setCreativeTab(CreativeTabsOHR.tabsOceanHeart);
     }
 }

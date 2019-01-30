@@ -111,7 +111,7 @@ public class CommonProxy {
                     }
                 } else if (anno.isRegisterMultiTextureBlock()) {
                     block.setUnlocalizedName(NameBuilder.buildUnlocalizedName(anno.value()));
-                    ItemMultiTexture i = registerMultiTextureBlock(block, event, block.getClass());
+                    ItemMultiTexture i = registerMultiTextureBlock(block, event, block.getClass(), anno);
 
                     if (!(anno.oreDict().length == 0)) {
                         Arrays.asList(anno.oreDict()).forEach(s -> OreDictionary.registerOre(s, i));
@@ -128,10 +128,19 @@ public class CommonProxy {
      *
      * @param block 要注册的block
      * @param event 事件
+     * @param t     要注册的block的类
+     * @param anno  注册Block类的注解
      */
-    private <T extends Block> ItemMultiTexture registerMultiTextureBlock(Block block, RegistryEvent.Register<Item> event, Class<T> t) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        IStringSerializable[] blockMeta = getBlockMeta(t);
-        ItemMultiTexture itemBlock = new ItemMultiTexture(block, block, var1 -> blockMeta[var1.getMetadata()].getName());
+    private <T extends Block> ItemMultiTexture registerMultiTextureBlock(Block block, RegistryEvent.Register<Item> event, Class<T> t, RegBlock anno) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
+        IStringSerializable[] blockMeta;
+        if (anno.enumPath().equals("")) {
+            blockMeta = getBlockMeta(t, anno);
+        } else {
+            Class c = Class.forName(anno.enumPath());
+            blockMeta = getBlockMeta(c, anno);
+        }
+        IStringSerializable[] finalBlockMeta = blockMeta;
+        ItemMultiTexture itemBlock = new ItemMultiTexture(block, block, var1 -> finalBlockMeta[var1.getMetadata()].getName());
         event.getRegistry().register(itemBlock.setRegistryName(block.getRegistryName()));
         return itemBlock;
     }
@@ -139,20 +148,26 @@ public class CommonProxy {
     /**
      * 从定义方块的枚举中获取meta值
      *
-     * @param c   需要获取meta值的方块
-     * @param <T> meta类
+     * @param c    需要获取meta值的方块
+     * @param <T>  meta类
+     * @param anno 注册Block类的注解
      * @return 枚举实现的IStringSerializable接口
      * @throws NoSuchMethodException     无法找到枚举
      * @throws InvocationTargetException 无法执行方法
      * @throws IllegalAccessException    非法访问
      */
-    private <T extends Block> IStringSerializable[] getBlockMeta(Class<T> c) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        for (Class in : c.getDeclaredClasses()) {
-            if (in.isEnum()) {
-                Method m = in.getMethod("values");
-                return (IStringSerializable[]) m.invoke(null);
+    private <T extends Block> IStringSerializable[] getBlockMeta(Class<T> c, RegBlock anno) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        if (anno.enumPath().equals("")) {
+            for (Class in : c.getDeclaredClasses()) {
+                if (in.isEnum()) {
+                    Method m = in.getMethod("values");
+                    return (IStringSerializable[]) m.invoke(null);
+                }
             }
+            throw new NoClassDefFoundError("Class " + c.getName() + " haven't internal class");
+        } else {
+            Method m = c.getMethod("values");
+            return (IStringSerializable[]) m.invoke(null);
         }
-        throw new NoClassDefFoundError("Class " + c.getName() + "haven't internal class");
     }
 }

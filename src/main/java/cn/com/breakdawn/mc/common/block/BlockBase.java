@@ -9,22 +9,19 @@ import net.minecraft.block.material.Material;
  * 第一个方块
  * KSGFK 创建于 2019/1/26
  */
-public class BlockFirst extends Block {
-    public BlockFirst(Material blockMaterialIn) {
+public class BlockBase extends Block {
+    public BlockBase(Material blockMaterialIn) {
         super(blockMaterialIn);
         this.setCreativeTab(CreativeTabsOHR.tabsOceanHeart);
-
-        this.setHardness(100);
-        this.setHarvestLevel("pickaxe", 3);
     }
 
-    public BlockFirst setHarvestLevelReturnBlock(String toolClass, int level) {
+    public BlockBase setHarvestLevelReturnBlock(String toolClass, int level) {
         super.setHarvestLevel(toolClass, level);
         return this;
     }
 
     @Override
-    public BlockFirst setSoundType(SoundType sound) {
+    public BlockBase setSoundType(SoundType sound) {
         super.setSoundType(sound);
         return this;
     }

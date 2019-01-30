@@ -14,7 +14,7 @@ import java.util.Random;
  */
 public class GenCommonOres {
     @Deprecated
-    static void overWorld(WorldGenerator gen, World world, Random random, int chunkX, int chunkZ, int chance, int minHeight, int maxHeight) {
+    static void gen(WorldGenerator gen, World world, Random random, int chunkX, int chunkZ, int chance, int minHeight, int maxHeight) {
         if (minHeight > maxHeight || minHeight < 0 || maxHeight > 256) throw new IllegalArgumentException("矿物生成超出世界边界");
 
         int x, y, z;
@@ -34,7 +34,7 @@ public class GenCommonOres {
     }
 
     /**
-     * 在主世界生成矿石
+     * 生成矿石
      *
      * @param event     触发的生成事件
      * @param generator 生成器
@@ -42,7 +42,7 @@ public class GenCommonOres {
      * @param minHeight 最小高度
      * @param maxHeight 最大高度
      */
-    static void overWorld(OreGenEvent.GenerateMinable event, WorldGenerator generator, int number, int minHeight, int maxHeight) {
+    static void gen(OreGenEvent.GenerateMinable event, WorldGenerator generator, int number, int minHeight, int maxHeight) {
         for (int i = 0; i < number; i++) {
             int posX = event.getPos().getX() + event.getRand().nextInt(16);
             int posY = minHeight + event.getRand().nextInt(maxHeight);

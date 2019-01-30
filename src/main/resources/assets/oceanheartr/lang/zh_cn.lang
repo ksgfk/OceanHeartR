@@ -23,6 +23,14 @@ tile.strange_ore.leve_soul.name=奇怪的地狱岩
 tile.strange_ore.ocean_soul.name=海底奇怪的石头
 tile.strange_ore.end.name=奇怪的末地石
 
+tile.decoration_black.name=飞船能量管线
+tile.decoration_blue.name=飞船能量管线
+tile.decoration_black_blue.name=飞船能量管线
+tile.decoration_mac_ir.name=飞船零件
+tile.decoration_mac_st.name=飞船零件
+tile.decoration_mac.name=机器
+tile.decoration_ore_nouse.name=装饰用矿石
+
 # 提示
 tooltip.shift=§o按下SHIFT查看更多
 tooltip.more=§a详情:

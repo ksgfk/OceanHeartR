@@ -75,4 +75,9 @@ public @interface RegBlock {
      * 注册该方块的Block子类的名字(多Metadata时使用)
      */
     String className() default "";
+
+    /**
+     * 如果enum不在类内部,需要指定enum的位置
+     */
+    String enumPath() default "";
 }
