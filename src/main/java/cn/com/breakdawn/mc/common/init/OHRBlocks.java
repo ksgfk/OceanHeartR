@@ -38,7 +38,7 @@ public final class OHRBlocks {
     public static final Block DECORATION_ORE_NOUSE = new BlockBase(Material.IRON);
 
     @RegBlock(value = "sapling_yggdrasill", oreDict = "treeSapling")
-    public static final Block SAPLING_YGGDRASILL = new BlockOHRSaplings();
+    public static final Block SAPLING_YGGDRASILL = new BlockOHRSaplingsWT();
 
     @RegBlock(value = "plank_yggdrasill", oreDict = "plankWood")
     public static final Block PLANK_YGGDRASILL = new BlockOHRPlanks();
@@ -48,4 +48,7 @@ public final class OHRBlocks {
 
     @RegBlock(value = "leaf_yggdrasill", oreDict = "treeLeaves")
     public static final Block LEAF_YGGDRASILL = new BlockOHRLeavesWT().setBlockUnbreakable().setLightLevel(1);
+
+    @RegBlock("fruit_yggdrasill")
+    public static final Block FRUIT_YGGDRASILL = new BlockFruitWT().setLightLevel(1).setHardness(5);
 }

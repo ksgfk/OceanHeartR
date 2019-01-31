@@ -32,7 +32,15 @@ import cn.com.breakdawn.mc.util.RegItem;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemMultiTexture;
+import net.minecraft.network.play.server.SPacketChunkData;
+import net.minecraft.server.management.PlayerChunkMap;
+import net.minecraft.server.management.PlayerChunkMapEntry;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.NibbleArray;
+import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
@@ -164,6 +172,35 @@ public class CommonProxy {
         } else {
             Method m = c.getMethod("values");
             return (IStringSerializable[]) m.invoke(null);
+        }
+    }
+
+    public void relightChunk(Chunk chunk) {
+        if (chunk != null) {
+            chunk.generateSkylightMap();
+            ExtendedBlockStorage[] storage = chunk.getBlockStorageArray();
+            for (int i = storage.length; i-- > 0; )
+                if (storage[i] != null) {
+                    //{ spigot compat: force data array to exist
+                    NibbleArray a = storage[i].getSkyLight();
+                    if (a != null) {
+                        a.set(0, 0, 0, 0);
+                        a.set(0, 0, 0, 15);
+                        //}
+                        Arrays.fill(a.getData(), (byte) 0);
+                    }
+                }
+            chunk.resetRelightChecks();
+            chunk.setModified(true);
+            World world = chunk.getWorld();
+            if (world instanceof WorldServer) {
+                PlayerChunkMap chunkMap = ((WorldServer) world).getPlayerChunkMap();
+
+                PlayerChunkMapEntry entry = chunkMap.getEntry(chunk.x, chunk.z);
+
+                if (entry != null)
+                    entry.sendPacket(new SPacketChunkData(chunk, -1));
+            }
         }
     }
 }

@@ -39,6 +39,8 @@ tile.log_yggdrasill.name=§cLog of Yggdrasill
 
 tile.leaf_yggdrasill.name=§cLeaf of Yggdrasill
 
+tile.fruit_yggdrasill.name=§cFruit of Yggdrasill
+
 #Tooltip
 tooltip.shift=§oPress SHIFT to see more
 tooltip.more=§aMore Info

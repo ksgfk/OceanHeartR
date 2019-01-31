@@ -1,19 +1,56 @@
 package cn.com.breakdawn.mc.common.block;
 
 import cn.com.breakdawn.mc.common.init.CreativeTabsOHR;
+import cn.com.breakdawn.mc.world.gen.GenYggdrasillTree;
 import net.minecraft.block.BlockBush;
+import net.minecraft.block.IGrowable;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.event.terraingen.TerrainGen;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Random;
 
 /**
  * 种子
  * KSGFK 创建于 2019/1/30
  */
-public class BlockOHRSaplings extends BlockBush {
+public class BlockOHRSaplingsWT extends BlockBush implements IGrowable {
     //public static final PropertyEnum<BlockOHRPlanks.EnumType> VARIANT = PropertyEnum.<BlockOHRPlanks.EnumType>create("variant", BlockOHRPlanks.EnumType.class);
 
-    public BlockOHRSaplings() {
+    public BlockOHRSaplingsWT() {
         this.setCreativeTab(CreativeTabsOHR.tabsOceanHeart);
         //this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, BlockOHRPlanks.EnumType.YGGDRASILL));
     }
+
+    @Override
+    public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
+        return true;
+    }
+
+    @Override
+    public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+        return worldIn.rand.nextFloat() < 0.45D;
+    }
+
+    @Override
+    public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+        if (!(worldIn.isRemote || !TerrainGen.saplingGrowTree(worldIn, rand, pos))) {
+            new GenYggdrasillTree(true).setSloped(true).generate(worldIn, rand, pos);
+            worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 4);
+        }
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced) {
+        super.addInformation(stack, player, tooltip, advanced);
+    }
+
     /*
     @Override
     public int damageDropped(IBlockState state) {
