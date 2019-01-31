@@ -60,11 +60,7 @@ public class CommonProxy {
 
             try {
                 Block block = (Block) field.get(null);
-                if (anno.isRegisterItemBlock()) {
-                    event.getRegistry().register(block.setRegistryName(NameBuilder.buildRegistryName(anno.value())).setUnlocalizedName(NameBuilder.buildUnlocalizedName(anno.value())));
-                } else if (anno.isRegisterMultiTextureBlock()) {
-                    event.getRegistry().register(block.setRegistryName(NameBuilder.buildRegistryName(anno.value())).setUnlocalizedName(NameBuilder.buildUnlocalizedName(anno.value())));
-                }
+                event.getRegistry().register(block.setRegistryName(NameBuilder.buildRegistryName(anno.value())).setUnlocalizedName(NameBuilder.buildUnlocalizedName(anno.value())));
             } catch (Exception e) {
                 OceanHeartR.getLogger().warn("Un-able to register block " + field.toGenericString(), e);
             }
@@ -133,7 +129,7 @@ public class CommonProxy {
      */
     private <T extends Block> ItemMultiTexture registerMultiTextureBlock(Block block, RegistryEvent.Register<Item> event, Class<T> t, RegBlock anno) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
         IStringSerializable[] blockMeta;
-        if (anno.enumPath().equals("")) {
+        if (anno.enumPath().isEmpty()) {
             blockMeta = getBlockMeta(t, anno);
         } else {
             Class c = Class.forName(anno.enumPath());
@@ -157,7 +153,7 @@ public class CommonProxy {
      * @throws IllegalAccessException    非法访问
      */
     private <T extends Block> IStringSerializable[] getBlockMeta(Class<T> c, RegBlock anno) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        if (anno.enumPath().equals("")) {
+        if (anno.enumPath().isEmpty()) {
             for (Class in : c.getDeclaredClasses()) {
                 if (in.isEnum()) {
                     Method m = in.getMethod("values");

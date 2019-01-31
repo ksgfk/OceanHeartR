@@ -31,6 +31,14 @@ tile.decoration_mac_st.name=Spacecraft component
 tile.decoration_mac.name=Machine
 tile.decoration_ore_nouse.name=Decorative ore
 
+tile.sapling_yggdrasill.name=§cSapling of Yggdrasill
+
+tile.plank_yggdrasill.name=§cPlank of Yggdrasill
+
+tile.log_yggdrasill.name=§cLog of Yggdrasill
+
+tile.leaf_yggdrasill.name=§cLeaf of Yggdrasill
+
 #Tooltip
 tooltip.shift=§oPress SHIFT to see more
 tooltip.more=§aMore Info

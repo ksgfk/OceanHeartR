@@ -31,6 +31,14 @@ tile.decoration_mac_st.name=飞船零件
 tile.decoration_mac.name=机器
 tile.decoration_ore_nouse.name=装饰用矿石
 
+tile.sapling_yggdrasill.name=§c世界树的种子
+
+tile.plank_yggdrasill.name=§c世界树的木板
+
+tile.log_yggdrasill.name=§c世界树的原木
+
+tile.leaf_yggdrasill.name=§c世界树的叶子
+
 # 提示
 tooltip.shift=§o按下SHIFT查看更多
 tooltip.more=§a详情:
@@ -64,3 +72,4 @@ enchantment.level.100=C
 enchantment.level.200=CC
 enchantment.level.5000=MMMMM
 enchantment.level.10000=MMMMMMMMMM
+tile.plank.yggdrasill.name=§c世界树的木板

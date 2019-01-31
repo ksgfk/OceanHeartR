@@ -16,13 +16,6 @@ public final class OHRBlocks {
     @RegBlock(value = "strange_ore", oreDict = "oreStrange", className = "BlockStrangeOre", isRegisterItemBlock = false, isRegisterMultiTextureBlock = true)
     public static final Block STRANGE_ORE = new BlockStrangeOre();
 
-    @RegBlock(value = "sapling",
-            className = "BlockOHRSapling",
-            isRegisterItemBlock = false,
-            isRegisterMultiTextureBlock = true,
-            enumPath = "cn.com.breakdawn.mc.common.block.BlockOHRPlanks$EnumType")
-    public static final Block SAPLING = new BlockOHRSapling();
-
     @RegBlock("decoration_black")
     public static final Block DECORATION_BLACK = new BlockDecoration();
 
@@ -43,4 +36,16 @@ public final class OHRBlocks {
 
     @RegBlock("decoration_ore_nouse")
     public static final Block DECORATION_ORE_NOUSE = new BlockBase(Material.IRON);
+
+    @RegBlock(value = "sapling_yggdrasill", oreDict = "treeSapling")
+    public static final Block SAPLING_YGGDRASILL = new BlockOHRSaplings();
+
+    @RegBlock(value = "plank_yggdrasill", oreDict = "plankWood")
+    public static final Block PLANK_YGGDRASILL = new BlockOHRPlanks();
+
+    @RegBlock(value = "log_yggdrasill", oreDict = "logWood")
+    public static final Block LOG_YGGDRASILL = new BlockOHRLogs().setBlockUnbreakable().setLightLevel(1);
+
+    @RegBlock(value = "leaf_yggdrasill", oreDict = "treeLeaves")
+    public static final Block LEAF_YGGDRASILL = new BlockOHRLeavesWT().setBlockUnbreakable().setLightLevel(1);
 }
