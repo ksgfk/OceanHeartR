@@ -1,6 +1,7 @@
 package cn.com.breakdawn.mc.common.init;
 
 import cn.com.breakdawn.mc.common.item.ItemBase;
+import cn.com.breakdawn.mc.common.item.ItemFruitWT;
 import cn.com.breakdawn.mc.common.item.ItemIcon;
 import cn.com.breakdawn.mc.common.item.ItemNatureSword;
 import cn.com.breakdawn.mc.util.RegItem;
@@ -24,4 +25,7 @@ public final class OHRItems {
 
     @RegItem(value = "icon", isRegisterMultiTextureItem = true, className = "ItemIcon")
     public static final Item ICON = new ItemIcon();
+
+    @RegItem("fruit_yggdrasill_item")
+    public static final Item FRUIT_YGGDRASILL = new ItemFruitWT();
 }

@@ -3,7 +3,9 @@ itemGroup.oceanheartr=Ocean Heart R
 
 #Items
 item.nature_sword.name=§aNature Sword
+
 item.first_item.name=§1Trial of the heart of the ocean
+
 item.icon.terminal.name=Terminal
 item.icon.world.name=World
 item.icon.back.name=Back
@@ -12,6 +14,8 @@ item.icon.home.name=Home
 item.icon.signin.name=Sign in
 item.icon.spawn.name=Spawn
 item.icon.territory.name=Claim
+
+item.fruit_yggdrasill_item.name=§cFruit of Yggdrasill
 
 #Blocks
 tile.first_block.name=Trial type 1
@@ -59,6 +63,10 @@ tooltip.nature_sword.normal=§aCan draw life from monsters to heal users'Swords
 tooltip.nature_sword.shift.mob=Monster: 0.25 of the current monster's life
 tooltip.nature_sword.shift.player=Players: Random treatment of 0-5
 tooltip.nature_sword.shift.animal=§cCan't attack animals
+
+tooltip.fruit_yggdrasill.normal=Precious world tree fruit, containing the essence of the world tree, contains a lot of energy
+
+tooltip.fruit_yggdrasill_item.normal=§aIt looks delicious
 
 #Enchantment level
 enchantment.level.20=XX

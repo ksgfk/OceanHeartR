@@ -3,7 +3,9 @@ itemGroup.oceanheartr=海洋之心R
 
 # 物品
 item.nature_sword.name=§a自然之剑
+
 item.first_item.name=§1试作型海洋之心
+
 item.icon.terminal.name=终端
 item.icon.world.name=世界
 item.icon.back.name=返回
@@ -12,6 +14,8 @@ item.icon.home.name=家
 item.icon.signin.name=登陆
 item.icon.spawn.name=主城
 item.icon.territory.name=领地
+
+item.fruit_yggdrasill_item.name=§c世界树的果实
 
 # 方块
 tile.first_block.name=试作型方块1号
@@ -39,7 +43,7 @@ tile.log_yggdrasill.name=§c世界树的原木
 
 tile.leaf_yggdrasill.name=§c世界树的叶子
 
-tile.fruit_yggdrasill.name=§c世界树的果实
+tile.fruit_yggdrasill.name=§c被打破的世界树的果实
 
 # 提示
 tooltip.shift=§o按下SHIFT查看更多
@@ -59,6 +63,10 @@ tooltip.nature_sword.normal=§a可以从怪物身上吸取生命力来治疗使�
 tooltip.nature_sword.shift.mob=§a对怪物:治疗量为当前怪物生命值的§c0.25
 tooltip.nature_sword.shift.player=§a对玩家:治疗量为§c0-5§a随机
 tooltip.nature_sword.shift.animal=§c无法攻击动物
+
+tooltip.fruit_yggdrasill.normal=珍贵的世界树果实,蕴藏世界树的精华,但我们目前无法提取
+
+tooltip.fruit_yggdrasill_item.normal=§a看起来就很好吃
 
 # 附魔等级
 enchantment.level.20=XX
