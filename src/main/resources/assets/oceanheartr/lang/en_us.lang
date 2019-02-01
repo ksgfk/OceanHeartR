@@ -3,6 +3,11 @@ itemGroup.oceanheartr=Ocean Heart R
 
 #Items
 item.nature_sword.name=§aNature Sword
+item.nature_sword_polluted.name=§5Cursed sword
+
+item.nature_axe.name=§aNature Axe
+item.nature_hoe.name=§aNature Hoe
+item.nature_pickaxe.name=§aNature Pickaxe
 
 item.first_item.name=§1Trial of the heart of the ocean
 
@@ -17,10 +22,18 @@ item.icon.territory.name=Claim
 
 item.fruit_yggdrasill_item.name=§cFruit of Yggdrasill
 
+item.nature_ingot.overworld.name=§aNature Crystallization
+item.nature_ingot.nether.name=§5Polluted Nature Crystallization
+
+item.strange_ingot.end.name=§5Void of ingot
+item.strange_ingot.gold.name=§eLegend
+item.strange_ingot.leve_soul.name=§6Soul of Leve
+item.strange_ingot.ocean_soul.name=§1Soul of Ocean
+
 #Blocks
 tile.first_block.name=Trial type 1
 tile.nature_ore.overworld.name=Nature ore
-tile.nature_ore.ooo.name=Nature ore
+tile.nature_ore.nether.name=Nature ore
 
 tile.strange_ore.gold.name=Strange gold stone
 tile.strange_ore.leve_soul.name=Strange nether rack
@@ -50,7 +63,15 @@ tooltip.shift=§oPress SHIFT to see more
 tooltip.more=§aMore Info
 
 tooltip.nature_ore.overworld.normal=The Ore with translucent green crystals is full of vitality.
-tooltip.nature_ore.ooo.normal=A Glimmer Of Life In Hell
+tooltip.nature_ore.nether.normal=A Glimmer Of Life In Hell
+
+tooltip.nature_ingot.overworld.normal=§aCrystal clear green crystal, it is warm and full of vitality
+tooltip.nature_ingot.nether.normal=§5Mixed with the dirty smell, and the obsession of the undead
+
+tooltip.strange_ingot.gold.normal=§eHold it,I feel I'm full of strength
+tooltip.strange_ingot.leve_soul.normal=§6Holding a lava soul, screaming hot in the mouth
+tooltip.strange_ingot.ocean_soul.normal=§1It seems to calm the soul?
+tooltip.strange_ingot.end.normal=§5#jVbMJ<Q"#
 
 tooltip.icon.terminal.normal=Convenience tool to communicate with the command
 
@@ -63,6 +84,18 @@ tooltip.nature_sword.normal=§aCan draw life from monsters to heal users'Swords
 tooltip.nature_sword.shift.mob=Monster: 0.25 of the current monster's life
 tooltip.nature_sword.shift.player=Players: Random treatment of 0-5
 tooltip.nature_sword.shift.animal=§cCan't attack animals
+
+tooltip.nature_sword_polluted.normal=§5Sending an unknown sword, it will give pain to the user
+tooltip.nature_sword_polluted.mob=§cIf the next attack target is the same as the previous one, the damage of the next attack will be +1, but the user will receive the damage equal to the cumulative damage.
+tooltip.nature_sword_polluted.info=§7Type of last goal:
+tooltip.nature_sword_polluted.damage=§7Accumulated injury:
+
+tooltip.nature_axe.normal=§aAn axe made of natural crystals, very lightweight
+
+tooltip.nature_hoe.player=§c[Nature Hoe]:Can't put seeds here!
+tooltip.nature_hoe.normal=§aInjecting natural energy into the land, giving birth to the land to grow plants
+
+tooltip.nature_pickaxe.normal=§aRight click to destroy the 3X3 range of stones
 
 tooltip.fruit_yggdrasill.normal=Precious world tree fruit, containing the essence of the world tree, contains a lot of energy
 

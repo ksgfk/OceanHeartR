@@ -169,6 +169,10 @@ public class BlockStrangeOre extends Block implements IMetaBlockRender {
             return this.isNatural;
         }
 
+        public static EnumType byItemStack(ItemStack stack) {
+            return byMetadata(stack.getMetadata());
+        }
+
         static {
             for (BlockStrangeOre.EnumType blockstone$enumtype : values()) {
                 META_LOOKUP[blockstone$enumtype.getMetadata()] = blockstone$enumtype;

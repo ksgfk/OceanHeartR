@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  */
 public class WorldGenOHROres {
     private static WorldGenerator nature_ore_ow = new WorldGenMinable(OHRBlocks.NATURE_ORE.getDefaultState(), 3);
-    private static WorldGenerator nature_ore_nether = new WorldGenMinable(OHRBlocks.NATURE_ORE.getDefaultState().withProperty(BlockNatureOre.VARIANT, BlockNatureOre.EnumType.OOO), 3);
+    private static WorldGenerator nature_ore_nether = new WorldGenMinable(OHRBlocks.NATURE_ORE.getDefaultState().withProperty(BlockNatureOre.VARIANT, BlockNatureOre.EnumType.NETHER), 3);
 
     @SubscribeEvent
     public static void onGenerateDIM0(OreGenEvent.GenerateMinable event) {

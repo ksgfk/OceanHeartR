@@ -28,8 +28,10 @@ public class ItemIcon extends Item implements IMetaItemRender {
 
     @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-        for (ItemIcon.IconType ItemIcon$IconType : ItemIcon.IconType.values()) {
-            items.add(new ItemStack(this, 1, ItemIcon$IconType.getMetadata()));
+        if (this.isInCreativeTab(tab)) {
+            for (ItemIcon.IconType ItemIcon$IconType : ItemIcon.IconType.values()) {
+                items.add(new ItemStack(this, 1, ItemIcon$IconType.getMetadata()));
+            }
         }
     }
 

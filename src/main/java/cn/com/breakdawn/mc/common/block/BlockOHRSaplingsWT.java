@@ -21,11 +21,11 @@ import java.util.Random;
  * KSGFK 创建于 2019/1/30
  */
 public class BlockOHRSaplingsWT extends BlockBush implements IGrowable {
-    //public static final PropertyEnum<BlockOHRPlanks.EnumType> VARIANT = PropertyEnum.<BlockOHRPlanks.EnumType>create("variant", BlockOHRPlanks.EnumType.class);
+    //public static final PropertyEnum<BlockOHRPlanksWT.EnumType> VARIANT = PropertyEnum.<BlockOHRPlanksWT.EnumType>create("variant", BlockOHRPlanksWT.EnumType.class);
 
     public BlockOHRSaplingsWT() {
         this.setCreativeTab(CreativeTabsOHR.tabsOceanHeart);
-        //this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, BlockOHRPlanks.EnumType.YGGDRASILL));
+        //this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, BlockOHRPlanksWT.EnumType.YGGDRASILL));
     }
 
     @Override
@@ -59,14 +59,14 @@ public class BlockOHRSaplingsWT extends BlockBush implements IGrowable {
 
     @Override
     public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
-        for (BlockOHRPlanks.EnumType blockstone$enumtype : BlockOHRPlanks.EnumType.values()) {
+        for (BlockOHRPlanksWT.EnumType blockstone$enumtype : BlockOHRPlanksWT.EnumType.values()) {
             items.add(new ItemStack(this, 1, blockstone$enumtype.getMetadata()));
         }
     }
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(VARIANT, BlockOHRPlanks.EnumType.byMetadata(meta));
+        return this.getDefaultState().withProperty(VARIANT, BlockOHRPlanksWT.EnumType.byMetadata(meta));
     }
 
     @Override
@@ -81,9 +81,9 @@ public class BlockOHRSaplingsWT extends BlockBush implements IGrowable {
 
     @Override
     public void renderModel(Block block) {
-        for (int a = 0; a < BlockOHRPlanks.EnumType.values().length; a++) {
+        for (int a = 0; a < BlockOHRPlanksWT.EnumType.values().length; a++) {
             Item item = Item.getItemFromBlock(block);
-            ModelLoader.setCustomModelResourceLocation(item, a, new ModelResourceLocation(block.getRegistryName() + "_" + BlockOHRPlanks.EnumType.values()[a].getName(), "inventory"));
+            ModelLoader.setCustomModelResourceLocation(item, a, new ModelResourceLocation(block.getRegistryName() + "_" + BlockOHRPlanksWT.EnumType.values()[a].getName(), "inventory"));
         }
     }
     */

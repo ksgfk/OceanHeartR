@@ -19,6 +19,10 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * 世界树果实
+ * KSGFK 创建于 2019/1/31
+ */
 public class BlockFruitWT extends Block {
     public BlockFruitWT() {
         super(Material.WOOD);

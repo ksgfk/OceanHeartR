@@ -41,10 +41,10 @@ public final class OHRBlocks {
     public static final Block SAPLING_YGGDRASILL = new BlockOHRSaplingsWT();
 
     @RegBlock(value = "plank_yggdrasill", oreDict = "plankWood")
-    public static final Block PLANK_YGGDRASILL = new BlockOHRPlanks();
+    public static final Block PLANK_YGGDRASILL = new BlockOHRPlanksWT();
 
     @RegBlock(value = "log_yggdrasill", oreDict = "logWood")
-    public static final Block LOG_YGGDRASILL = new BlockOHRLogs().setBlockUnbreakable().setLightLevel(1);
+    public static final Block LOG_YGGDRASILL = new BlockOHRLogsWT().setBlockUnbreakable().setLightLevel(1);
 
     @RegBlock(value = "leaf_yggdrasill", oreDict = "treeLeaves")
     public static final Block LEAF_YGGDRASILL = new BlockOHRLeavesWT().setBlockUnbreakable().setLightLevel(1);

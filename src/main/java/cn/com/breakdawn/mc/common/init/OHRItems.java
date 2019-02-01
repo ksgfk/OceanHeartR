@@ -1,9 +1,6 @@
 package cn.com.breakdawn.mc.common.init;
 
-import cn.com.breakdawn.mc.common.item.ItemBase;
-import cn.com.breakdawn.mc.common.item.ItemFruitWT;
-import cn.com.breakdawn.mc.common.item.ItemIcon;
-import cn.com.breakdawn.mc.common.item.ItemNatureSword;
+import cn.com.breakdawn.mc.common.item.*;
 import cn.com.breakdawn.mc.util.RegItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.util.EnumHelper;
@@ -23,9 +20,27 @@ public final class OHRItems {
     @RegItem("nature_sword")
     public static final Item NATURE_SWORD = new ItemNatureSword(NATURE);
 
-    @RegItem(value = "icon", isRegisterMultiTextureItem = true, className = "ItemIcon")
+    @RegItem("nature_axe")
+    public static final Item NATURE_AXE = new ItemNatureAxe(NATURE);
+
+    @RegItem("nature_hoe")
+    public static final Item NATURE_HOE = new ItemNatureHoe(NATURE);
+
+    @RegItem("nature_pickaxe")
+    public static final Item NATURE_PICKAXE = new ItemNaturePickaxe(NATURE);
+
+    @RegItem("nature_sword_polluted")
+    public static final Item NATURE_SWORD_P = new ItemNatureSwordP(NATURE);
+
+    @RegItem(value = "icon", className = "ItemIcon", isRegisterMultiTextureItem = true)
     public static final Item ICON = new ItemIcon();
 
     @RegItem("fruit_yggdrasill_item")
     public static final Item FRUIT_YGGDRASILL = new ItemFruitWT();
+
+    @RegItem(value = "nature_ingot", oreDict = "ingotNature", className = "ItemNatureIngot", isRegisterMultiTextureItem = true)
+    public static final Item NATURE_INGOT = new ItemNatureIngot();
+
+    @RegItem(value = "strange_ingot", oreDict = "ingotStrange", className = "ItemStrangeIngot", isRegisterMultiTextureItem = true)
+    public static final Item STRANGE_INGOT = new ItemStrangeIngot();
 }

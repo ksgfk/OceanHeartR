@@ -14,6 +14,10 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * 世界树的果实
+ * KSGFK 创建于 2019/3/31
+ */
 public class ItemFruitWT extends ItemFood {
     public ItemFruitWT() {
         super(1, 16, true);

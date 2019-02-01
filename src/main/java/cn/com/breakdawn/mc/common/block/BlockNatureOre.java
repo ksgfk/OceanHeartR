@@ -93,14 +93,14 @@ public class BlockNatureOre extends Block implements IMetaBlockRender {
                 tooltip.add(I18n.format("tooltip.nature_ore.overworld.normal"));
                 break;
             case 1:
-                tooltip.add(I18n.format("tooltip.nature_ore.ooo.normal"));
+                tooltip.add(I18n.format("tooltip.nature_ore.nether.normal"));
                 break;
         }
     }
 
     public enum EnumType implements IStringSerializable {
         OVERWORLD(0, MapColor.STONE, "overworld", true),
-        OOO(1, MapColor.STONE, "ooo", true);
+        NETHER(1, MapColor.STONE, "nether", true);
 
         /**
          * Array of the Block's BlockStates
@@ -168,6 +168,10 @@ public class BlockNatureOre extends Block implements IMetaBlockRender {
 
         public boolean isNatural() {
             return this.isNatural;
+        }
+
+        public static EnumType byItemStack(ItemStack stack) {
+            return byMetadata(stack.getMetadata());
         }
 
         static {

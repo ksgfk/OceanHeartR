@@ -6,11 +6,15 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.util.EnumFacing;
 
-public class BlockOHRLogs extends BlockRotatedPillar {
-    //public static final PropertyEnum<BlockOHRPlanks.EnumType> VARIANT = PropertyEnum.create("variant", BlockOHRPlanks.EnumType.class, input -> Objects.requireNonNull(input).getMetadata() >= 4);
-    //public static final PropertyEnum<BlockOHRLogs.EnumAxis> LOG_AXIS = PropertyEnum.create("axis", BlockOHRLogs.EnumAxis.class);
+/**
+ * 世界树树干
+ * KSGFK 创建于 2019/1/31
+ */
+public class BlockOHRLogsWT extends BlockRotatedPillar {
+    //public static final PropertyEnum<BlockOHRPlanksWT.EnumType> VARIANT = PropertyEnum.create("variant", BlockOHRPlanksWT.EnumType.class, input -> Objects.requireNonNull(input).getMetadata() >= 4);
+    //public static final PropertyEnum<BlockOHRLogsWT.EnumAxis> LOG_AXIS = PropertyEnum.create("axis", BlockOHRLogsWT.EnumAxis.class);
 
-    public BlockOHRLogs() {
+    public BlockOHRLogsWT() {
         super(Material.WOOD);
         this.setCreativeTab(CreativeTabsOHR.tabsOceanHeart);
         this.setDefaultState(this.blockState.getBaseState().withProperty(AXIS, EnumFacing.Axis.Y));
@@ -19,27 +23,27 @@ public class BlockOHRLogs extends BlockRotatedPillar {
     /*
     @Override
     public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
-        items.add(new ItemStack(this, 1, BlockOHRPlanks.EnumType.YGGDRASILL.getMetadata() - 4));
+        items.add(new ItemStack(this, 1, BlockOHRPlanksWT.EnumType.YGGDRASILL.getMetadata() - 4));
     }
     */
     /*
     @Override
     public IBlockState getStateFromMeta(int meta) {
         /*
-        IBlockState iblockstate = this.getDefaultState().withProperty(VARIANT, BlockOHRPlanks.EnumType.byMetadata((meta & 3) + 4));
+        IBlockState iblockstate = this.getDefaultState().withProperty(VARIANT, BlockOHRPlanksWT.EnumType.byMetadata((meta & 3) + 4));
 
         switch (meta & 12) {
             case 0:
-                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockOHRLogs.EnumAxis.Y);
+                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockOHRLogsWT.EnumAxis.Y);
                 break;
             case 4:
-                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockOHRLogs.EnumAxis.X);
+                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockOHRLogsWT.EnumAxis.X);
                 break;
             case 8:
-                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockOHRLogs.EnumAxis.Z);
+                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockOHRLogsWT.EnumAxis.Z);
                 break;
             default:
-                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockOHRLogs.EnumAxis.NONE);
+                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockOHRLogsWT.EnumAxis.NONE);
         }
 
         return iblockstate;
@@ -105,9 +109,9 @@ public class BlockOHRLogs extends BlockRotatedPillar {
     /*
     @Override
     public void renderModel(Block block) {
-        for (int a = 0; a < BlockOHRPlanks.EnumType.values().length; a++) {
+        for (int a = 0; a < BlockOHRPlanksWT.EnumType.values().length; a++) {
             Item item = Item.getItemFromBlock(block);
-            ModelLoader.setCustomModelResourceLocation(item, a, new ModelResourceLocation(block.getRegistryName() + "_" + BlockOHRPlanks.EnumType.values()[a].getName(), "inventory"));
+            ModelLoader.setCustomModelResourceLocation(item, a, new ModelResourceLocation(block.getRegistryName() + "_" + BlockOHRPlanksWT.EnumType.values()[a].getName(), "inventory"));
         }
     }
     */
@@ -128,7 +132,7 @@ public class BlockOHRLogs extends BlockRotatedPillar {
             return this.name;
         }
 
-        public static BlockOHRLogs.EnumAxis fromFacingAxis(BlockOHRLogs.EnumAxis axis) {
+        public static BlockOHRLogsWT.EnumAxis fromFacingAxis(BlockOHRLogsWT.EnumAxis axis) {
             switch (axis) {
                 case X:
                     return X;

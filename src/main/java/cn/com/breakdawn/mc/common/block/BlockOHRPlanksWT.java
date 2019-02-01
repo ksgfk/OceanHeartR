@@ -5,13 +5,13 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 
 /**
- * 所有木板
+ * 世界树木板
  * KSGFK 创建于 2019/1/30
  */
-public class BlockOHRPlanks extends Block {
-    //public static final PropertyEnum<BlockOHRPlanks.EnumType> VARIANT = PropertyEnum.create("variant", BlockOHRPlanks.EnumType.class);
+public class BlockOHRPlanksWT extends Block {
+    //public static final PropertyEnum<BlockOHRPlanksWT.EnumType> VARIANT = PropertyEnum.create("variant", BlockOHRPlanksWT.EnumType.class);
 
-    public BlockOHRPlanks() {
+    public BlockOHRPlanksWT() {
         super(Material.WOOD);
         this.setCreativeTab(CreativeTabsOHR.tabsOceanHeart);
         //this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumType.YGGDRASILL));
@@ -24,14 +24,14 @@ public class BlockOHRPlanks extends Block {
 
     @Override
     public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
-        for (BlockOHRPlanks.EnumType blockstone$enumtype : BlockOHRPlanks.EnumType.values()) {
+        for (BlockOHRPlanksWT.EnumType blockstone$enumtype : BlockOHRPlanksWT.EnumType.values()) {
             items.add(new ItemStack(this, 1, blockstone$enumtype.getMetadata()));
         }
     }
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(VARIANT, BlockOHRPlanks.EnumType.byMetadata(meta));
+        return this.getDefaultState().withProperty(VARIANT, BlockOHRPlanksWT.EnumType.byMetadata(meta));
     }
 
     @Override
@@ -56,7 +56,7 @@ public class BlockOHRPlanks extends Block {
         YGGDRASILL(0, "yggdrasill"),
         ABCE(1, "abce");
 
-        private static final BlockOHRPlanks.EnumType[] META_LOOKUP = new BlockOHRPlanks.EnumType[values().length];
+        private static final BlockOHRPlanksWT.EnumType[] META_LOOKUP = new BlockOHRPlanksWT.EnumType[values().length];
         private final int meta;
         private final String name;
         private final String unlocalizedName;
@@ -79,7 +79,7 @@ public class BlockOHRPlanks extends Block {
             return this.name;
         }
 
-        public static BlockOHRPlanks.EnumType byMetadata(int meta) {
+        public static BlockOHRPlanksWT.EnumType byMetadata(int meta) {
             if (meta < 0 || meta >= META_LOOKUP.length) {
                 meta = 0;
             }
@@ -96,8 +96,8 @@ public class BlockOHRPlanks extends Block {
         }
 
         static {
-            for (BlockOHRPlanks.EnumType BlockOHRPlanks$enumtype : values()) {
-                META_LOOKUP[BlockOHRPlanks$enumtype.getMetadata()] = BlockOHRPlanks$enumtype;
+            for (BlockOHRPlanksWT.EnumType BlockOHRPlanksWT$enumtype : values()) {
+                META_LOOKUP[BlockOHRPlanksWT$enumtype.getMetadata()] = BlockOHRPlanksWT$enumtype;
             }
         }
     }

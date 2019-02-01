@@ -61,7 +61,7 @@ public class ClientProxy extends CommonProxy {
                     Class c = Class.forName("cn.com.breakdawn.mc.common.item." + anno.className());
                     Method method = c.getDeclaredMethod("renderModel", Item.class);
                     method.invoke(item, item);
-                } else {
+                } else if (anno.isRegisterRender()) {
                     registerRender(item, 0);
                 }
             } catch (Exception e) {
