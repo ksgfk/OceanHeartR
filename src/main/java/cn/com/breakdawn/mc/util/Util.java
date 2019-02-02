@@ -1,6 +1,5 @@
 package cn.com.breakdawn.mc.util;
 
-import cn.com.breakdawn.mc.OceanHeartR;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -36,8 +35,7 @@ public class Util {
                 //OceanHeartR.getLogger().info("id:" + i);
                 if (i == id) break;
                 else {
-                    if (a == nbttaglist.tagCount() - 1)
-                        canEnch = true;
+                    if (a == nbttaglist.tagCount() - 1) canEnch = true;
                 }
             }
         } else {
@@ -46,6 +44,17 @@ public class Util {
         }
 
         if (canEnch) add(nbttaglist, id, level);
+    }
+
+    public static void addUnbreakable(ItemStack stack) {
+        if (stack.getTagCompound() == null) {
+            stack.setTagCompound(new NBTTagCompound());
+        }
+
+        if (!(stack.getTagCompound().hasKey("Unbreakable"))) {
+            stack.setTagCompound(new NBTTagCompound().getCompoundTag("Unbreakable"));
+            stack.getTagCompound().setBoolean("Unbreakable", true);
+        }
     }
 
     private static void add(NBTTagList nbttaglist, short id, short level) {
