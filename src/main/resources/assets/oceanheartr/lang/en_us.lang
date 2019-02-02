@@ -68,7 +68,7 @@ tile.fruit_yggdrasill.name=§cFruit of Yggdrasill
 #Tooltip
 tooltip.shift=§oPress SHIFT to see more
 tooltip.more=§aMore Info
-tooltip.canUp=§aUpgradeable
+tooltip.canUp=§eUpgradeable
 
 tooltip.nature_ore.overworld.normal=The Ore with translucent green crystals is full of vitality.
 tooltip.nature_ore.nether.normal=A Glimmer Of Life In Hell

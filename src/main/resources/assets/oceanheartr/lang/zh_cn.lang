@@ -68,7 +68,7 @@ tile.fruit_yggdrasill.name=§c被打破的世界树的果实
 # 提示
 tooltip.shift=§o按下SHIFT查看更多
 tooltip.more=§a详情:
-tooltip.canUp=§a可升级
+tooltip.canUp=§e可升级
 
 tooltip.nature_ore.overworld.normal=含有半透明绿色结晶的矿石,充满生机
 tooltip.nature_ore.nether.normal=地狱中的一丝生机

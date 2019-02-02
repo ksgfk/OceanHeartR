@@ -67,6 +67,7 @@ public class ItemNatureSwordP extends ItemNatureSword {
             tooltip.add(I18n.format("tooltip.nature_sword_polluted.normal"));
             tooltip.add("");
             tooltip.add(I18n.format("tooltip.shift"));
+            tooltip.add("");
         }
     }
 }

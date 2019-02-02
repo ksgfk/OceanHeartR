@@ -12,15 +12,11 @@ import java.util.List;
 
 @EventBusSubscriber(modid = OceanHeartR.MODID)
 public class OHREvent {
-    public static final String angleSworld = "item.tile.";
+    public static final String angleSworldL1 = "item.item.angle_sword_l1";
 
     @SubscribeEvent
     public static void cancelPlayerDropAngleSword(PlayerDropsEvent event) {
         EntityPlayer player = event.getEntityPlayer();
         List<EntityItem> items = event.getDrops();
-
-        items.forEach(entityItem -> {
-            OceanHeartR.getLogger().info(entityItem.getName());
-        });
     }
 }

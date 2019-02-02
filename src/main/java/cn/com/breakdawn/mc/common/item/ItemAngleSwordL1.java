@@ -1,10 +1,13 @@
 package cn.com.breakdawn.mc.common.item;
 
 import cn.com.breakdawn.mc.common.init.CreativeTabsOHR;
+import cn.com.breakdawn.mc.util.Util;
+import cofh.core.init.CoreEnchantments;
 import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -17,6 +20,10 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * 天使之剑
+ * KSGFK
+ */
 public class ItemAngleSwordL1 extends ItemTool {
     public static final Item.ToolMaterial ANGLE_L1 = EnumHelper.addToolMaterial("angle_l1", 3, 1561, 8.0F, 4.0F, 10);
     private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet(Blocks.PLANKS, Blocks.BOOKSHELF, Blocks.LOG, Blocks.LOG2, Blocks.CHEST, Blocks.PUMPKIN, Blocks.LIT_PUMPKIN, Blocks.MELON_BLOCK, Blocks.LADDER, Blocks.WOODEN_BUTTON, Blocks.WOODEN_PRESSURE_PLATE);
@@ -32,14 +39,16 @@ public class ItemAngleSwordL1 extends ItemTool {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+        Util.addEnchantment(stack, (short) Enchantment.getEnchantmentID(CoreEnchantments.soulbound), (short) 1);
         if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
             tooltip.add(I18n.format("tooltip.more"));
             tooltip.add(I18n.format("tooltip.canUp"));
             tooltip.add("");
-        }else {
+        } else {
             tooltip.add(I18n.format("tooltip.angle_sword_l1.normal"));
             tooltip.add("");
             tooltip.add(I18n.format("tooltip.shift"));
+            tooltip.add("");
         }
     }
 }

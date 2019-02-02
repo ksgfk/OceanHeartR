@@ -58,7 +58,7 @@ public class ItemNaturePickaxe extends ItemPickaxe {
             for (int b = -1; b <= 1; b++) {
                 switch (facing) {
                     case DOWN:
-                        blockPos = new BlockPos(pos.getX() + a, pos.getY(), pos.getZ() + b);
+                        blockPos = pos.east(a).north(b);
                         block = worldIn.getBlockState(blockPos).getBlock();
                         if (block.equals(Blocks.STONE)) {
                             worldIn.destroyBlock(blockPos, true);
@@ -66,7 +66,7 @@ public class ItemNaturePickaxe extends ItemPickaxe {
                         }
                         break;
                     case UP:
-                        blockPos = new BlockPos(pos.getX() + a, pos.getY(), pos.getZ() + b);
+                        blockPos = pos.east(a).north(b);
                         block = worldIn.getBlockState(blockPos).getBlock();
                         if (block.equals(Blocks.STONE)) {
                             worldIn.destroyBlock(blockPos, true);
@@ -74,7 +74,7 @@ public class ItemNaturePickaxe extends ItemPickaxe {
                         }
                         break;
                     case EAST:
-                        blockPos = new BlockPos(pos.getX(), pos.getY() + b, pos.getZ() + a);
+                        blockPos = pos.up(b).north(a);
                         block = worldIn.getBlockState(blockPos).getBlock();
                         if (block.equals(Blocks.STONE)) {
                             worldIn.destroyBlock(blockPos, true);
@@ -82,7 +82,7 @@ public class ItemNaturePickaxe extends ItemPickaxe {
                         }
                         break;
                     case WEST:
-                        blockPos = new BlockPos(pos.getX(), pos.getY() + b, pos.getZ() + a);
+                        blockPos = pos.up(b).north(a);
                         block = worldIn.getBlockState(blockPos).getBlock();
                         if (block.equals(Blocks.STONE)) {
                             worldIn.destroyBlock(blockPos, true);
@@ -90,7 +90,7 @@ public class ItemNaturePickaxe extends ItemPickaxe {
                         }
                         break;
                     case NORTH:
-                        blockPos = new BlockPos(pos.getX() + a, pos.getY() + b, pos.getZ());
+                        blockPos = pos.up(b).east(a);
                         block = worldIn.getBlockState(blockPos).getBlock();
                         if (block.equals(Blocks.STONE)) {
                             worldIn.destroyBlock(blockPos, true);
@@ -98,7 +98,7 @@ public class ItemNaturePickaxe extends ItemPickaxe {
                         }
                         break;
                     case SOUTH:
-                        blockPos = new BlockPos(pos.getX() + a, pos.getY() + b, pos.getZ());
+                        blockPos = pos.up(b).east(a);
                         block = worldIn.getBlockState(blockPos).getBlock();
                         if (block.equals(Blocks.STONE)) {
                             worldIn.destroyBlock(blockPos, true);
