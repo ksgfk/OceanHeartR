@@ -9,6 +9,11 @@ item.nature_axe.name=§a自然之斧
 item.nature_hoe.name=§a自然之锄
 item.nature_pickaxe.name=§a自然之镐
 
+item.nature_helmet.name=§a自然头盔
+item.nature_chestplate.name=§a自然胸甲
+item.nature_leggings.name=§a自然护腿
+item.nature_boots.name=§a自然之靴
+
 item.first_item.name=§1试作型海洋之心
 
 item.icon.terminal.name=终端
@@ -29,6 +34,8 @@ item.strange_ingot.end.name=§5虚空之锭
 item.strange_ingot.gold.name=§e传说
 item.strange_ingot.leve_soul.name=§6熔岩之魂
 item.strange_ingot.ocean_soul.name=§1海洋之魂
+
+item.angle_sword_l1.name=§b天使之剑
 
 # 方块
 tile.first_block.name=试作型方块1号
@@ -61,6 +68,7 @@ tile.fruit_yggdrasill.name=§c被打破的世界树的果实
 # 提示
 tooltip.shift=§o按下SHIFT查看更多
 tooltip.more=§a详情:
+tooltip.canUp=§a可升级
 
 tooltip.nature_ore.overworld.normal=含有半透明绿色结晶的矿石,充满生机
 tooltip.nature_ore.nether.normal=地狱中的一丝生机
@@ -97,9 +105,16 @@ tooltip.nature_hoe.normal=§a将自然能量灌注到土地中,催生土地长�
 
 tooltip.nature_pickaxe.normal=§a右键可破坏3X3范围的石头
 
+tooltip.nature_helmet.normal=§a温暖的能量从头顶流下,腹部传来的饥饿感都缓解了一点
+tooltip.nature_chestplate.normal=§a荆棘之甲
+tooltip.nature_leggings.normal=§a和自然之靴配合,可以让你在水中多呆一会儿
+tooltip.nature_boots.normal=§a和自然护腿配合,可以让你在水中多呆一会儿
+
 tooltip.fruit_yggdrasill.normal=珍贵的世界树果实,蕴藏世界树的精华,但我们目前无法提取
 
 tooltip.fruit_yggdrasill_item.normal=§a看起来就很好吃
+
+tooltip.angle_sword_l1.normal=一阶天使之剑
 
 # 附魔等级
 enchantment.level.20=XX

@@ -1,8 +1,12 @@
 package cn.com.breakdawn.mc.common.init;
 
+import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.common.item.*;
 import cn.com.breakdawn.mc.util.RegItem;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraftforge.common.util.EnumHelper;
 
 /**
@@ -12,7 +16,8 @@ import net.minecraftforge.common.util.EnumHelper;
  */
 public final class OHRItems {
     /*工具材料,用来设置工具的基本属性,addToolMaterial()的参数依次是:工具材料名称,硬度,最大使用次数,挖掘效率,伤害(真实伤害-4才是这里要填的),附魔因素*/
-    public static final Item.ToolMaterial NATURE = EnumHelper.addToolMaterial("nature", 6, 3122, 8, 4, 10);
+    public static final Item.ToolMaterial NATURE = EnumHelper.addToolMaterial("nature", 3, 1561, 8, 4, 10);
+    public static final ItemArmor.ArmorMaterial NATURE_ARMOR = EnumHelper.addArmorMaterial("nature", OceanHeartR.MODID + ":nature", 9999, new int[]{6, 12, 14, 4}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 3.0F);
 
     @RegItem("first_item")
     public static final Item FIRST = new ItemBase();
@@ -29,6 +34,18 @@ public final class OHRItems {
     @RegItem("nature_pickaxe")
     public static final Item NATURE_PICKAXE = new ItemNaturePickaxe(NATURE);
 
+    @RegItem("nature_helmet")
+    public static final Item NATURE_HELMET = new ItemNatureArmor(NATURE_ARMOR, 3, EntityEquipmentSlot.HEAD);
+
+    @RegItem("nature_chestplate")
+    public static final Item NATURE_CHESTPLATE = new ItemNatureArmor(NATURE_ARMOR, 3, EntityEquipmentSlot.CHEST);
+
+    @RegItem("nature_leggings")
+    public static final Item NATURE_LEGGINGS = new ItemNatureArmor(NATURE_ARMOR, 3, EntityEquipmentSlot.LEGS);
+
+    @RegItem("nature_boots")
+    public static final Item NATURE_BOOTS = new ItemNatureArmor(NATURE_ARMOR, 3, EntityEquipmentSlot.FEET);
+
     @RegItem("nature_sword_polluted")
     public static final Item NATURE_SWORD_P = new ItemNatureSwordP(NATURE);
 
@@ -43,4 +60,7 @@ public final class OHRItems {
 
     @RegItem(value = "strange_ingot", oreDict = "ingotStrange", className = "ItemStrangeIngot", isRegisterMultiTextureItem = true)
     public static final Item STRANGE_INGOT = new ItemStrangeIngot();
+
+    @RegItem("angle_sword_l1")
+    public static final Item ANGLE_SWORD = new ItemAngleSwordL1();
 }

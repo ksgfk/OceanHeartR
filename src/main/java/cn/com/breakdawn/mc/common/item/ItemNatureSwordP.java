@@ -62,6 +62,7 @@ public class ItemNatureSwordP extends ItemNatureSword {
                 tooltip.add(I18n.format("tooltip.nature_sword_polluted.info") + lastAttackEntity.getName());
             }
             tooltip.add(I18n.format("tooltip.nature_sword_polluted.damage") + damage);
+            tooltip.add("");
         } else {
             tooltip.add(I18n.format("tooltip.nature_sword_polluted.normal"));
             tooltip.add("");

@@ -47,6 +47,7 @@ public class ItemNatureSword extends ItemSword {
             tooltip.add(I18n.format("tooltip.nature_sword.shift.mob"));
             tooltip.add(I18n.format("tooltip.nature_sword.shift.player"));
             tooltip.add(I18n.format("tooltip.nature_sword.shift.animal"));
+            tooltip.add("");
         } else {
             tooltip.add(I18n.format("tooltip.nature_sword.normal"));
             tooltip.add("");

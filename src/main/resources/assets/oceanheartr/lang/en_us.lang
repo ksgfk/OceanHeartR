@@ -9,6 +9,11 @@ item.nature_axe.name=§aNature Axe
 item.nature_hoe.name=§aNature Hoe
 item.nature_pickaxe.name=§aNature Pickaxe
 
+item.nature_helmet.name=§aNature Helmet
+item.nature_chestplate.name=§aNature Chestplate
+item.nature_leggings.name=§aNature Leggings
+item.nature_boots.name=§aNature Boots
+
 item.first_item.name=§1Trial of the heart of the ocean
 
 item.icon.terminal.name=Terminal
@@ -29,6 +34,8 @@ item.strange_ingot.end.name=§5Void of ingot
 item.strange_ingot.gold.name=§eLegend
 item.strange_ingot.leve_soul.name=§6Soul of Leve
 item.strange_ingot.ocean_soul.name=§1Soul of Ocean
+
+item.angle_sword_l1.name=§bAngle Sword
 
 #Blocks
 tile.first_block.name=Trial type 1
@@ -61,6 +68,7 @@ tile.fruit_yggdrasill.name=§cFruit of Yggdrasill
 #Tooltip
 tooltip.shift=§oPress SHIFT to see more
 tooltip.more=§aMore Info
+tooltip.canUp=§aUpgradeable
 
 tooltip.nature_ore.overworld.normal=The Ore with translucent green crystals is full of vitality.
 tooltip.nature_ore.nether.normal=A Glimmer Of Life In Hell
@@ -97,9 +105,16 @@ tooltip.nature_hoe.normal=§aInjecting natural energy into the land, giving birt
 
 tooltip.nature_pickaxe.normal=§aRight click to destroy the 3X3 range of stones
 
+tooltip.nature_helmet.normal=§aThe warm energy ran down from the top of the head, and the hunger from the abdomen eased a little.
+tooltip.nature_chestplate.normal=§aThorns chestplate
+tooltip.nature_leggings.normal=§aWorking with natural boots, you can stay in the water for a while
+tooltip.nature_boots.normal=§aPair with natural leggings to keep you in the water for a while
+
 tooltip.fruit_yggdrasill.normal=Precious world tree fruit, containing the essence of the world tree, contains a lot of energy
 
 tooltip.fruit_yggdrasill_item.normal=§aIt looks delicious
+
+tooltip.angle_sword_l1.normal=Angel Sword(Level 1)
 
 #Enchantment level
 enchantment.level.20=XX
