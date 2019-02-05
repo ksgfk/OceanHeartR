@@ -1,8 +1,13 @@
 package cn.com.breakdawn.mc.util;
 
+import com.mojang.authlib.GameProfile;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import java.util.UUID;
 
 /**
  * 一些工具
@@ -62,5 +67,27 @@ public class Util {
         nbttagcompound.setShort("id", id);
         nbttagcompound.setShort("lvl", level);
         nbttaglist.appendTag(nbttagcompound);
+    }
+
+    public static EntityPlayer getPlayerByUUID(UUID uuid) {
+        return FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(uuid);
+    }
+
+    public static EntityPlayer getPlayerByName(String name) {
+        return FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUsername(name);
+    }
+
+    public static GameProfile getOfflinePlayerByName(String name) {
+        for(GameProfile player:FMLCommonHandler.instance().getMinecraftServerInstance().getServerStatusResponse().getPlayers().getPlayers())
+            if(player.getName().equalsIgnoreCase(name))
+                return player;
+        return null;
+    }
+
+    public static GameProfile getOfflinePlayerByUUID(UUID uuid) {
+        for(GameProfile player:FMLCommonHandler.instance().getMinecraftServerInstance().getServerStatusResponse().getPlayers().getPlayers())
+            if(player.getId().equals(uuid))
+                return player;
+        return null;
     }
 }

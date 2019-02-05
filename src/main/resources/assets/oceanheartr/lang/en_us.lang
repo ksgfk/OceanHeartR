@@ -37,6 +37,8 @@ item.strange_ingot.ocean_soul.name=§1Soul of Ocean
 
 item.angle_sword_l1.name=§bAngle Sword
 
+item.red_packet.name=红包
+
 #Blocks
 tile.first_block.name=Trial type 1
 tile.nature_ore.overworld.name=Nature ore
@@ -116,6 +118,8 @@ tooltip.fruit_yggdrasill_item.normal=§aIt looks delicious
 
 tooltip.angle_sword_l1.normal=Angel Sword(Level 1)
 
+tooltip.red_packet.normal=The red packet in the traditional sense is also called the lucky money.It is the money that the elders wrapped in red paper for the children during the Lunar New Year.It is said that,int Ming and Qing Dynasty,most of the lucky money is given to children with a red string.After Republic of China,it evolved to be wrapped in red paper.Now refers to the red paper bag with money.
+
 #Enchantment level
 enchantment.level.20=XX
 enchantment.level.25=XXV
@@ -130,3 +134,16 @@ enchantment.level.100=C
 enchantment.level.200=CC
 enchantment.level.5000=MMMMM
 enchantment.level.10000=MMMMMMMMMM
+
+#GUI
+container.oceanheartr.demo=Trial type graphical interface
+
+gui.redPacket.title=Red Packet
+gui.redPacket.wish=Please enter a greeting...
+gui.redPacket.receiver=Addressee:
+gui.redPacket.from=A red packet comes form %s
+gui.redPacket.send=Send
+redPacket.success=§a[RedPacket]:Send a red packet to§e %s §asuccessfully.
+redPacket.notFoundPlayer=§cFaild: Can't find player§e %s!
+redPacket.backpackFull=§cFaild:§e %s §c's inventory is full!
+redPacket.received=§a[RedPacket]:You receive a red packet form§e %s!

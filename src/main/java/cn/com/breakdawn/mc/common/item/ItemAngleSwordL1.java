@@ -1,5 +1,6 @@
 package cn.com.breakdawn.mc.common.item;
 
+import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.common.init.CreativeTabsOHR;
 import cn.com.breakdawn.mc.util.Util;
 import cofh.core.init.CoreEnchantments;
@@ -15,6 +16,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
@@ -43,6 +47,7 @@ public class ItemAngleSwordL1 extends ItemTool {
         this.attackSpeed = -1;
     }
 
+    //Copy from vanilla ItemSword
     @Override
     public float getDestroySpeed(ItemStack stack, IBlockState state) {
         Block block = state.getBlock();
@@ -66,6 +71,15 @@ public class ItemAngleSwordL1 extends ItemTool {
 
     @Override
     public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
+
+        //OceanHeartR.getLogger().info(target.getEntityData().getSize());
+        //for (int a = 0; a < size; a++) {
+        //tag.getAll().forEach(action -> {
+        //    DataParameter<?> d = action.getKey();
+        //   d.getId();
+        //});
+        //}
+
         stack.damageItem(1, attacker);
         return true;
     }
@@ -74,6 +88,7 @@ public class ItemAngleSwordL1 extends ItemTool {
     public boolean canHarvestBlock(IBlockState blockIn) {
         return blockIn.getBlock() == Blocks.WEB;
     }
+    //copy end
 
     @SideOnly(Side.CLIENT)
     public boolean isFull3D() {

@@ -63,4 +63,7 @@ public final class OHRItems {
 
     @RegItem("angle_sword_l1")
     public static final Item ANGLE_SWORD = new ItemAngleSwordL1();
+
+    @RegItem("red_packet")
+    public static Item RED_PACKET = new ItemRedPacket();
 }

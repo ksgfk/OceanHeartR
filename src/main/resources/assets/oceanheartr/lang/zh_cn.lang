@@ -37,6 +37,8 @@ item.strange_ingot.ocean_soul.name=§1海洋之魂
 
 item.angle_sword_l1.name=§b天使之剑
 
+item.red_packet.name=红包
+
 # 方块
 tile.first_block.name=试作型方块1号
 tile.nature_ore.overworld.name=自然矿石
@@ -116,6 +118,8 @@ tooltip.fruit_yggdrasill_item.normal=§a看起来就很好吃
 
 tooltip.angle_sword_l1.normal=一阶天使之剑
 
+tooltip.red_packet.normal=传统意义上的红包也叫压岁钱.是过农历春节时长辈给小孩儿用红纸包裹的钱.据传明清时,压岁钱大多数是用红绳串着赐给孩子.民国以后,则演变为用红纸包裹.现在泛指包着钱的红纸包.
+
 # 附魔等级
 enchantment.level.20=XX
 enchantment.level.25=XXV
@@ -130,3 +134,17 @@ enchantment.level.100=C
 enchantment.level.200=CC
 enchantment.level.5000=MMMMM
 enchantment.level.10000=MMMMMMMMMM
+
+# GUI
+container.oceanheartr.demo=Trial type graphical interface
+
+# GUI
+gui.redPacket.title=红包
+gui.redPacket.wish=§f请输入祝福语...
+gui.redPacket.receiver=收件人:
+gui.redPacket.from=来自 %s 的红包
+gui.redPacket.send=发送
+redPacket.success=§a[红包]:成功发送红包给§e %s.
+redPacket.notFoundPlayer=§c失败:没有找到玩家§e %s!
+redPacket.backpackFull=§c失败:§e %s §c的背包已满!
+redPacket.received=§a[红包]:您收到了来自§e %s §a的一个红包!
