@@ -1,65 +1,91 @@
 package cn.com.breakdawn.mc.common.block.dynamo;
 
+import cofh.redstoneflux.api.IEnergyProvider;
+import cofh.redstoneflux.api.IEnergyReceiver;
+import cofh.redstoneflux.impl.EnergyStorage;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 
-import javax.annotation.Nullable;
-//TODO:不会写机器啊啊啊啊啊啊啊啊
-public class TileDynamoNature extends TileEntity implements ITickable {
-    protected int burnTime = 0;
-    protected ItemStackHandler upInventory = new ItemStackHandler();
-    protected ItemStackHandler downInventory = new ItemStackHandler();
+public class TileDynamoNature extends TileEntity implements ITickable, IEnergyProvider, IEnergyReceiver {
 
-    @Override
-    public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-        if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(capability)) {
-            return true;
-        }
-        return super.hasCapability(capability, facing);
-    }
+    protected EnergyStorage storage = new EnergyStorage(32000);
 
-    @Nullable
-    @Override
-    public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-        if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(capability)) {
-            @SuppressWarnings("unchecked")
-            T result = (T) (facing == EnumFacing.DOWN ? downInventory : upInventory);
-            return result;
-        }
-        return super.getCapability(capability, facing);
+    public TileDynamoNature() {
+        storage.setMaxExtract(1000);
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
-        super.readFromNBT(compound);
-        this.upInventory.deserializeNBT(compound.getCompoundTag("UpInventory"));
-        this.downInventory.deserializeNBT(compound.getCompoundTag("DownInventory"));
-        this.burnTime = compound.getInteger("BurnTime");
+    public void readFromNBT(NBTTagCompound nbt) {
+        super.readFromNBT(nbt);
+        storage.readFromNBT(nbt);
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        compound.setTag("UpInventory", this.upInventory.serializeNBT());
-        compound.setTag("DownInventory", this.downInventory.serializeNBT());
-        compound.setInteger("BurnTime", this.burnTime);
-        return super.writeToNBT(compound);
+    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+        super.writeToNBT(nbt);
+        storage.writeToNBT(nbt);
+        return nbt;
+    }
+
+    /* IEnergyConnection */
+    @Override
+    public boolean canConnectEnergy(EnumFacing from) {
+        return true;
+    }
+
+    /* IEnergyReceiver */
+    @Override
+    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
+        return storage.receiveEnergy(maxReceive, simulate);
+    }
+
+    /* IEnergyProvider */
+    @Override
+    public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
+        return storage.extractEnergy(maxExtract, simulate);
+    }
+
+    /* IEnergyHandler */
+    @Override
+    public int getEnergyStored(EnumFacing from) {
+        return storage.getEnergyStored();
     }
 
     @Override
+    public int getMaxEnergyStored(EnumFacing from) {
+        return storage.getMaxEnergyStored();
+    }
+
     public void update() {
-
+        if (!world.isRemote) {
+            TileEntity[] all = {
+                    world.getTileEntity(pos.up()),
+                    world.getTileEntity(pos.down()),
+                    world.getTileEntity(pos.south()),
+                    world.getTileEntity(pos.north()),
+                    world.getTileEntity(pos.east()),
+                    world.getTileEntity(pos.west())};
+            for (int a = 0; a < EnumFacing.values().length; a++) {
+                if (all[a] != null) {
+                    receiveRF(all[a], EnumFacing.getFront(a), storage.getMaxExtract());
+                }
+            }
+        }
     }
 
-    public int getBurnTime() {
-        return this.burnTime;
-    }
-
-    public int getTotalBurnTime() {
-        return 100;
+    private void receiveRF(TileEntity tileEntity, EnumFacing to, int ext) {
+        if (tileEntity instanceof IEnergyReceiver) {
+            IEnergyReceiver r = (IEnergyReceiver) tileEntity;
+            if (r.canConnectEnergy(to)) {
+                int testRec = r.receiveEnergy(to, ext, true);
+                int testExt = this.extractEnergy(null, ext, true);
+                if (testRec > 0 && testExt > 0) {
+                    r.receiveEnergy(to, testRec, false);
+                    this.extractEnergy(null, testRec, false);
+                }
+            }
+        }
     }
 }

@@ -52,6 +52,6 @@ public final class OHRBlocks {
     @RegBlock("fruit_yggdrasill")
     public static final Block FRUIT_YGGDRASILL = new BlockFruitWT().setLightLevel(1).setHardness(5);
 
-    //@RegBlock("dynamo_nature")
-    //public static final Block DYNAMO_NATURE = new BlockDynamoNature();
+    @RegBlock("dynamo_nature")
+    public static final Block DYNAMO_NATURE = new BlockDynamoNature();
 }

@@ -67,6 +67,8 @@ tile.leaf_yggdrasill.name=§c世界树的叶子
 
 tile.fruit_yggdrasill.name=§c被打破的世界树的果实
 
+tile.dynamo_nature.name=试作型自然能量发电机一式
+
 # 提示
 tooltip.shift=§o按下SHIFT查看更多
 tooltip.more=§a详情:
