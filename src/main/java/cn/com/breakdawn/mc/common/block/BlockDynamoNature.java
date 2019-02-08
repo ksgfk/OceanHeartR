@@ -1,5 +1,6 @@
 package cn.com.breakdawn.mc.common.block;
 
+import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.common.block.dynamo.TileDynamoNature;
 import cn.com.breakdawn.mc.common.init.CreativeTabsOHR;
 import net.minecraft.block.BlockContainer;
@@ -16,6 +17,8 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 public class BlockDynamoNature extends BlockContainer {
+    TileDynamoNature tileDynamoNature;
+
     public BlockDynamoNature() {
         super(Material.IRON);
         this.setCreativeTab(CreativeTabsOHR.tabsOceanHeart);
@@ -31,7 +34,8 @@ public class BlockDynamoNature extends BlockContainer {
     @Nullable
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {//创建TileEntity
-        return new TileDynamoNature();
+        tileDynamoNature = new TileDynamoNature();
+        return tileDynamoNature;
     }
 
     @Override
@@ -41,11 +45,9 @@ public class BlockDynamoNature extends BlockContainer {
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if (worldIn.isRemote) {
-
-        }
         if (!worldIn.isRemote) {
-
+            OceanHeartR.getLogger().info(playerIn.getName());
+            playerIn.openGui(OceanHeartR.instance, 4, worldIn, pos.getX(), pos.getY(), pos.getZ());
         }
         return true;
     }
@@ -53,5 +55,6 @@ public class BlockDynamoNature extends BlockContainer {
     @Override
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
         super.breakBlock(worldIn, pos, state);
+        //TODO:保存能量
     }
 }
