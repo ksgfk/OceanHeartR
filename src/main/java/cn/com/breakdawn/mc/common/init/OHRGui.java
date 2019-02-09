@@ -13,7 +13,12 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 import javax.annotation.Nullable;
 
+/**
+ * @author ksgfk
+ */
 public class OHRGui implements IGuiHandler {
+    private GuiContainerDynNature dynNature;
+
     public void init() {
         NetworkRegistry.INSTANCE.registerGuiHandler(OceanHeartR.instance, this);
     }
@@ -38,9 +43,13 @@ public class OHRGui implements IGuiHandler {
             case 3:
                 return new GuiContainerRedPacket(player);
             case 4:
-                return new GuiContainerDynNature(new ContainerDynamoNature(world.getTileEntity(new BlockPos(x, y, z)), player));
+                return dynNature = new GuiContainerDynNature(new ContainerDynamoNature(world.getTileEntity(new BlockPos(x, y, z)), player));
             default:
                 return null;
         }
+    }
+
+    public GuiContainerDynNature getDynNature() {
+        return dynNature;
     }
 }

@@ -10,6 +10,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
+ * 自然结晶发电机客户端GUI
+ *
  * @author KSGFK
  */
 @SideOnly(Side.CLIENT)
@@ -19,15 +21,15 @@ public class GuiContainerDynNature extends GuiContainer {
 
     private ContainerDynamoNature dynamoNature;
     private int energy;
-    private int totalEnergy;
+    private int maxEnergy;
 
     public GuiContainerDynNature(ContainerDynamoNature inventorySlotsIn) {
         super(inventorySlotsIn);
         this.xSize = 176;
         this.ySize = 156;
         this.dynamoNature = inventorySlotsIn;
-        this.energy = inventorySlotsIn.getEnergy();
-        this.totalEnergy = inventorySlotsIn.getTotalEnergy();
+
+        maxEnergy = dynamoNature.getDynNature().getMaxEnergyStored(null);
     }
 
     @Override
@@ -37,10 +39,7 @@ public class GuiContainerDynNature extends GuiContainer {
         int offsetX = (this.width - this.xSize) / 2, offsetY = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(offsetX, offsetY, 0, 0, this.xSize, this.ySize);
 
-        this.energy = dynamoNature.getEnergy();
-        this.totalEnergy = dynamoNature.getTotalEnergy();
-        OceanHeartR.getLogger().info(totalEnergy + "," + energy);
-        int textureWidth = (int) Math.ceil(energy * 89 / totalEnergy);
+        int textureWidth = energy * 89 / maxEnergy;
         this.drawTexturedModalRect(offsetX + 43, offsetY + 55, 0, 156, textureWidth, 4);
     }
 
@@ -48,7 +47,16 @@ public class GuiContainerDynNature extends GuiContainer {
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         String title = I18n.format("tile.dynamo_nature.name");
         this.fontRenderer.drawString(title, (this.xSize - this.fontRenderer.getStringWidth(title)) / 2, 6, 0x404040);
-        String a = energy + "/" + totalEnergy;
+
+        String a = energy + "/" + maxEnergy;
         this.fontRenderer.drawString(a, 88 - this.fontRenderer.getStringWidth(a) / 2, 60, 0x404040);
+    }
+
+    public void setEnergy(int energy) {
+        this.energy = energy;
+    }
+
+    public void setMaxEnergy(int maxEnergy) {
+        this.maxEnergy = maxEnergy;
     }
 }

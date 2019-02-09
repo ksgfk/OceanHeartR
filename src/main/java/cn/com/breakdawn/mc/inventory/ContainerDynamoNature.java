@@ -1,6 +1,5 @@
 package cn.com.breakdawn.mc.inventory;
 
-import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.common.block.dynamo.TileDynamoNature;
 import cn.com.breakdawn.mc.common.init.OHRItems;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,14 +14,14 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 /**
+ * 自然结晶发电机箱子容器
+ *
  * @author ksgfk
  */
 public class ContainerDynamoNature extends Container {
     private Slot inputSlot;
 
     private TileDynamoNature dynNature;
-    private int energy = 0;
-    private int totalEnergy = 0;
 
     public ContainerDynamoNature(TileEntity tileEntity, EntityPlayer player) {
         super();
@@ -48,9 +47,6 @@ public class ContainerDynamoNature extends Container {
         for (int i = 0; i < 9; ++i) {
             this.addSlotToContainer(new Slot(player.inventory, i, 8 + i * 18, 132));
         }
-
-        energy = dynNature.getEnergyStored(null);
-        totalEnergy = dynNature.getMaxEnergyStored(null);
     }
 
     @Override
@@ -58,44 +54,9 @@ public class ContainerDynamoNature extends Container {
         return playerIn.getDistanceSq(this.dynNature.getPos()) <= 64;
     }
 
-    /*有bug,有时候会报空引用...来自4z教程...
-    @Override
-    public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
-        Slot slot = inventorySlots.get(index);
-
-        if (slot == null || !slot.getHasStack()) {
-            return null;
-        }
-
-        ItemStack newStack = slot.getStack(), oldStack = newStack.copy();
-
-        boolean isMerged = false;
-
-        if (index == 0) {
-            isMerged = mergeItemStack(newStack, 1, 37, true);
-        } else if (index >= 1 && index < 28) {
-            isMerged = !inputSlot.getHasStack() && newStack.getCount() <= 64 && mergeItemStack(newStack, 0, 1, false)
-                    || mergeItemStack(newStack, 28, 37, false);
-        } else if (index >= 29 && index < 36) {
-            isMerged = !inputSlot.getHasStack() && newStack.getCount() <= 64 && mergeItemStack(newStack, 0, 1, false)
-                    || mergeItemStack(newStack, 1, 28, false);
-        }
-
-        if (!isMerged) {
-            return null;
-        }
-
-        if (newStack.getCount() == 0) {
-            slot.putStack(ItemStack.EMPTY);
-        } else {
-            slot.onSlotChanged();
-        }
-
-        slot.onTake(playerIn, newStack);
-
-        return oldStack;
-    }
-    */
+    /**
+     * 来自ChinaCraft2红包代码
+     */
     @Nonnull
     @Override
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
@@ -138,37 +99,6 @@ public class ContainerDynamoNature extends Container {
     }
 
     @Override
-    public void detectAndSendChanges() {
-        super.detectAndSendChanges();
-
-        this.energy = dynNature.getEnergyStored(null);
-        this.totalEnergy = dynNature.getMaxEnergyStored(null);
-        this.listeners.forEach(iContainerListener -> {
-            iContainerListener.sendWindowProperty(this, 0, energy);
-            iContainerListener.sendWindowProperty(this, 1, totalEnergy);
-            iContainerListener.sendSlotContents(this, 0, inputSlot.getStack());
-        });
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void updateProgressBar(int id, int data) {
-        super.updateProgressBar(id, data);
-
-        switch (id) {
-            case 0:
-                this.energy = data;
-                break;
-            case 1:
-                this.totalEnergy = data;
-                break;
-            default:
-                OceanHeartR.getLogger().warn("no such change ID" + id);
-                break;
-        }
-    }
-
-    @Override
     @SideOnly(Side.CLIENT)
     public void setAll(List<ItemStack> stacks) {
         for (int i = 0; i < stacks.size(); ++i) {
@@ -176,11 +106,12 @@ public class ContainerDynamoNature extends Container {
         }
     }
 
-    public int getEnergy() {
-        return energy;
+    @Override
+    public void onContainerClosed(EntityPlayer playerIn) {
+        dynNature.setOpenGui(false);
     }
 
-    public int getTotalEnergy() {
-        return totalEnergy;
+    public TileDynamoNature getDynNature() {
+        return dynNature;
     }
 }

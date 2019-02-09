@@ -7,6 +7,7 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -16,8 +17,12 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
+/**
+ * 自然结晶发电机
+ *
+ * @author ksgfk
+ */
 public class BlockDynamoNature extends BlockContainer {
-    TileDynamoNature tileDynamoNature;
 
     public BlockDynamoNature() {
         super(Material.IRON);
@@ -33,9 +38,8 @@ public class BlockDynamoNature extends BlockContainer {
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {//创建TileEntity
-        tileDynamoNature = new TileDynamoNature();
-        return tileDynamoNature;
+    public TileEntity createNewTileEntity(World worldIn, int meta) {
+        return new TileDynamoNature();
     }
 
     @Override
@@ -46,8 +50,12 @@ public class BlockDynamoNature extends BlockContainer {
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
-            OceanHeartR.getLogger().info(playerIn.getName());
-            playerIn.openGui(OceanHeartR.instance, 4, worldIn, pos.getX(), pos.getY(), pos.getZ());
+            TileEntity e = worldIn.getTileEntity(pos);
+            if (e instanceof TileDynamoNature) {
+                ((TileDynamoNature) e).setPlayer((EntityPlayerMP) playerIn);
+                playerIn.openGui(OceanHeartR.instance, 4, worldIn, pos.getX(), pos.getY(), pos.getZ());
+                ((TileDynamoNature) e).setOpenGui(true);
+            }
         }
         return true;
     }

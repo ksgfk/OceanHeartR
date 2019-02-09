@@ -1,11 +1,14 @@
 package cn.com.breakdawn.mc.common.block.dynamo;
 
+import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.common.init.OHRItems;
+import cn.com.breakdawn.mc.network.DynNatureMsg;
 import cofh.core.util.helpers.InventoryHelper;
 import cofh.redstoneflux.api.IEnergyProvider;
 import cofh.redstoneflux.api.IEnergyReceiver;
 import cofh.redstoneflux.impl.EnergyStorage;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -15,12 +18,16 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 
 /**
+ * 自然结晶发电机本体
+ *
  * @author KSGFK
  */
 public class TileDynamoNature extends TileEntity implements ITickable, IEnergyProvider, IEnergyReceiver, ISidedInventory {
-    protected EnergyStorage storage = new EnergyStorage(100000);
+    protected EnergyStorage storage = new EnergyStorage(32000000);
     private int powerGening = 0;
-    protected int maxPowerGen = 1000000;
+    private int maxPowerGen = 1000000;
+    private EntityPlayerMP player;
+    private boolean isOpenGui;
 
     public TileDynamoNature() {
         storage.setMaxExtract(32000);
@@ -103,6 +110,9 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
                 if (all[a] != null) {
                     receiveRF(all[a], EnumFacing.getFront(a), storage.getMaxExtract());
                 }
+            }
+            if (isOpenGui) {
+                OceanHeartR.getNetwork().sendTo(new DynNatureMsg(storage.getEnergyStored(), storage.getMaxEnergyStored()), player);
             }
         }
     }
@@ -241,5 +251,13 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
     @Override
     public boolean hasCustomName() {
         return false;
+    }
+
+    public void setPlayer(EntityPlayerMP player) {
+        this.player = player;
+    }
+
+    public void setOpenGui(boolean openGui) {
+        isOpenGui = openGui;
     }
 }

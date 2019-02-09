@@ -66,7 +66,7 @@ public class OceanHeartR {
     @Mod.Instance(OceanHeartR.MODID)
     public static OceanHeartR instance;
 
-    public static OHRGui gui = new OHRGui();
+    private static OHRGui gui = new OHRGui();
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -80,5 +80,9 @@ public class OceanHeartR {
         network = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
         OHRNetwork.init();
         gui.init();
+    }
+
+    public static OHRGui getGui() {
+        return gui;
     }
 }
