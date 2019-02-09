@@ -3,7 +3,6 @@ package cn.com.breakdawn.mc.common.block.dynamo;
 import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.common.init.OHRItems;
 import cn.com.breakdawn.mc.network.DynNatureMsg;
-import cofh.core.util.helpers.InventoryHelper;
 import cofh.redstoneflux.api.IEnergyProvider;
 import cofh.redstoneflux.api.IEnergyReceiver;
 import cofh.redstoneflux.impl.EnergyStorage;
@@ -11,11 +10,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+
+import javax.annotation.Nonnull;
 
 /**
  * 自然结晶发电机本体
@@ -24,6 +26,17 @@ import net.minecraft.util.ITickable;
  */
 public class TileDynamoNature extends TileEntity implements ITickable, IEnergyProvider, IEnergyReceiver, ISidedInventory {
     protected EnergyStorage storage = new EnergyStorage(32000000);
+    private Slot inputSlot = new Slot(this, 0, 80, 30) {
+        @Override
+        public boolean isItemValid(@Nonnull ItemStack stack) {
+            return stack.getItem().equals(OHRItems.NATURE_INGOT) && super.isItemValid(stack);//只能放入自然结晶
+        }
+
+        @Override
+        public int getSlotStackLimit() {
+            return 64;
+        }
+    };
     private int powerGening = 0;
     private int maxPowerGen = 1000000;
     private EntityPlayerMP player;
@@ -38,12 +51,31 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
         storage.readFromNBT(nbt);
+        if (inputSlot != null) {
+            ItemStack i = new ItemStack(OHRItems.NATURE_INGOT);
+            i.setCount(nbt.getShort("Count"));
+            i.setItemDamage(nbt.getShort("Meta"));
+            inputSlot.putStack(i);
+        }
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
+        OceanHeartR.getLogger().info(nbt.getSize());
         storage.writeToNBT(nbt);
+        if (inputSlot != null) {
+            nbt.setShort("Count", (short) inputSlot.getStack().getCount());
+            nbt.setShort("Meta", (short) inputSlot.getStack().getMetadata());
+        }
+        /*
+        if (nbt.hasKey("item")) {
+            inputSlot.getStack().setTagCompound(nbt.getCompoundTag("item"));
+        } else {
+            NBTTagCompound n = new NBTTagCompound();
+            n.set
+        }
+        */
         return nbt;
     }
 
@@ -135,6 +167,7 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
     private int[] a = new int[1];
     private ItemStack air = new ItemStack(Items.AIR);
     public ItemStack[] inventory = new ItemStack[]{air};
+    //private NonNullList<ItemStack> inventory = NonNullList.<ItemStack>withSize(1, ItemStack.EMPTY);
 
     @Override
     public int[] getSlotsForFace(EnumFacing side) {
@@ -158,7 +191,12 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
 
     @Override
     public boolean isEmpty() {
-        return InventoryHelper.isEmpty(inventory);
+        for (ItemStack stack : inventory) {
+            if (!stack.isEmpty()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -195,7 +233,7 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
     @Override
     public void setInventorySlotContents(int index, ItemStack stack) {
         inventory[index] = stack;
-        world.markChunkDirty(pos, this);
+        this.markDirty();
     }
 
     @Override
@@ -230,12 +268,11 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
 
     @Override
     public void setField(int id, int value) {
-
     }
 
     @Override
     public int getFieldCount() {
-        return 0;
+        return 1;
     }
 
     @Override
@@ -259,5 +296,13 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
 
     public void setOpenGui(boolean openGui) {
         isOpenGui = openGui;
+    }
+
+    public Slot getInputSlot() {
+        return inputSlot;
+    }
+
+    public void setInputSlot(Slot inputSlot) {
+        this.inputSlot = inputSlot;
     }
 }

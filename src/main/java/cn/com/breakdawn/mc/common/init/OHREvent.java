@@ -1,14 +1,7 @@
-package cn.com.breakdawn.mc.common;
+package cn.com.breakdawn.mc.common.init;
 
 import cn.com.breakdawn.mc.OceanHeartR;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
-import java.util.List;
 
 @EventBusSubscriber(modid = OceanHeartR.MODID)
 public class OHREvent {

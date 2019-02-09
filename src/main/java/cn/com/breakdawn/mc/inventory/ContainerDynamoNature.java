@@ -1,7 +1,6 @@
 package cn.com.breakdawn.mc.inventory;
 
 import cn.com.breakdawn.mc.common.block.dynamo.TileDynamoNature;
-import cn.com.breakdawn.mc.common.init.OHRItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
@@ -26,18 +25,9 @@ public class ContainerDynamoNature extends Container {
     public ContainerDynamoNature(TileEntity tileEntity, EntityPlayer player) {
         super();
         this.dynNature = (TileDynamoNature) tileEntity;
+        inputSlot = ((TileDynamoNature) tileEntity).getInputSlot();
         /*机器*/
-        this.addSlotToContainer(inputSlot = new Slot(dynNature, 0, 80, 30) {
-            @Override
-            public boolean isItemValid(@Nonnull ItemStack stack) {
-                return stack.getItem().equals(OHRItems.NATURE_INGOT) && super.isItemValid(stack);//只能放入自然结晶
-            }
-
-            @Override
-            public int getSlotStackLimit() {
-                return 64;
-            }
-        });
+        this.addSlotToContainer(inputSlot);
         /*玩家背包*/
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
@@ -109,6 +99,7 @@ public class ContainerDynamoNature extends Container {
     @Override
     public void onContainerClosed(EntityPlayer playerIn) {
         dynNature.setOpenGui(false);
+        dynNature.setInputSlot(inputSlot);
     }
 
     public TileDynamoNature getDynNature() {
