@@ -25,7 +25,7 @@ import javax.annotation.Nonnull;
  * @author KSGFK
  */
 public class TileDynamoNature extends TileEntity implements ITickable, IEnergyProvider, IEnergyReceiver, ISidedInventory {
-    protected EnergyStorage storage = new EnergyStorage(32000000);
+    private EnergyStorage storage = new EnergyStorage(32000000);
     private Slot inputSlot = new Slot(this, 0, 80, 30) {
         @Override
         public boolean isItemValid(@Nonnull ItemStack stack) {
@@ -37,6 +37,7 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
             return 64;
         }
     };
+    private NBTTagCompound nbtTagCompound;
     private int powerGening = 0;
     private int maxPowerGen = 1000000;
     private EntityPlayerMP player;
@@ -50,32 +51,31 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
-        storage.readFromNBT(nbt);
+        storage.readFromNBT(nbt.getCompoundTag("info"));
         if (inputSlot != null) {
             ItemStack i = new ItemStack(OHRItems.NATURE_INGOT);
-            i.setCount(nbt.getShort("Count"));
-            i.setItemDamage(nbt.getShort("Meta"));
+            i.setCount(nbt.getCompoundTag("info").getShort("Count"));
+            i.setItemDamage(nbt.getCompoundTag("info").getShort("Meta"));
             inputSlot.putStack(i);
         }
+        this.nbtTagCompound = nbt;
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
-        OceanHeartR.getLogger().info(nbt.getSize());
-        storage.writeToNBT(nbt);
-        if (inputSlot != null) {
-            nbt.setShort("Count", (short) inputSlot.getStack().getCount());
-            nbt.setShort("Meta", (short) inputSlot.getStack().getMetadata());
-        }
-        /*
-        if (nbt.hasKey("item")) {
-            inputSlot.getStack().setTagCompound(nbt.getCompoundTag("item"));
+        if (nbt.hasKey("info")) {
+            storage.writeToNBT(nbt.getCompoundTag("info"));
         } else {
             NBTTagCompound n = new NBTTagCompound();
-            n.set
+            storage.writeToNBT(n);
+            if (inputSlot != null) {
+                n.setShort("Count", (short) inputSlot.getStack().getCount());
+                n.setShort("Meta", (short) inputSlot.getStack().getMetadata());
+            }
+            nbt.setTag("info", n);
         }
-        */
+        this.nbtTagCompound = nbt;
         return nbt;
     }
 
@@ -110,6 +110,7 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
 
     public void update() {
         if (!world.isRemote) {
+            //OceanHeartR.getLogger().info();
             /*发电*/
             if (inventory[0].getItem().equals(OHRItems.NATURE_INGOT)) {
                 ItemStack nature = inventory[0];
@@ -146,6 +147,7 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
             if (isOpenGui) {
                 OceanHeartR.getNetwork().sendTo(new DynNatureMsg(storage.getEnergyStored(), storage.getMaxEnergyStored()), player);
             }
+            writeToNBT(nbtTagCompound);
         }
     }
 
@@ -304,5 +306,17 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
 
     public void setInputSlot(Slot inputSlot) {
         this.inputSlot = inputSlot;
+    }
+
+    public EnergyStorage getStorage() {
+        return storage;
+    }
+
+    public NBTTagCompound getNbtTagCompound() {
+        return nbtTagCompound;
+    }
+
+    public void setNbtTagCompound(NBTTagCompound nbtTagCompound) {
+        this.nbtTagCompound = nbtTagCompound;
     }
 }

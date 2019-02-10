@@ -4,8 +4,6 @@ import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.common.block.dynamo.TileDynamoNature;
 import cn.com.breakdawn.mc.common.init.CreativeTabsOHR;
 import cofh.api.block.IDismantleable;
-import cofh.api.core.ISecurable;
-import cofh.core.block.TileCore;
 import cofh.core.util.CoreUtils;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -50,7 +48,10 @@ public class BlockDynamoNature extends BlockContainer implements IDismantleable 
     @Nullable
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return new TileDynamoNature();
+        NBTTagCompound nbt = new NBTTagCompound();
+        TileDynamoNature dyn = new TileDynamoNature();
+        dyn.readFromNBT(nbt);
+        return dyn;
     }
 
     @Override
@@ -70,31 +71,32 @@ public class BlockDynamoNature extends BlockContainer implements IDismantleable 
         }
         return true;
     }
-
+    /*
     @Override
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
-        TileEntity tile = worldIn.getTileEntity(pos);
-        IInventory inv = (IInventory) tile;
-        CoreUtils.dropItemStackIntoWorld(inv.getStackInSlot(0), worldIn, new Vec3d(pos));
-        if (tile != null) {
+        //TileEntity tile = worldIn.getTileEntity(pos);
+        //IInventory inv = (IInventory) tile;
+        //CoreUtils.dropItemStackIntoWorld(inv.getStackInSlot(0), worldIn, new Vec3d(pos));
+        //if (tile != null) {
             worldIn.removeTileEntity(pos);
-        }
+        //}
     }
-
+    */
     @Override
     public ArrayList<ItemStack> dismantleBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, boolean returnDrops) {
-        //TODO:拆除方块时保留能量
-        NBTTagCompound retTag = null;
         TileEntity tile = world.getTileEntity(pos);
+        NBTTagCompound retTag = null;
         if (tile instanceof TileDynamoNature) {
             TileDynamoNature dyn = (TileDynamoNature) tile;
-            dyn.inventory = new ItemStack[dyn.inventory.length];
+            retTag = dyn.getNbtTagCompound().getCompoundTag("info");
+            IInventory inv = (IInventory) tile;
+            CoreUtils.dropItemStackIntoWorld(inv.getStackInSlot(0), world, new Vec3d(pos));
             Arrays.fill(dyn.inventory, ItemStack.EMPTY);
         }
         return dismantleDelegate(retTag, world, pos, player, returnDrops, false);
     }
 
-    public ArrayList<ItemStack> dismantleDelegate(NBTTagCompound nbt, World world, BlockPos pos, EntityPlayer player, boolean returnDrops, boolean simulate) {
+    private ArrayList<ItemStack> dismantleDelegate(NBTTagCompound nbt, World world, BlockPos pos, EntityPlayer player, boolean returnDrops, boolean simulate) {
         TileEntity tile = world.getTileEntity(pos);
         IBlockState state = world.getBlockState(pos);
         int meta = state.getBlock().getMetaFromState(state);
@@ -109,9 +111,9 @@ public class BlockDynamoNature extends BlockContainer implements IDismantleable 
             dropBlock.setTagCompound(nbt);
         }
         if (!simulate) {
-            if (tile instanceof TileCore) {
-                ((TileCore) tile).blockDismantled();
-            }
+            //if (tile instanceof TileCore) {
+            //    ((TileCore) tile).blockDismantled();
+            //}
             world.setBlockToAir(pos);
 
             if (!returnDrops) {
@@ -121,10 +123,10 @@ public class BlockDynamoNature extends BlockContainer implements IDismantleable 
                 double z2 = world.rand.nextFloat() * f + (1.0F - f) * 0.5D;
                 EntityItem dropEntity = new EntityItem(world, pos.getX() + x2, pos.getY() + y2, pos.getZ() + z2, dropBlock);
                 dropEntity.setPickupDelay(10);
-                if (tile instanceof ISecurable && !((ISecurable) tile).getAccess().isPublic()) {
-                    dropEntity.setOwner(player.getName());
-                    // Set Owner - ensures dismantling player can pick it up first.
-                }
+                //if (tile instanceof ISecurable && !((ISecurable) tile).getAccess().isPublic()) {
+                //    dropEntity.setOwner(player.getName());
+                // Set Owner - ensures dismantling player can pick it up first.
+                //}
                 world.spawnEntity(dropEntity);
 
                 if (player != null) {
