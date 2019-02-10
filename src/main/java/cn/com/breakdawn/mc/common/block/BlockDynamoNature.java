@@ -8,10 +8,10 @@ import cofh.core.util.CoreUtils;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -19,7 +19,6 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -71,26 +70,35 @@ public class BlockDynamoNature extends BlockContainer implements IDismantleable 
         }
         return true;
     }
-    /*
+
     @Override
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
-        //TileEntity tile = worldIn.getTileEntity(pos);
-        //IInventory inv = (IInventory) tile;
-        //CoreUtils.dropItemStackIntoWorld(inv.getStackInSlot(0), worldIn, new Vec3d(pos));
-        //if (tile != null) {
+        TileEntity tile = worldIn.getTileEntity(pos);
+        if (tile != null) {
             worldIn.removeTileEntity(pos);
-        //}
+        }
     }
-    */
+
+    @Override
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+        if (!worldIn.isRemote) {
+            TileEntity e = worldIn.getTileEntity(pos);
+            if (e instanceof TileDynamoNature && stack.getTagCompound() != null) {
+                TileDynamoNature dyn = (TileDynamoNature) e;
+                OceanHeartR.getLogger().info(stack.getTagCompound());
+                dyn.readFromNBT(stack.getTagCompound());
+            }
+        }
+    }
+
     @Override
     public ArrayList<ItemStack> dismantleBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, boolean returnDrops) {
         TileEntity tile = world.getTileEntity(pos);
         NBTTagCompound retTag = null;
         if (tile instanceof TileDynamoNature) {
             TileDynamoNature dyn = (TileDynamoNature) tile;
-            retTag = dyn.getNbtTagCompound().getCompoundTag("info");
-            IInventory inv = (IInventory) tile;
-            CoreUtils.dropItemStackIntoWorld(inv.getStackInSlot(0), world, new Vec3d(pos));
+            retTag = dyn.writeToNBT(dyn.getNbtTagCompound());
+            dyn.inventory = new ItemStack[dyn.inventory.length];
             Arrays.fill(dyn.inventory, ItemStack.EMPTY);
         }
         return dismantleDelegate(retTag, world, pos, player, returnDrops, false);

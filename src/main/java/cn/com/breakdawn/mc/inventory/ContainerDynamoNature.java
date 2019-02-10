@@ -1,5 +1,6 @@
 package cn.com.breakdawn.mc.inventory;
 
+import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.common.block.dynamo.TileDynamoNature;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -86,6 +87,13 @@ public class ContainerDynamoNature extends Container {
         }
 
         return var3;
+    }
+
+    @Override
+    public void detectAndSendChanges() {
+        super.detectAndSendChanges();
+        dynNature.writeToNBT(dynNature.getNbtTagCompound());
+        OceanHeartR.getLogger().info(dynNature.getNbtTagCompound());
     }
 
     @Override
