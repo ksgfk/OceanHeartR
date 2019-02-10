@@ -1,6 +1,5 @@
 package cn.com.breakdawn.mc.common.item;
 
-import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.common.init.CreativeTabsOHR;
 import cn.com.breakdawn.mc.util.Util;
 import cofh.core.init.CoreEnchantments;
@@ -11,14 +10,12 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
@@ -27,7 +24,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -37,6 +36,8 @@ import java.util.Set;
 public class ItemAngleSwordL1 extends ItemTool {
     public static final Item.ToolMaterial ANGLE_L1 = EnumHelper.addToolMaterial("angle_l1", 3, 1561, 8.0F, 4.0F, 10);
     private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet(Blocks.PLANKS, Blocks.BOOKSHELF, Blocks.LOG, Blocks.LOG2, Blocks.CHEST, Blocks.PUMPKIN, Blocks.LIT_PUMPKIN, Blocks.MELON_BLOCK, Blocks.LADDER, Blocks.WOODEN_BUTTON, Blocks.WOODEN_PRESSURE_PLATE);
+
+    private static Map<Enchantment, Integer> enchMap = new HashMap<>();
 
     public ItemAngleSwordL1() {
         super(ANGLE_L1, EFFECTIVE_ON);
@@ -71,15 +72,6 @@ public class ItemAngleSwordL1 extends ItemTool {
 
     @Override
     public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
-
-        //OceanHeartR.getLogger().info(target.getEntityData().getSize());
-        //for (int a = 0; a < size; a++) {
-        //tag.getAll().forEach(action -> {
-        //    DataParameter<?> d = action.getKey();
-        //   d.getId();
-        //});
-        //}
-
         stack.damageItem(1, attacker);
         return true;
     }
@@ -97,8 +89,7 @@ public class ItemAngleSwordL1 extends ItemTool {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        Util.addEnchantment(stack, (short) Enchantment.getEnchantmentID(CoreEnchantments.soulbound), (short) 1);
-        Util.addUnbreakable(stack);
+        //Util.addUnbreakable(stack);
         if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
             tooltip.add(I18n.format("tooltip.more"));
             tooltip.add(I18n.format("tooltip.canUp"));
@@ -109,5 +100,19 @@ public class ItemAngleSwordL1 extends ItemTool {
             tooltip.add(I18n.format("tooltip.shift"));
             tooltip.add("");
         }
+    }
+
+    @Override
+    public boolean hasEffect(ItemStack stack) {
+        if (stack != null) {
+            EnchantmentHelper.setEnchantments(enchMap, stack);
+            Util.addUnbreakable(stack);
+            return true;
+        }
+        return false;
+    }
+
+    static {
+        enchMap.put(CoreEnchantments.soulbound, 3);
     }
 }

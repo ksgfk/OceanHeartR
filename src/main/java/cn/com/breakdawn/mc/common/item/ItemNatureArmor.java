@@ -2,17 +2,21 @@ package cn.com.breakdawn.mc.common.item;
 
 import cn.com.breakdawn.mc.common.init.CreativeTabsOHR;
 import cn.com.breakdawn.mc.common.init.OHRItems;
-import cn.com.breakdawn.mc.util.Util;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Enchantments;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 自然套装
@@ -24,6 +28,7 @@ public class ItemNatureArmor extends ItemArmor {
      */
     private int lastTime;
     private int airTime;
+    private static Map<Enchantment, Integer> enchMap = new HashMap<>();
 
     public ItemNatureArmor(ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn) {
         super(materialIn, renderIndexIn, equipmentSlotIn);
@@ -56,12 +61,24 @@ public class ItemNatureArmor extends ItemArmor {
     }
 
     @Override
+    public boolean hasEffect(ItemStack stack) {
+        if (armorType == EntityEquipmentSlot.CHEST) {
+            EnchantmentHelper.setEnchantments(enchMap, stack);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         if (armorType == EntityEquipmentSlot.HEAD) tooltip.add(I18n.format("tooltip.nature_helmet.normal"));
         else if (armorType == EntityEquipmentSlot.CHEST) {
-            Util.addEnchantment(stack, (short) 7, (short) 10);//荆棘
             tooltip.add(I18n.format("tooltip.nature_chestplate.normal"));
         } else if (armorType == EntityEquipmentSlot.LEGS) tooltip.add(I18n.format("tooltip.nature_leggings.normal"));
         else if (armorType == EntityEquipmentSlot.FEET) tooltip.add(I18n.format("tooltip.nature_boots.normal"));
+    }
+
+    static {
+        enchMap.put(Enchantments.THORNS, 10);
     }
 }
