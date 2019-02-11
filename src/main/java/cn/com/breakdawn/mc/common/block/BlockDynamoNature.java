@@ -85,7 +85,6 @@ public class BlockDynamoNature extends BlockContainer implements IDismantleable 
             TileEntity e = worldIn.getTileEntity(pos);
             if (e instanceof TileDynamoNature && stack.getTagCompound() != null) {
                 TileDynamoNature dyn = (TileDynamoNature) e;
-                OceanHeartR.getLogger().info(stack.getTagCompound());
                 dyn.readFromNBT(stack.getTagCompound());
             }
         }

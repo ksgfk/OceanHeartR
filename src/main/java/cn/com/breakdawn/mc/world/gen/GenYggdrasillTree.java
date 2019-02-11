@@ -5,6 +5,7 @@ package cn.com.breakdawn.mc.world.gen;
 
 import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.common.init.OHRBlocks;
+import cn.com.breakdawn.mc.util.Util;
 import gnu.trove.iterator.TLongObjectIterator;
 import gnu.trove.map.hash.TLongObjectHashMap;
 import net.minecraft.block.Block;
@@ -588,7 +589,7 @@ public class GenYggdrasillTree extends WorldGenAbstractTree {
             time = System.nanoTime();
             for (TLongObjectIterator<Chunk> iter = chunkMap.iterator(); iter.hasNext(); ) {
                 iter.advance();
-                OceanHeartR.proxy.relightChunk(iter.value());
+                Util.relightChunk(iter.value());
             }
             time = System.nanoTime() - time;
             OceanHeartR.getLogger().info("重载光照: " + time + "ns");
