@@ -30,6 +30,8 @@ item.fruit_yggdrasill_item.name=§c世界树的果实
 item.nature_ingot.overworld.name=§a自然结晶
 item.nature_ingot.nether.name=§5被污染的自然结晶
 
+item.nature_powder.name=§a自然结晶粉末
+
 item.strange_ingot.end.name=§5虚空之锭
 item.strange_ingot.gold.name=§e传说
 item.strange_ingot.leve_soul.name=§6熔岩之魂
