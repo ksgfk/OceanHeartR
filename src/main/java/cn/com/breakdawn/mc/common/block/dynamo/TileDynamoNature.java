@@ -52,6 +52,7 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
         storage.readFromNBT(nbt.getCompoundTag("info"));
+        this.powerGening = nbt.getCompoundTag("info").getInteger("Gening");
         if (inputSlot != null) {
             ItemStack i = new ItemStack(OHRItems.NATURE_INGOT);
             i.setCount(nbt.getCompoundTag("info").getShort("Count"));
@@ -66,9 +67,13 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
         super.writeToNBT(nbt);
         if (nbt.hasKey("info")) {
             storage.writeToNBT(nbt.getCompoundTag("info"));
+            nbt.getCompoundTag("info").setShort("Count", (short) inputSlot.getStack().getCount());
+            nbt.getCompoundTag("info").setShort("Meta", (short) inputSlot.getStack().getMetadata());
+            nbt.getCompoundTag("info").setInteger("Gening", this.powerGening);
         } else {
             NBTTagCompound n = new NBTTagCompound();
             storage.writeToNBT(n);
+            n.setInteger("Gening", powerGening);
             if (inputSlot != null) {
                 n.setShort("Count", (short) inputSlot.getStack().getCount());
                 n.setShort("Meta", (short) inputSlot.getStack().getMetadata());
@@ -145,9 +150,8 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
                 }
             }
             if (isOpenGui) {
-                OceanHeartR.getNetwork().sendTo(new DynNatureMsg(storage.getEnergyStored(), storage.getMaxEnergyStored()), player);
+                OceanHeartR.getNetwork().sendTo(new DynNatureMsg(storage.getEnergyStored(), storage.getMaxEnergyStored(), powerGening), player);
             }
-            writeToNBT(nbtTagCompound);
         }
     }
 
@@ -318,5 +322,9 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
 
     public void setNbtTagCompound(NBTTagCompound nbtTagCompound) {
         this.nbtTagCompound = nbtTagCompound;
+    }
+
+    public void setPowerGening(int powerGening) {
+        this.powerGening = powerGening;
     }
 }

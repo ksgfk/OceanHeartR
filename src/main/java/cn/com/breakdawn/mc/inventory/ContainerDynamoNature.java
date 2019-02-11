@@ -89,12 +89,6 @@ public class ContainerDynamoNature extends Container {
     }
 
     @Override
-    public void detectAndSendChanges() {
-        super.detectAndSendChanges();
-        dynNature.writeToNBT(dynNature.getNbtTagCompound());
-    }
-
-    @Override
     @SideOnly(Side.CLIENT)
     public void setAll(List<ItemStack> stacks) {
         for (int i = 0; i < stacks.size(); ++i) {

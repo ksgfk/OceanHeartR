@@ -17,13 +17,15 @@ import net.minecraftforge.fml.relauncher.Side;
 public class DynNatureMsg implements IMessage {
     private int energy;
     private int maxEnergy;
+    private int gening;
 
     public DynNatureMsg() {
     }
 
-    public DynNatureMsg(int energy, int maxEnergy) {
+    public DynNatureMsg(int energy, int maxEnergy, int gening) {
         this.energy = energy;
         this.maxEnergy = maxEnergy;
+        this.gening = gening;
     }
 
     @Override
