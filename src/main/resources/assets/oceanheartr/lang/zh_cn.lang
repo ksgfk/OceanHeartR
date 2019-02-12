@@ -30,7 +30,8 @@ item.fruit_yggdrasill_item.name=§c世界树的果实
 item.nature_ingot.overworld.name=§a自然结晶
 item.nature_ingot.nether.name=§5被污染的自然结晶
 
-item.nature_powder.name=§a自然结晶粉末
+item.nature_powder.overworld.name=§a自然矿石粉末
+item.nature_powder.nether.name=§5自然矿石粉末
 
 item.strange_ingot.end.name=§5虚空之锭
 item.strange_ingot.gold.name=§e传说
@@ -154,3 +155,4 @@ redPacket.success=§a[红包]:成功发送红包给§e %s.
 redPacket.notFoundPlayer=§c失败:没有找到玩家§e %s!
 redPacket.backpackFull=§c失败:§e %s §c的背包已满!
 redPacket.received=§a[红包]:您收到了来自§e %s §a的一个红包!
+item.nature_powder.name=§a自然结晶粉末

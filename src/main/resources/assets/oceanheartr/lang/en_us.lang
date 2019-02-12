@@ -30,7 +30,8 @@ item.fruit_yggdrasill_item.name=§cFruit of Yggdrasill
 item.nature_ingot.overworld.name=§aNature Crystallization
 item.nature_ingot.nether.name=§5Polluted Nature Crystallization
 
-item.nature_powder.name=§aPower of nature ore
+item.nature_powder.overworld.name=§aPower of nature ore
+item.nature_powder.nether.name=§5Power of nature ore
 
 item.strange_ingot.end.name=§5Void of ingot
 item.strange_ingot.gold.name=§eLegend

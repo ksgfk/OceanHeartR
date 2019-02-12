@@ -2,6 +2,6 @@
   "forge_marker": 1,
   "parent": "item/generated",
   "textures": {
-    "layer0": "oceanheartr:items/fruit_yggdrasill_item"
+    "layer0": "oceanheartr:items/nature_powder_nether"
   }
 }

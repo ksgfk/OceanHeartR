@@ -102,7 +102,6 @@ public class TilePulverizer extends TileEntity implements IEnergyReceiver, ISide
     @Override
     public void update() {
         if (isOpenGui) {
-            //OceanHeartR.getLogger().info(storage.getEnergyStored());
             OceanHeartR.getNetwork().sendTo(new PulMsg(storage.getEnergyStored(), storage.getMaxEnergyStored()), player);
         }
     }
