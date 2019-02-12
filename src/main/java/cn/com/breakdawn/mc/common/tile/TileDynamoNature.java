@@ -1,4 +1,4 @@
-package cn.com.breakdawn.mc.common.block.dynamo;
+package cn.com.breakdawn.mc.common.tile;
 
 import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.common.init.OHRItems;

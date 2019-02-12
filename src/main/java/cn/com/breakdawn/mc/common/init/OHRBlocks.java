@@ -54,4 +54,7 @@ public final class OHRBlocks {
 
     @RegBlock("dynamo_nature")
     public static final Block DYNAMO_NATURE = new BlockDynamoNature();
+
+    @RegBlock("pulverizer")
+    public static final Block PULVERIZER = new BlockPulverizer();
 }

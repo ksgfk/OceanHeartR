@@ -1,6 +1,6 @@
 package cn.com.breakdawn.mc.inventory;
 
-import cn.com.breakdawn.mc.common.tile.TileDynamoNature;
+import cn.com.breakdawn.mc.common.tile.TilePulverizer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
@@ -13,20 +13,20 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 /**
- * 自然结晶发电机箱子容器
- *
- * @author ksgfk
+ * @auther KSGFK
  */
-public class ContainerDynamoNature extends Container {
+public class ContainerPulverizer extends Container {
     private Slot inputSlot;
-    private TileDynamoNature dynNature;
+    private Slot outputSlot;
+    private TilePulverizer pul;
 
-    public ContainerDynamoNature(TileEntity tileEntity, EntityPlayer player) {
+    public ContainerPulverizer(TileEntity tileEntity, EntityPlayer player) {
         super();
-        this.dynNature = (TileDynamoNature) tileEntity;
-        inputSlot = dynNature.getInputSlot();
-        /*机器*/
+        this.pul = (TilePulverizer) tileEntity;
+        inputSlot = pul.getInputSlot();
+        outputSlot = pul.getOutputSlot();
         this.addSlotToContainer(inputSlot);
+        this.addSlotToContainer(outputSlot);
         /*玩家背包*/
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
@@ -40,12 +40,9 @@ public class ContainerDynamoNature extends Container {
 
     @Override
     public boolean canInteractWith(EntityPlayer playerIn) {
-        return playerIn.getDistanceSq(this.dynNature.getPos()) <= 64;
+        return playerIn.getDistanceSq(this.pul.getPos()) <= 64;
     }
 
-    /**
-     * 来自ChinaCraft2红包代码
-     */
     @Nonnull
     @Override
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
@@ -96,11 +93,11 @@ public class ContainerDynamoNature extends Container {
 
     @Override
     public void onContainerClosed(EntityPlayer playerIn) {
-        dynNature.setOpenGui(false);
-        dynNature.setInputSlot(inputSlot);
+        pul.setOpenGui(false);
+        pul.setInputSlot(inputSlot);
     }
 
-    public TileDynamoNature getDynNature() {
-        return dynNature;
+    public TilePulverizer getPul() {
+        return pul;
     }
 }

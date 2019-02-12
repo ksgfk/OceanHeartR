@@ -1,7 +1,7 @@
 package cn.com.breakdawn.mc.common.block;
 
 import cn.com.breakdawn.mc.OceanHeartR;
-import cn.com.breakdawn.mc.common.tile.TileDynamoNature;
+import cn.com.breakdawn.mc.common.tile.TilePulverizer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -20,13 +20,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * 自然结晶发电机
- *
- * @author ksgfk
+ * @auther KSGFK
  */
-public class BlockDynamoNature extends BlockCanDismantle {
-
-    public BlockDynamoNature() {
+public class BlockPulverizer extends BlockCanDismantle {
+    public BlockPulverizer() {
         super(Material.IRON);
     }
 
@@ -34,22 +31,33 @@ public class BlockDynamoNature extends BlockCanDismantle {
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
         NBTTagCompound nbt = new NBTTagCompound();
-        TileDynamoNature dyn = new TileDynamoNature();
-        dyn.readFromNBT(nbt);
-        return dyn;
+        TilePulverizer pul = new TilePulverizer();
+        pul.readFromNBT(nbt);
+        return pul;
     }
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
             TileEntity e = worldIn.getTileEntity(pos);
-            if (e instanceof TileDynamoNature) {
-                ((TileDynamoNature) e).setPlayer((EntityPlayerMP) playerIn);
-                playerIn.openGui(OceanHeartR.instance, 4, worldIn, pos.getX(), pos.getY(), pos.getZ());
-                ((TileDynamoNature) e).setOpenGui(true);
+            if (e instanceof TilePulverizer) {
+                ((TilePulverizer) e).setPlayer((EntityPlayerMP) playerIn);
+                playerIn.openGui(OceanHeartR.instance, 5, worldIn, pos.getX(), pos.getY(), pos.getZ());
+                ((TilePulverizer) e).setOpenGui(true);
             }
         }
         return true;
+    }
+
+    @Override
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+        if (!worldIn.isRemote) {
+            TileEntity e = worldIn.getTileEntity(pos);
+            if (e instanceof TilePulverizer && stack.getTagCompound() != null) {
+                TilePulverizer dyn = (TilePulverizer) e;
+                dyn.readFromNBT(stack.getTagCompound());
+            }
+        }
     }
 
     @Override
@@ -61,26 +69,15 @@ public class BlockDynamoNature extends BlockCanDismantle {
     }
 
     @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-        if (!worldIn.isRemote) {
-            TileEntity e = worldIn.getTileEntity(pos);
-            if (e instanceof TileDynamoNature && stack.getTagCompound() != null) {
-                TileDynamoNature dyn = (TileDynamoNature) e;
-                dyn.readFromNBT(stack.getTagCompound());
-            }
-        }
-    }
-
-    @Override
     public ArrayList<ItemStack> dismantleBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, boolean returnDrops) {
         TileEntity tile = world.getTileEntity(pos);
         NBTTagCompound retTag = null;
-        if (tile instanceof TileDynamoNature) {
-            TileDynamoNature dyn = (TileDynamoNature) tile;
-            retTag = dyn.writeToNBT(dyn.getNbtTagCompound());
-            dyn.inventory = new ItemStack[dyn.inventory.length];
-            Arrays.fill(dyn.inventory, ItemStack.EMPTY);
+        if (tile instanceof TilePulverizer) {
+            TilePulverizer pul = (TilePulverizer) tile;
+            retTag = pul.writeToNBT(pul.getNbt());
+            pul.inventory = new ItemStack[pul.inventory.length];
+            Arrays.fill(pul.inventory, ItemStack.EMPTY);
         }
-        return dismantleDelegate(retTag, world, pos, player, returnDrops, false);
+        return this.dismantleDelegate(retTag, world, pos, player, returnDrops, false);
     }
 }

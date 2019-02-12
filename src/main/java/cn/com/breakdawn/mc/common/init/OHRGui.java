@@ -2,8 +2,10 @@ package cn.com.breakdawn.mc.common.init;
 
 import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.client.gui.GuiContainerDynNature;
+import cn.com.breakdawn.mc.client.gui.GuiContainerPul;
 import cn.com.breakdawn.mc.client.gui.GuiContainerRedPacket;
 import cn.com.breakdawn.mc.inventory.ContainerDynamoNature;
+import cn.com.breakdawn.mc.inventory.ContainerPulverizer;
 import cn.com.breakdawn.mc.inventory.ContainerRedPacket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
@@ -18,6 +20,7 @@ import javax.annotation.Nullable;
  */
 public class OHRGui implements IGuiHandler {
     private GuiContainerDynNature dynNature;
+    private GuiContainerPul pul;
 
     public void init() {
         NetworkRegistry.INSTANCE.registerGuiHandler(OceanHeartR.instance, this);
@@ -31,6 +34,8 @@ public class OHRGui implements IGuiHandler {
                 return new ContainerRedPacket(player);
             case 4:
                 return new ContainerDynamoNature(world.getTileEntity(new BlockPos(x, y, z)), player);
+            case 5:
+                return new ContainerPulverizer(world.getTileEntity(new BlockPos(x, y, z)), player);
             default:
                 return null;
         }
@@ -44,6 +49,8 @@ public class OHRGui implements IGuiHandler {
                 return new GuiContainerRedPacket(player);
             case 4:
                 return dynNature = new GuiContainerDynNature(new ContainerDynamoNature(world.getTileEntity(new BlockPos(x, y, z)), player));
+            case 5:
+                return pul = new GuiContainerPul(new ContainerPulverizer(world.getTileEntity(new BlockPos(x, y, z)), player));
             default:
                 return null;
         }
@@ -51,5 +58,9 @@ public class OHRGui implements IGuiHandler {
 
     public GuiContainerDynNature getDynNature() {
         return dynNature;
+    }
+
+    public GuiContainerPul getPul() {
+        return pul;
     }
 }
