@@ -15,6 +15,8 @@ public class GuiContainerPul extends GuiContainer {
 
     private int energy;
     private int maxEnergy;
+    private int process;
+    private int perTime;
     private ContainerPulverizer pul;
 
     public GuiContainerPul(ContainerPulverizer inventorySlotsIn) {
@@ -23,6 +25,7 @@ public class GuiContainerPul extends GuiContainer {
         this.ySize = 156;
         this.pul = inventorySlotsIn;
         maxEnergy = pul.getPul().getMaxEnergyStored(null);
+        perTime = pul.getPul().getPerTime();
     }
 
     @Override
@@ -34,6 +37,9 @@ public class GuiContainerPul extends GuiContainer {
 
         int textureWidth = energy * 90 / maxEnergy;
         this.drawTexturedModalRect(offsetX + 43, offsetY + 55, 24, 156, textureWidth, 4);
+
+        int arrowWidth = process * 24 / perTime;
+        this.drawTexturedModalRect(offsetX + 80, offsetY + 30, 0, 156, arrowWidth, 17);
     }
 
     public void setEnergy(int energy) {
@@ -42,5 +48,9 @@ public class GuiContainerPul extends GuiContainer {
 
     public void setMaxEnergy(int maxEnergy) {
         this.maxEnergy = maxEnergy;
+    }
+
+    public void setProcess(int process) {
+        this.process = process;
     }
 }

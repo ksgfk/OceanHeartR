@@ -26,10 +26,14 @@ import javax.annotation.Nonnull;
  * @auther KSGFK
  */
 public class TilePulverizer extends TileEntity implements IEnergyReceiver, ISidedInventory, ITickable {
-    private EnergyStorage storage = new EnergyStorage(320000).setMaxReceive(80);
+    private EnergyStorage storage = new EnergyStorage(320000).setMaxReceive(80).setMaxExtract(1000);
     private NBTTagCompound nbtTagCompound;
     private EntityPlayerMP player;
     private boolean isOpenGui;
+    private int processTime = 0;
+    private int perTime = 100;
+    private boolean isProcessing = false;
+    private int lastDamage = 0;
 
     private IBlockState block = OHRBlocks.NATURE_ORE.getDefaultState().withProperty(BlockNatureOre.VARIANT, BlockNatureOre.EnumType.OVERWORLD);
 
@@ -55,7 +59,7 @@ public class TilePulverizer extends TileEntity implements IEnergyReceiver, ISide
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
         storage.readFromNBT(nbt.getCompoundTag("info"));
-        //this.powerGening = nbt.getCompoundTag("info").getInteger("Gening");
+        this.processTime = nbt.getCompoundTag("info").getInteger("process");
         if (inputSlot != null) {
             ItemStack i = new ItemStack(block.getBlock());
             i.setCount(nbt.getCompoundTag("info").getShort("inCount"));
@@ -63,7 +67,7 @@ public class TilePulverizer extends TileEntity implements IEnergyReceiver, ISide
             inputSlot.putStack(i);
         }
         if (inputSlot != null) {
-            ItemStack s = new ItemStack(OHRItems.NATURE_POWER);
+            ItemStack s = new ItemStack(OHRItems.NATURE_POWDER);
             s.setCount(nbt.getCompoundTag("info").getShort("outCount"));
             s.setItemDamage(nbt.getCompoundTag("info").getShort("outMeta"));
             outputSlot.putStack(s);
@@ -80,11 +84,11 @@ public class TilePulverizer extends TileEntity implements IEnergyReceiver, ISide
             nbt.getCompoundTag("info").setShort("inMeta", (short) inputSlot.getStack().getMetadata());
             nbt.getCompoundTag("info").setShort("outCount", (short) outputSlot.getStack().getCount());
             nbt.getCompoundTag("info").setShort("outMeta", (short) outputSlot.getStack().getMetadata());
-            //nbt.getCompoundTag("info").setInteger("Gening", this.powerGening);
+            nbt.getCompoundTag("info").setInteger("Gening", this.processTime);
         } else {
             NBTTagCompound n = new NBTTagCompound();
             storage.writeToNBT(n);
-            //n.setInteger("Gening", powerGening);
+            n.setInteger("process", processTime);
             if (inputSlot != null) {
                 n.setShort("inCount", (short) inputSlot.getStack().getCount());
                 n.setShort("inMeta", (short) inputSlot.getStack().getMetadata());
@@ -101,9 +105,61 @@ public class TilePulverizer extends TileEntity implements IEnergyReceiver, ISide
 
     @Override
     public void update() {
-        if (isOpenGui) {
-            OceanHeartR.getNetwork().sendTo(new PulMsg(storage.getEnergyStored(), storage.getMaxEnergyStored()), player);
+        if (!world.isRemote) {
+            if (inputSlot.getStack().getItemDamage() == 0) {
+                processOre(0);
+            } else if (inputSlot.getStack().getItemDamage() == 1) {
+                processOre(1);
+            }
+
+            if (isOpenGui) {
+                OceanHeartR.getNetwork().sendTo(new PulMsg(storage.getEnergyStored(), storage.getMaxEnergyStored(), processTime), player);
+            }
         }
+    }
+
+    private void processOre(int itemDamage) {
+        ItemStack in = inputSlot.getStack();
+        int count = in.getCount();
+        if (!in.isEmpty() && !isProcessing) {
+            in.setCount(count - 1);
+            isProcessing = true;
+            processTime = 0;
+            lastDamage = in.getItemDamage();
+        }
+        if (isProcessing && processTime < perTime) {
+            int testExt = modifyEnergy(storage.getMaxExtract(), true);
+            if (testExt > 50) {//一枚结晶需要50*100能量
+                modifyEnergy(testExt, false);
+                processTime++;
+            }
+        }
+
+        if (processTime >= perTime) {
+            isProcessing = false;
+            ItemStack stack = outputSlot.getStack();
+            if (!stack.getItem().equals(OHRItems.NATURE_POWDER)) {
+                ItemStack normal = new ItemStack(OHRItems.NATURE_POWDER);
+                normal.setItemDamage(lastDamage);
+                outputSlot.putStack(normal);
+                stack.setCount(stack.getCount() + 1);
+                processTime = 0;
+            } else {
+                if (stack.getItemDamage() != itemDamage) {
+                    stack.setItemDamage(1);
+                }
+                stack.setCount(stack.getCount() + 1);
+                processTime = 0;
+            }
+        }
+    }
+
+    private int modifyEnergy(int maxExtract, boolean simulate) {
+        int energyExtracted = Math.min(storage.getEnergyStored(), Math.min(storage.getMaxEnergyStored(), maxExtract));
+        if (!simulate) {
+            storage.setEnergyStored(storage.getEnergyStored() - energyExtracted);
+        }
+        return energyExtracted;
     }
 
     /*储存*/
@@ -267,6 +323,10 @@ public class TilePulverizer extends TileEntity implements IEnergyReceiver, ISide
 
     public Slot getOutputSlot() {
         return outputSlot;
+    }
+
+    public int getPerTime() {
+        return perTime;
     }
 
     /* IEnergyConnection */

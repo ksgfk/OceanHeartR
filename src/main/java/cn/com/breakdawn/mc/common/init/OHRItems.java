@@ -59,7 +59,7 @@ public final class OHRItems {
     public static final Item NATURE_INGOT = new ItemNatureIngot();
 
     @RegItem(value = "nature_powder", oreDict = "powderNature", className = "ItemNaturePowder", isRegisterMultiTextureItem = true)
-    public static final Item NATURE_POWER = new ItemNaturePowder();
+    public static final Item NATURE_POWDER = new ItemNaturePowder();
 
     @RegItem(value = "strange_ingot", oreDict = "ingotStrange", className = "ItemStrangeIngot", isRegisterMultiTextureItem = true)
     public static final Item STRANGE_INGOT = new ItemStrangeIngot();
