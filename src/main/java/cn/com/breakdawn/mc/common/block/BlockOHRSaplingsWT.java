@@ -1,6 +1,7 @@
 package cn.com.breakdawn.mc.common.block;
 
 import cn.com.breakdawn.mc.common.init.CreativeTabsOHR;
+import cn.com.breakdawn.mc.config.OHRConfig;
 import cn.com.breakdawn.mc.world.gen.GenYggdrasillTree;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
@@ -40,9 +41,11 @@ public class BlockOHRSaplingsWT extends BlockBush implements IGrowable {
 
     @Override
     public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
-        if (!(worldIn.isRemote || !TerrainGen.saplingGrowTree(worldIn, rand, pos))) {
-            new GenYggdrasillTree(true).setSloped(true).generate(worldIn, rand, pos);
-            worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 4);
+        if (OHRConfig.general.canYggdrasillGrow) {
+            if (!(worldIn.isRemote || !TerrainGen.saplingGrowTree(worldIn, rand, pos))) {
+                new GenYggdrasillTree(true).setSloped(true).generate(worldIn, rand, pos);
+                worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 4);
+            }
         }
     }
 

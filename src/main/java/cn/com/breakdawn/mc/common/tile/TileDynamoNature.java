@@ -2,6 +2,7 @@ package cn.com.breakdawn.mc.common.tile;
 
 import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.common.init.OHRItems;
+import cn.com.breakdawn.mc.config.OHRConfig;
 import cn.com.breakdawn.mc.network.DynNatureMsg;
 import cofh.redstoneflux.api.IEnergyProvider;
 import cofh.redstoneflux.api.IEnergyReceiver;
@@ -25,11 +26,17 @@ import javax.annotation.Nonnull;
  * @author KSGFK
  */
 public class TileDynamoNature extends TileEntity implements ITickable, IEnergyProvider, IEnergyReceiver, ISidedInventory {
-    private EnergyStorage storage = new EnergyStorage(32000000);
+    private EnergyStorage storage = new EnergyStorage(OHRConfig.general.dynNatureMaxEnergy);
     private Slot inputSlot = new Slot(this, 0, 80, 30) {
         @Override
         public boolean isItemValid(@Nonnull ItemStack stack) {
-            return stack.getItem().equals(OHRItems.NATURE_INGOT) && super.isItemValid(stack);//只能放入自然结晶
+            if (OHRConfig.general.dynNatureCanPut) {
+                return stack.getItem().equals(OHRItems.NATURE_INGOT) && super.isItemValid(stack);
+            } else {
+                ItemStack canValid = new ItemStack(OHRItems.NATURE_INGOT);
+                canValid.setItemDamage(0);
+                return stack.equals(canValid) && super.isItemValid(stack);//只能放入普通自然结晶}
+            }
         }
 
         @Override
@@ -39,13 +46,13 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
     };
     private NBTTagCompound nbtTagCompound;
     private int powerGening = 0;
-    private int maxPowerGen = 1000000;
+    private int maxPowerGen = OHRConfig.general.dynNaturePerGen;
     private EntityPlayerMP player;
     private boolean isOpenGui;
 
     public TileDynamoNature() {
-        storage.setMaxExtract(32000);
-        storage.setMaxReceive(1000);
+        storage.setMaxExtract(OHRConfig.general.dynNatureMaxExtract);
+        storage.setMaxReceive(OHRConfig.general.dynNatureMaxReceive);
     }
 
     @Override

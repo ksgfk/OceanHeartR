@@ -154,3 +154,20 @@ redPacket.success=§a[RedPacket]:Send a red packet to§e %s §asuccessfully.
 redPacket.notFoundPlayer=§cFaild: Can't find player§e %s!
 redPacket.backpackFull=§cFaild:§e %s §c's inventory is full!
 redPacket.received=§a[RedPacket]:You receive a red packet form§e %s!
+
+#Config
+oceanheartr.config=Ocean Heart R Config
+oceanheartr.config.general=General
+oceanheartr.config.general.dynNature.maxEnergy=Set Nature Dynamo max energy storage
+oceanheartr.config.general.dynNature.maxExtract=Set Nature Dynamo max energy extract
+oceanheartr.config.general.dynNature.maxReceive=Set Nature Dynamo max energy Receive
+oceanheartr.config.general.dynNature.perGen=Set Nature Dynamo that each crystal power generation
+oceanheartr.config.general.dynNature.canPut=Set whether the Nature Dynamo can be put into polluted Nature Crystallization
+
+oceanheartr.config.general.yggdrasill.grow=Set Whether Sapling of Yggdrasill can grow
+
+oceanheartr.config.general.pul.maxEnergy=Set Pulverizer max energy storage
+oceanheartr.config.general.pul.maxReceive=Set Pulverizer max energy receive
+oceanheartr.config.general.pul.maxExtract=Set Pulverizer max energy extract
+oceanheartr.config.general.pul.perGen=Set Pulverizer process one ore's time(unit tick)
+

@@ -4,6 +4,7 @@ import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.common.block.BlockNatureOre;
 import cn.com.breakdawn.mc.common.init.OHRBlocks;
 import cn.com.breakdawn.mc.common.init.OHRItems;
+import cn.com.breakdawn.mc.config.OHRConfig;
 import cn.com.breakdawn.mc.network.PulMsg;
 import cofh.redstoneflux.api.IEnergyReceiver;
 import cofh.redstoneflux.impl.EnergyStorage;
@@ -26,12 +27,12 @@ import javax.annotation.Nonnull;
  * @auther KSGFK
  */
 public class TilePulverizer extends TileEntity implements IEnergyReceiver, ISidedInventory, ITickable {
-    private EnergyStorage storage = new EnergyStorage(320000).setMaxReceive(80).setMaxExtract(1000);
+    private EnergyStorage storage = new EnergyStorage(OHRConfig.general.pulMaxEnergy);
     private NBTTagCompound nbtTagCompound;
     private EntityPlayerMP player;
     private boolean isOpenGui;
     private int processTime = 0;
-    private int perTime = 100;
+    private int perTime = OHRConfig.general.pulPerGenTime;
     private boolean isProcessing = false;
     private int lastDamage = 0;
 
@@ -54,6 +55,11 @@ public class TilePulverizer extends TileEntity implements IEnergyReceiver, ISide
             return false;
         }
     };
+
+    public TilePulverizer() {
+        storage.setMaxReceive(OHRConfig.general.pulMaxReceive);
+        storage.setMaxExtract(OHRConfig.general.pulMaxExtract);
+    }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
@@ -129,7 +135,8 @@ public class TilePulverizer extends TileEntity implements IEnergyReceiver, ISide
         }
         if (isProcessing && processTime < perTime) {
             int testExt = modifyEnergy(storage.getMaxExtract(), true);
-            if (testExt > 50) {//一枚结晶需要50*100能量
+            if (testExt == storage.getMaxExtract()) {
+                OceanHeartR.getLogger().info(testExt);
                 modifyEnergy(testExt, false);
                 processTime++;
             }

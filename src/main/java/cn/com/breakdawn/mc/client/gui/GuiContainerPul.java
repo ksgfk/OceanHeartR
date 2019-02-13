@@ -42,6 +42,12 @@ public class GuiContainerPul extends GuiContainer {
         this.drawTexturedModalRect(offsetX + 80, offsetY + 30, 0, 156, arrowWidth, 17);
     }
 
+    @Override
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+        String a = energy + "/" + maxEnergy;
+        this.fontRenderer.drawString(a, 88 - this.fontRenderer.getStringWidth(a) / 2, 60, 0x404040);
+    }
+
     public void setEnergy(int energy) {
         this.energy = energy;
     }
