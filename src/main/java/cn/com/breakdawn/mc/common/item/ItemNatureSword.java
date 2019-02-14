@@ -1,6 +1,7 @@
 package cn.com.breakdawn.mc.common.item;
 
 import cn.com.breakdawn.mc.common.init.CreativeTabsOHR;
+import cn.com.breakdawn.mc.config.OHRConfig;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -28,16 +29,21 @@ public class ItemNatureSword extends ItemSword {
 
     @Override
     public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
-        if (entity instanceof EntityMob) {//玩家当前血量+怪物血量0.25
-            float life = (float) (player.getHealth() + ((EntityMob) entity).getHealth() * 0.25);
-            player.setHealth(life);
-            return false;
-        } else if (entity instanceof EntityPlayer) {//PVP随机回复0-5生命
-            float life = new Random().nextFloat() * 5;
-            player.setHealth(life);
-            return false;
-        } else //你不能用这把剑攻击动物!
-            return entity instanceof EntityAnimal;
+        if (!player.world.isRemote) {
+            if (entity instanceof EntityMob) {//玩家当前血量+怪物血量0.25
+                float life = (player.getHealth() + ((EntityMob) entity).getHealth() * OHRConfig.general.natureSwordMob);
+                player.setHealth(life);
+                return false;
+            } else if (entity instanceof EntityPlayer) {//PVP随机回复0-5生命
+                float life = new Random().nextFloat() * OHRConfig.general.natureSwordPVP;
+                player.setHealth(life);
+                return false;
+            } else {
+                if (OHRConfig.general.natureSwordCanHitAnimal) return false;
+                else return entity instanceof EntityAnimal;
+            }
+        }
+        return true;
     }
 
     @Override

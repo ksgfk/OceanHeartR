@@ -158,16 +158,20 @@ redPacket.received=§a[RedPacket]:You receive a red packet form§e %s!
 #Config
 oceanheartr.config=Ocean Heart R Config
 oceanheartr.config.general=General
-oceanheartr.config.general.dynNature.maxEnergy=Set Nature Dynamo max energy storage
-oceanheartr.config.general.dynNature.maxExtract=Set Nature Dynamo max energy extract
-oceanheartr.config.general.dynNature.maxReceive=Set Nature Dynamo max energy Receive
-oceanheartr.config.general.dynNature.perGen=Set Nature Dynamo that each crystal power generation
-oceanheartr.config.general.dynNature.canPut=Set whether the Nature Dynamo can be put into polluted Nature Crystallization
+oceanheartr.config.general.dynNature.maxEnergy=Nature Dynamo max energy storage
+oceanheartr.config.general.dynNature.maxExtract=Nature Dynamo max energy extract
+oceanheartr.config.general.dynNature.maxReceive=Nature Dynamo max energy Receive
+oceanheartr.config.general.dynNature.perGen=Nature Dynamo that each crystal power generation
+oceanheartr.config.general.dynNature.canPut=whether the Nature Dynamo can be put into polluted Nature Crystallization
 
-oceanheartr.config.general.yggdrasill.grow=Set Whether Sapling of Yggdrasill can grow
+oceanheartr.config.general.yggdrasill.grow=Whether Sapling of Yggdrasill can grow
 
-oceanheartr.config.general.pul.maxEnergy=Set Pulverizer max energy storage
-oceanheartr.config.general.pul.maxReceive=Set Pulverizer max energy receive
-oceanheartr.config.general.pul.maxExtract=Set Pulverizer max energy extract
-oceanheartr.config.general.pul.perGen=Set Pulverizer process one ore's time(unit tick)
+oceanheartr.config.general.pul.maxEnergy=Pulverizer max energy storage
+oceanheartr.config.general.pul.maxReceive=Pulverizer max energy receive
+oceanheartr.config.general.pul.maxExtract=Pulverizer max energy extract
+oceanheartr.config.general.pul.perGen=Pulverizer process one ore's time(unit tick)
 
+oceanheartr.config.general.natureSworld.canHitAnimal=Whether nature sword can hit animal
+oceanheartr.config.general.natureSworld.pvp=Nature sword return blood in PVP
+oceanheartr.config.general.natureSworld.mob=Nature sword return blood on hit mob
+oceanheartr.config.general.natureSworldP.damageAdd=Cursed sword damage add

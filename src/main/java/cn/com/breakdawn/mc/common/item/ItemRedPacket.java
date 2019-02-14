@@ -22,9 +22,12 @@ public class ItemRedPacket extends ItemBase {
     @Nonnull
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
-        BlockPos pos = playerIn.getPosition();
-        playerIn.openGui(OceanHeartR.instance, 3, worldIn, pos.getX(), pos.getY(), pos.getZ());
-        return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
+        if (!worldIn.isRemote) {
+            BlockPos pos = playerIn.getPosition();
+            playerIn.openGui(OceanHeartR.instance, 3, worldIn, pos.getX(), pos.getY(), pos.getZ());
+            return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
+        }
+        return ActionResult.newResult(EnumActionResult.FAIL, playerIn.getHeldItem(handIn));
     }
 
     @SideOnly(Side.CLIENT)

@@ -1,5 +1,6 @@
 package cn.com.breakdawn.mc.common.block;
 
+import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.common.init.CreativeTabsOHR;
 import cn.com.breakdawn.mc.config.OHRConfig;
 import cn.com.breakdawn.mc.world.gen.GenYggdrasillTree;
@@ -41,10 +42,12 @@ public class BlockOHRSaplingsWT extends BlockBush implements IGrowable {
 
     @Override
     public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
-        if (OHRConfig.general.canYggdrasillGrow) {
-            if (!(worldIn.isRemote || !TerrainGen.saplingGrowTree(worldIn, rand, pos))) {
+        if (!worldIn.isRemote || !TerrainGen.saplingGrowTree(worldIn, rand, pos)) {
+            if (OHRConfig.general.canYggdrasillGrow) {
                 new GenYggdrasillTree(true).setSloped(true).generate(worldIn, rand, pos);
                 worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 4);
+            } else {
+                OceanHeartR.getLogger().warn("世界树生成已被禁止");
             }
         }
     }

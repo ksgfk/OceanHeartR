@@ -64,6 +64,19 @@ public final class OHRConfig {
         @Config.Name("pulPerGenTime")
         public int pulPerGenTime = 100;
 
-        //TODO:全套自然装备的设置
+        @Config.Comment("Set whether nature sword can hit animal")
+        @Config.LangKey("oceanheartr.config.general.natureSworld.canHitAnimal")
+        @Config.Name("natureSwordCanHitAnimal")
+        public boolean natureSwordCanHitAnimal = false;
+
+        @Config.Comment("Set nature sword return blood in PVP")
+        @Config.LangKey("oceanheartr.config.general.natureSworld.pvp")
+        @Config.Name("natureSwordPVP")
+        public int natureSwordPVP = 5;
+
+        @Config.Comment("Set nature sword return blood on hiting mob ")
+        @Config.LangKey("oceanheartr.config.general.natureSworld.mob")
+        @Config.Name("natureSwordMob")
+        public float natureSwordMob = 0.25f;
     }
 }

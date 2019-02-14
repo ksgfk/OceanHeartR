@@ -158,15 +158,20 @@ redPacket.received=§a[红包]:您收到了来自§e %s §a的一个红包!
 # Config
 oceanheartr.config=海洋之心R配置文件
 oceanheartr.config.general=通用
-oceanheartr.config.general.dynNature.maxEnergy=设置发电机最大容量
-oceanheartr.config.general.dynNature.maxExtract=设置发电机最大能量输出
-oceanheartr.config.general.dynNature.maxReceive=设置发电机最大能量接收
-oceanheartr.config.general.dynNature.perGen=设置每枚结晶在发电机内的发电量
-oceanheartr.config.general.dynNature.canPut=设置发电机是否可以放入被污染的自然结晶
+oceanheartr.config.general.dynNature.maxEnergy=发电机最大容量
+oceanheartr.config.general.dynNature.maxExtract=发电机最大能量输出
+oceanheartr.config.general.dynNature.maxReceive=发电机最大能量接收
+oceanheartr.config.general.dynNature.perGen=每枚结晶在发电机内的发电量
+oceanheartr.config.general.dynNature.canPut=发电机是否可以放入被污染的自然结晶
 
-oceanheartr.config.general.yggdrasill.grow=设置世界树是否可以生长
+oceanheartr.config.general.yggdrasill.grow=世界树是否可以生长
 
-oceanheartr.config.general.pul.maxEnergy=设置打粉机最大能量容
-oceanheartr.config.general.pul.maxReceive=设置打粉机最大能量接受
-oceanheartr.config.general.pul.maxExtract=设置打粉机最大功率
-oceanheartr.config.general.pul.perGen=设置打粉机处理每个矿石所需时间,单位(tick)
+oceanheartr.config.general.pul.maxEnergy=打粉机最大容量
+oceanheartr.config.general.pul.maxReceive=打粉机最大能量接收
+oceanheartr.config.general.pul.maxExtract=打粉机最大功率
+oceanheartr.config.general.pul.perGen=打粉机处理每个矿石所需时间,单位(tick)
+
+oceanheartr.config.general.natureSworld.canHitAnimal=自然之剑是否可以伤害动物
+oceanheartr.config.general.natureSworld.pvp=自然之剑PVP时最大随机回血量
+oceanheartr.config.general.natureSworld.mob=自然之剑对怪回血系数
+oceanheartr.config.general.natureSworldP.damageAdd=诅咒之间增伤
