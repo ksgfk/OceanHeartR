@@ -10,7 +10,6 @@ import cofh.redstoneflux.impl.EnergyStorage;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -25,18 +24,14 @@ import javax.annotation.Nonnull;
  *
  * @author KSGFK
  */
-public class TileDynamoNature extends TileEntity implements ITickable, IEnergyProvider, IEnergyReceiver, ISidedInventory {
+public class TileDynamoNature extends TileInventory implements ITickable, IEnergyProvider, IEnergyReceiver {
     private EnergyStorage storage = new EnergyStorage(OHRConfig.general.dynNatureMaxEnergy);
     private Slot inputSlot = new Slot(this, 0, 80, 30) {
         @Override
         public boolean isItemValid(@Nonnull ItemStack stack) {
-            if (OHRConfig.general.dynNatureCanPut) {
+            if (OHRConfig.general.dynNatureCanPut)
                 return stack.getItem().equals(OHRItems.NATURE_INGOT) && super.isItemValid(stack);
-            } else {
-                ItemStack canValid = new ItemStack(OHRItems.NATURE_INGOT);
-                canValid.setItemDamage(0);
-                return stack.equals(canValid) && super.isItemValid(stack);//只能放入普通自然结晶}
-            }
+            else return stack.getItemDamage() == 0 && super.isItemValid(stack);//只能放入普通自然结晶
         }
 
         @Override
@@ -180,7 +175,6 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
     private int[] a = new int[1];
     private ItemStack air = new ItemStack(Items.AIR);
     public ItemStack[] inventory = new ItemStack[]{air};
-    //private NonNullList<ItemStack> inventory = NonNullList.<ItemStack>withSize(1, ItemStack.EMPTY);
 
     @Override
     public int[] getSlotsForFace(EnumFacing side) {
@@ -260,32 +254,8 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
     }
 
     @Override
-    public void openInventory(EntityPlayer player) {
-
-    }
-
-    @Override
-    public void closeInventory(EntityPlayer player) {
-
-    }
-
-    @Override
     public boolean isItemValidForSlot(int index, ItemStack stack) {
         return true;
-    }
-
-    @Override
-    public int getField(int id) {
-        return 0;
-    }
-
-    @Override
-    public void setField(int id, int value) {
-    }
-
-    @Override
-    public int getFieldCount() {
-        return 1;
     }
 
     @Override
@@ -296,11 +266,6 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
     @Override
     public String getName() {
         return "dynNature";
-    }
-
-    @Override
-    public boolean hasCustomName() {
-        return false;
     }
 
     public void setPlayer(EntityPlayerMP player) {

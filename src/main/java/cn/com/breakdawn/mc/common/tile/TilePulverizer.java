@@ -12,12 +12,10 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 
@@ -26,7 +24,7 @@ import javax.annotation.Nonnull;
 /**
  * @auther KSGFK
  */
-public class TilePulverizer extends TileEntity implements IEnergyReceiver, ISidedInventory, ITickable {
+public class TilePulverizer extends TileInventory implements IEnergyReceiver, ITickable {
     private EnergyStorage storage = new EnergyStorage(OHRConfig.general.pulMaxEnergy);
     private NBTTagCompound nbtTagCompound;
     private EntityPlayerMP player;
@@ -252,32 +250,8 @@ public class TilePulverizer extends TileEntity implements IEnergyReceiver, ISide
     }
 
     @Override
-    public void openInventory(EntityPlayer player) {
-
-    }
-
-    @Override
-    public void closeInventory(EntityPlayer player) {
-
-    }
-
-    @Override
     public boolean isItemValidForSlot(int index, ItemStack stack) {
         return true;
-    }
-
-    @Override
-    public int getField(int id) {
-        return 0;
-    }
-
-    @Override
-    public void setField(int id, int value) {
-    }
-
-    @Override
-    public int getFieldCount() {
-        return 1;
     }
 
     @Override
@@ -289,11 +263,6 @@ public class TilePulverizer extends TileEntity implements IEnergyReceiver, ISide
     @Override
     public String getName() {
         return "pul";
-    }
-
-    @Override
-    public boolean hasCustomName() {
-        return false;
     }
 
     public boolean isOpenGui() {
