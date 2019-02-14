@@ -32,6 +32,8 @@ item.nature_ingot.nether.name=§5Polluted Nature Crystallization
 
 item.nature_powder.overworld.name=§aPower of nature ore
 item.nature_powder.nether.name=§5Power of nature ore
+item.nature_marrow.overworld.name=§aMarrow of nature
+item.nature_marrow.nether.name=§5Power of curse
 
 item.strange_ingot.end.name=§5Void of ingot
 item.strange_ingot.gold.name=§eLegend
@@ -40,7 +42,7 @@ item.strange_ingot.ocean_soul.name=§1Soul of Ocean
 
 item.angle_sword_l1.name=§bAngle Sword
 
-item.red_packet.name=红包
+item.red_packet.name=Red Packet
 
 #Blocks
 tile.first_block.name=Trial type 1

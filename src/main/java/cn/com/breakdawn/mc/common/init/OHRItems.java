@@ -61,6 +61,9 @@ public final class OHRItems {
     @RegItem(value = "nature_powder", oreDict = "powderNature", className = "ItemNaturePowder", isRegisterMultiTextureItem = true)
     public static final Item NATURE_POWDER = new ItemNaturePowder();
 
+    @RegItem(value = "nature_marrow", oreDict = "marrowNature", className = "ItemNaturePowder", isRegisterMultiTextureItem = true)
+    public static final Item NATURE_MARROW = new ItemNaturePowder();
+
     @RegItem(value = "strange_ingot", oreDict = "ingotStrange", className = "ItemStrangeIngot", isRegisterMultiTextureItem = true)
     public static final Item STRANGE_INGOT = new ItemStrangeIngot();
 

@@ -32,6 +32,8 @@ item.nature_ingot.nether.name=§5被污染的自然结晶
 
 item.nature_powder.overworld.name=§a自然矿石粉末
 item.nature_powder.nether.name=§5自然矿石粉末
+item.nature_marrow.overworld.name=§a自然精华
+item.nature_marrow.nether.name=§5诅咒之力
 
 item.strange_ingot.end.name=§5虚空之锭
 item.strange_ingot.gold.name=§e传说
