@@ -35,6 +35,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -72,11 +73,11 @@ public class OceanHeartR {
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(proxy);
         OHRTileEntities.init();
-        MinecraftForge.ORE_GEN_BUS.register(WorldGenOHROres.class);
     }
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
+        GameRegistry.registerWorldGenerator(new WorldGenOHROres(), 0);
         network = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
         OHRNetwork.init();
         gui.init();
