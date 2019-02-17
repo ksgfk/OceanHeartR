@@ -1,16 +1,22 @@
 package cn.com.breakdawn.mc.common.item;
 
+import cn.com.breakdawn.mc.OceanHeartR;
+import cn.com.breakdawn.mc.client.model.NatureLeggings;
 import cn.com.breakdawn.mc.common.init.CreativeTabsOHR;
 import cn.com.breakdawn.mc.common.init.OHRItems;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -76,6 +82,24 @@ public class ItemNatureArmor extends ItemArmor {
             tooltip.add(I18n.format("tooltip.nature_chestplate.normal"));
         } else if (armorType == EntityEquipmentSlot.LEGS) tooltip.add(I18n.format("tooltip.nature_leggings.normal"));
         else if (armorType == EntityEquipmentSlot.FEET) tooltip.add(I18n.format("tooltip.nature_boots.normal"));
+    }
+
+    @Nullable
+    @Override
+    public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot, ModelBiped _default) {
+        if (armorSlot.equals(EntityEquipmentSlot.LEGS))
+            return new NatureLeggings();
+        return super.getArmorModel(entityLiving, itemStack, armorSlot, _default);
+    }
+
+    @Nullable
+    @Override
+    public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
+        if (slot.equals(EntityEquipmentSlot.LEGS)) {
+            ResourceLocation r = new ResourceLocation(OceanHeartR.MODID, "textures/armors/nature_leggings.png");
+            return r.toString();
+        }
+        return super.getArmorTexture(stack, entity, slot, type);
     }
 
     static {
