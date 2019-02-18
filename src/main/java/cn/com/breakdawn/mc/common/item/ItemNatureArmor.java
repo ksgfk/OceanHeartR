@@ -18,6 +18,8 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -66,6 +68,7 @@ public class ItemNatureArmor extends ItemArmor {
         }
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public boolean hasEffect(ItemStack stack) {
         if (armorType == EntityEquipmentSlot.CHEST) {
@@ -84,6 +87,7 @@ public class ItemNatureArmor extends ItemArmor {
         else if (armorType == EntityEquipmentSlot.FEET) tooltip.add(I18n.format("tooltip.nature_boots.normal"));
     }
 
+    @SideOnly(Side.CLIENT)
     @Nullable
     @Override
     public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot, ModelBiped _default) {
@@ -92,6 +96,7 @@ public class ItemNatureArmor extends ItemArmor {
         return super.getArmorModel(entityLiving, itemStack, armorSlot, _default);
     }
 
+    @SideOnly(Side.CLIENT)
     @Nullable
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {

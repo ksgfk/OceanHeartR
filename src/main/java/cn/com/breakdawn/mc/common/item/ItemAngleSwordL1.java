@@ -37,12 +37,9 @@ public class ItemAngleSwordL1 extends ItemSwordBase {
         if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
             tooltip.add(I18n.format("tooltip.more"));
             tooltip.add(I18n.format("tooltip.canUp"));
-            tooltip.add("");
         } else {
             tooltip.add(I18n.format("tooltip.angle_sword_l1.normal"));
-            tooltip.add("");
             tooltip.add(I18n.format("tooltip.shift"));
-            tooltip.add("");
         }
     }
 
@@ -51,9 +48,8 @@ public class ItemAngleSwordL1 extends ItemSwordBase {
         if (stack != null) {
             EnchantmentHelper.setEnchantments(enchMap, stack);
             Util.addUnbreakable(stack);
-            return true;
         }
-        return false;
+        return false;//千万别开附魔效果,太卡了
     }
 
     static {

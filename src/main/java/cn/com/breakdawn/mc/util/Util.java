@@ -1,11 +1,14 @@
 package cn.com.breakdawn.mc.util;
 
 import com.mojang.authlib.GameProfile;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.server.SPacketChunkData;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.management.PlayerChunkMap;
 import net.minecraft.server.management.PlayerChunkMapEntry;
 import net.minecraft.world.World;
@@ -16,6 +19,7 @@ import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -87,15 +91,15 @@ public class Util {
     }
 
     public static GameProfile getOfflinePlayerByName(String name) {
-        for(GameProfile player:FMLCommonHandler.instance().getMinecraftServerInstance().getServerStatusResponse().getPlayers().getPlayers())
-            if(player.getName().equalsIgnoreCase(name))
+        for (GameProfile player : FMLCommonHandler.instance().getMinecraftServerInstance().getServerStatusResponse().getPlayers().getPlayers())
+            if (player.getName().equalsIgnoreCase(name))
                 return player;
         return null;
     }
 
     public static GameProfile getOfflinePlayerByUUID(UUID uuid) {
-        for(GameProfile player:FMLCommonHandler.instance().getMinecraftServerInstance().getServerStatusResponse().getPlayers().getPlayers())
-            if(player.getId().equals(uuid))
+        for (GameProfile player : FMLCommonHandler.instance().getMinecraftServerInstance().getServerStatusResponse().getPlayers().getPlayers())
+            if (player.getId().equals(uuid))
                 return player;
         return null;
     }
@@ -127,5 +131,9 @@ public class Util {
                     entry.sendPacket(new SPacketChunkData(chunk, -1));
             }
         }
+    }
+
+    public static void setPotion(EntityLivingBase entity, int id, int time, int level) {
+        entity.addPotionEffect(new PotionEffect(Objects.requireNonNull(Potion.getPotionById(id)), time, level));
     }
 }

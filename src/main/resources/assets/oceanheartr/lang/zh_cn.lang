@@ -81,6 +81,7 @@ tile.pulverizer.name=打粉机
 tooltip.shift=§o按下SHIFT查看更多
 tooltip.more=§a详情:
 tooltip.canUp=§e可升级
+tooltip.cd=§eCD:
 
 tooltip.nature_ore.overworld.normal=含有半透明绿色结晶的矿石,充满生机
 tooltip.nature_ore.nether.normal=地狱中的一丝生机
@@ -129,6 +130,10 @@ tooltip.fruit_yggdrasill_item.normal=§a看起来就很好吃
 tooltip.angle_sword_l1.normal=一阶天使之剑
 
 tooltip.red_packet.normal=传统意义上的红包也叫压岁钱.是过农历春节时长辈给小孩儿用红纸包裹的钱.据传明清时,压岁钱大多数是用红绳串着赐给孩子.民国以后,则演变为用红纸包裹.现在泛指包着钱的红纸包.
+
+tooltip.vlad_iii_sword.normal=§c世界上第一只吸血鬼的剑
+tooltip.vlad_iii_sword.initiative=§a主动:按下右键时会使周围4x4x4空间内的生物进入虚弱状态,持续5秒.
+tooltip.vlad_iii_sword.passive=§a被动:蓄满力时攻击敌人时吸取1点生命值
 
 # 附魔等级
 enchantment.level.20=XX
