@@ -136,4 +136,14 @@ public class Util {
     public static void setPotion(EntityLivingBase entity, int id, int time, int level) {
         entity.addPotionEffect(new PotionEffect(Objects.requireNonNull(Potion.getPotionById(id)), time, level));
     }
+
+    public static void playerReturnHealth(EntityPlayer player, int health) {
+        boolean canReturnHealth;
+        float cooledAttackStrength = player.getCooledAttackStrength(0);
+        if (cooledAttackStrength > 0 && cooledAttackStrength <= 1) {
+            int cooldown = (int) (cooledAttackStrength * player.getCooldownPeriod());
+            canReturnHealth = cooldown == 16;
+        } else canReturnHealth = false;
+        if (!player.world.isRemote && canReturnHealth) player.setHealth(player.getHealth() + health);
+    }
 }
