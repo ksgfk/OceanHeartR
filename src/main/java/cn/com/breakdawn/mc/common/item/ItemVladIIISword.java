@@ -1,5 +1,6 @@
 package cn.com.breakdawn.mc.common.item;
 
+import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.util.Util;
 import com.google.common.collect.Lists;
 import net.minecraft.client.resources.I18n;
@@ -9,6 +10,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ActionResult;
@@ -58,27 +60,32 @@ public class ItemVladIIISword extends ItemSwordBase {
     @Override
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
         if (!worldIn.isRemote && entityIn instanceof EntityPlayer && stack != null && isSelected) {
-            //TODO:同步CD信息
+            int cd;
+            if (stack.hasTagCompound() && stack.getTagCompound().hasKey("cd")) {
+                NBTTagCompound nbt = stack.getTagCompound();
+                cd = nbt.getInteger("cd");
 
-            EntityPlayer player = (EntityPlayer) entityIn;
-            owner = player;
+                EntityPlayer player = (EntityPlayer) entityIn;
+                owner = player;
 
-            if (cd > 0) cd--;
+                if (cd > 0) nbt.setInteger("cd", cd - 1);
 
-            if (isOpenSkill && lastTickLostHealth <= 0) {
-                player.addPotionEffect(new PotionEffect(fast, 999999999, 1));
-                player.setHealth(player.getHealth() - 1);
-                lastTickLostHealth = 40;
-            } else if (player.isPotionActive(fast)) player.removePotionEffect(fast);
+                if (isOpenSkill && lastTickLostHealth <= 0) {
+                    player.addPotionEffect(new PotionEffect(fast, 999999999, 1));
+                    player.setHealth(player.getHealth() - 1);
+                    lastTickLostHealth = 40;
+                } else if (player.isPotionActive(fast)) player.removePotionEffect(fast);
 
-            lastTickLostHealth--;
+                lastTickLostHealth--;
 
-            if (!canReturnHealth) {
-                float cooledAttackStrength = player.getCooledAttackStrength(0);
-                if (cooledAttackStrength > 0 && cooledAttackStrength < 1) {
-                    int cooldown = (int) (cooledAttackStrength * player.getCooldownPeriod());
-                    canReturnHealth = cooldown == 16;
+                if (!canReturnHealth) {
+                    float cooledAttackStrength = player.getCooledAttackStrength(0);
+                    if (cooledAttackStrength > 0 && cooledAttackStrength < 1) {
+                        int cooldown = (int) (cooledAttackStrength * player.getCooldownPeriod());
+                        canReturnHealth = cooldown == 16;
+                    }
                 }
+                OceanHeartR.getLogger().info(nbt);
             }
         }
     }
@@ -95,7 +102,19 @@ public class ItemVladIIISword extends ItemSwordBase {
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
         //long begintime = System.currentTimeMillis();
-        if (!worldIn.isRemote && (handIn == EnumHand.MAIN_HAND || handIn == EnumHand.OFF_HAND)) {
+        if (!worldIn.isRemote) {
+            ItemStack sword;
+            int cd;
+            sword = handIn == EnumHand.MAIN_HAND ? playerIn.getHeldItemMainhand() : playerIn.getHeldItemOffhand();
+
+            NBTTagCompound nbt = sword.getTagCompound();
+            if (nbt.hasKey("cd")) {
+                cd = nbt.getInteger("cd");
+            } else {
+                nbt.setInteger("cd", 0);
+                cd = nbt.getInteger("cd");
+            }
+
             if (cd <= 0) {
                 if (!isOpenSkill) isOpenSkill = true;
 
@@ -119,9 +138,18 @@ public class ItemVladIIISword extends ItemSwordBase {
                         e.addPotionEffect(new PotionEffect(Objects.requireNonNull(Potion.getPotionById(20)), time));
                     });
                 }
-                cd = maxCD;
+
+                if (sword.hasTagCompound()) {
+                    nbt.setInteger("cd", maxCD);
+                } else {
+                    NBTTagCompound newNBT = new NBTTagCompound();
+                    nbt.setInteger("cd", maxCD);
+                    sword.setTagCompound(newNBT);
+                }
                 return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
             }
+            OceanHeartR.getLogger().info(sword.getTagCompound());
+
         }
 
         if (isOpenSkill) isOpenSkill = false;
