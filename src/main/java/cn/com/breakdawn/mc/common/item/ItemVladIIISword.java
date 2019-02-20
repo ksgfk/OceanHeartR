@@ -1,6 +1,8 @@
 package cn.com.breakdawn.mc.common.item;
 
 import cn.com.breakdawn.mc.OceanHeartR;
+import cn.com.breakdawn.mc.common.init.OHRPotion;
+import cn.com.breakdawn.mc.config.OHRConfig;
 import cn.com.breakdawn.mc.util.Util;
 import com.google.common.collect.Lists;
 import net.minecraft.client.resources.I18n;
@@ -22,7 +24,7 @@ import net.minecraftforge.common.util.EnumHelper;
 import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nullable;
-import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,6 +39,7 @@ public class ItemVladIIISword extends ItemSwordBase {
     private int time = 100;
 
     private Potion fast = Objects.requireNonNull(Potion.getPotionById(1));
+    private Potion bleed = OHRPotion.BLEED;
 
     public ItemVladIIISword() {
         super(VLADIII);
@@ -60,14 +63,14 @@ public class ItemVladIIISword extends ItemSwordBase {
                 boolean isOpening = nbt.getBoolean("isOpening");
                 EntityPlayer player = (EntityPlayer) entityIn;
                 if (isOpening) {
-                    player.addPotionEffect(new PotionEffect(fast, 999999999, 1));
-                    //if (lastTickLostHealth <= 0) {
-                    if (!player.capabilities.isCreativeMode) player.setHealth(player.getHealth() - 0.025f);
-
-                    //    lastTickLostHealth = 40;
-                    //}
-                    //lastTickLostHealth--;
-                } else if (player.isPotionActive(fast)) player.removePotionEffect(fast);
+                    if (!player.isPotionActive(fast)) {
+                        player.addPotionEffect(new PotionEffect(fast, 2000, 1));
+                        player.addPotionEffect(new PotionEffect(bleed, 2000, 1));
+                    }
+                } else if (player.isPotionActive(fast) && player.isPotionActive(bleed)) {
+                    player.removePotionEffect(fast);
+                    player.removePotionEffect(bleed);
+                }
             }
         }
     }
@@ -78,6 +81,8 @@ public class ItemVladIIISword extends ItemSwordBase {
         return false;
     }
 
+    private int maxCD = OHRConfig.general.vladIIIMaxCD;
+
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
         //long begintime = System.currentTimeMillis();
@@ -85,7 +90,6 @@ public class ItemVladIIISword extends ItemSwordBase {
             boolean canUse;
             boolean isOpening;
             long cd;
-            int maxCD = 7200;
             ItemStack sword = handIn == EnumHand.MAIN_HAND ? playerIn.getHeldItemMainhand() : playerIn.getHeldItemOffhand();
             NBTTagCompound nbt = sword.getTagCompound();
 
@@ -142,9 +146,6 @@ public class ItemVladIIISword extends ItemSwordBase {
 
                 return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
             } else if (isOpening) nbt.setBoolean("isOpening", false);
-
-
-            OceanHeartR.getLogger().info(sword.getTagCompound());
         }
 
         //long endtime = System.currentTimeMillis();
@@ -152,11 +153,23 @@ public class ItemVladIIISword extends ItemSwordBase {
         return super.onItemRightClick(worldIn, playerIn, handIn);
     }
 
+    private SimpleDateFormat ft = new SimpleDateFormat("mm:ss");
+
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
             tooltip.add(I18n.format("tooltip.more"));
-            tooltip.add(I18n.format("tooltip.vlad_iii_sword.initiative"));
+            if (stack.hasTagCompound() && stack.getTagCompound().hasKey("cd")) {
+                tooltip.add(I18n.format("tooltip.vlad_iii_sword.initiative"));
+                long now = System.currentTimeMillis();
+                long cd = stack.getTagCompound().getLong("cd") - now;
+                if (cd < 0) {
+                    tooltip.add(I18n.format("tooltip.cd") + 0);
+                } else {
+                    tooltip.add(I18n.format("tooltip.cd ") + ft.format(cd));
+                }
+            } else
+                tooltip.add(I18n.format("tooltip.vlad_iii_sword.initiative"));
             tooltip.add(I18n.format("tooltip.vlad_iii_sword.passive"));
         } else {
             tooltip.add(I18n.format("tooltip.vlad_iii_sword.normal"));

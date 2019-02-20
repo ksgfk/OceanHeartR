@@ -163,6 +163,9 @@ redPacket.notFoundPlayer=§c失败:没有找到玩家§e %s!
 redPacket.backpackFull=§c失败:§e %s §c的背包已满!
 redPacket.received=§a[红包]:您收到了来自§e %s §a的一个红包!
 
+# 药水
+effect.oceanheartr.bleed=流血
+
 # Config
 oceanheartr.config=海洋之心R配置文件
 oceanheartr.config.general=通用
@@ -183,3 +186,5 @@ oceanheartr.config.general.natureSworld.canHitAnimal=自然之剑是否可以伤
 oceanheartr.config.general.natureSworld.pvp=自然之剑PVP时最大随机回血量
 oceanheartr.config.general.natureSworld.mob=自然之剑对怪回血系数
 oceanheartr.config.general.natureSworldP.damageAdd=诅咒之间增伤
+
+oceanheartr.config.general.vladiii.cd=设置弗拉德三世技能CD

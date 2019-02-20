@@ -25,6 +25,7 @@ package cn.com.breakdawn.mc;
 import cn.com.breakdawn.mc.common.CommonProxy;
 import cn.com.breakdawn.mc.common.init.OHRGui;
 import cn.com.breakdawn.mc.common.init.OHRNetwork;
+import cn.com.breakdawn.mc.common.init.OHRPotion;
 import cn.com.breakdawn.mc.common.init.OHRTileEntities;
 import cn.com.breakdawn.mc.world.gen.WorldGenOHROres;
 import net.minecraftforge.common.MinecraftForge;
@@ -35,6 +36,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -73,6 +75,7 @@ public class OceanHeartR {
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(proxy);
         OHRTileEntities.init();
+        OHRPotion.init();
     }
 
     @EventHandler

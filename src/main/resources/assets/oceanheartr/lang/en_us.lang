@@ -163,6 +163,9 @@ redPacket.notFoundPlayer=§cFaild: Can't find player§e %s!
 redPacket.backpackFull=§cFaild:§e %s §c's inventory is full!
 redPacket.received=§a[RedPacket]:You receive a red packet form§e %s!
 
+#Effect
+effect.oceanheartr.bleed=Bleed
+
 #Config
 oceanheartr.config=Ocean Heart R Config
 oceanheartr.config.general=General
@@ -183,3 +186,5 @@ oceanheartr.config.general.natureSworld.canHitAnimal=Whether nature sword can hi
 oceanheartr.config.general.natureSworld.pvp=Nature sword return blood in PVP
 oceanheartr.config.general.natureSworld.mob=Nature sword return blood on hit mob
 oceanheartr.config.general.natureSworldP.damageAdd=Cursed sword damage add
+
+oceanheartr.config.general.vladiii.cd=Set VladIII's cd

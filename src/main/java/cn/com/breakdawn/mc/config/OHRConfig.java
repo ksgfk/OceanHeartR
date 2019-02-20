@@ -4,7 +4,7 @@ import cn.com.breakdawn.mc.OceanHeartR;
 import net.minecraftforge.common.config.Config;
 
 /**
- * @auther KSGFK
+ * @author KSGFK
  */
 @Config(modid = OceanHeartR.MODID)
 @Config.LangKey("oceanheartr.config")
@@ -78,5 +78,10 @@ public final class OHRConfig {
         @Config.LangKey("oceanheartr.config.general.natureSworld.mob")
         @Config.Name("natureSwordMob")
         public float natureSwordMob = 0.25f;
+
+        @Config.Comment("Set cd of VladIII's skill")
+        @Config.LangKey("oceanheartr.config.general.vladiii.cd")
+        @Config.Name("vladIIIMaxCD")
+        public int vladIIIMaxCD = 300;
     }
 }
