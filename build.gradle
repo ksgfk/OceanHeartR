@@ -55,6 +55,7 @@ dependencies {
     // for more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+    compile "codechicken:CodeChickenLib:1.12.2-3.2.2.353:universal"
     deobfCompile "cofh:RedstoneFlux:1.12-${redstoneflux_version}:universal"
     deobfCompile "cofh:CoFHCore:${mc_version}-${cofhcore_version}:universal"
     // compile against the JEI API but do not include it at runtime
@@ -77,7 +78,7 @@ repositories {
     }
     maven {
         name = "ChickenBones repo"
-        url = "http://chickenbones.net/maven/codechicken"
+        url = "http://chickenbones.net/maven/"
     }
 }
 

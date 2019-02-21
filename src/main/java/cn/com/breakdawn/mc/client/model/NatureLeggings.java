@@ -5,6 +5,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 /**
+ * TODO:将模型换成.obj
  * @author KSGFK create in 2019/2/17
  */
 public class NatureLeggings extends ModelArmorStandArmor {

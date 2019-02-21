@@ -1,9 +1,8 @@
 package cn.com.breakdawn.mc.common.item;
 
-import cn.com.breakdawn.mc.OceanHeartR;
-import cn.com.breakdawn.mc.client.model.NatureLeggings;
 import cn.com.breakdawn.mc.common.init.CreativeTabsOHR;
 import cn.com.breakdawn.mc.common.init.OHRItems;
+import cn.com.breakdawn.mc.common.init.OHRModel;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -16,7 +15,6 @@ import net.minecraft.init.Enchantments;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -31,9 +29,6 @@ import java.util.Map;
  * KSGFK 创建于 2019/2/1
  */
 public class ItemNatureArmor extends ItemArmor {
-    /**
-     * 最后一次回饱食度的时间
-     */
     private int lastTime;
     private int airTime;
     private static Map<Enchantment, Integer> enchMap = new HashMap<>();
@@ -50,6 +45,7 @@ public class ItemNatureArmor extends ItemArmor {
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {//盔甲栏序号是反的...3是头盔,0是鞋子
         if (armorType == EntityEquipmentSlot.HEAD) {
+            //TODO:技能改用buff
             if (lastTime < 200) lastTime++;
             else {
                 player.getFoodStats().addStats(1, 1F);
@@ -92,7 +88,10 @@ public class ItemNatureArmor extends ItemArmor {
     @Override
     public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot, ModelBiped _default) {
         if (armorSlot.equals(EntityEquipmentSlot.LEGS))
-            return new NatureLeggings();
+            return null;//TODO:模型
+        else if (armorSlot.equals(EntityEquipmentSlot.HEAD)) {
+            return OHRModel.HEAD_MODEL;
+        }
         return super.getArmorModel(entityLiving, itemStack, armorSlot, _default);
     }
 
@@ -100,9 +99,10 @@ public class ItemNatureArmor extends ItemArmor {
     @Nullable
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
-        if (slot.equals(EntityEquipmentSlot.LEGS)) {
-            ResourceLocation r = new ResourceLocation(OceanHeartR.MODID, "textures/armors/nature_leggings.png");
-            return r.toString();
+        if (slot.equals(EntityEquipmentSlot.LEGS))
+            return OHRModel.LEGS_TEXTURE.toString();
+        else if (slot.equals(EntityEquipmentSlot.HEAD)) {
+            return OHRModel.HEAD_TEXTURE.toString();
         }
         return super.getArmorTexture(stack, entity, slot, type);
     }
