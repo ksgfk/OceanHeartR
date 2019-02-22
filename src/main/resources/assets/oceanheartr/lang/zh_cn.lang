@@ -165,6 +165,8 @@ redPacket.received=§a[红包]:您收到了来自§e %s §a的一个红包!
 
 # 药水
 effect.oceanheartr.bleed=流血
+effect.oceanheartr.feed=饫甘餍肥
+effect.oceanheartr.oxygen=鳃
 
 # Config
 oceanheartr.config=海洋之心R配置文件

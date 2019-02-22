@@ -39,7 +39,6 @@ public class ItemVladIIISword extends ItemSwordBase {
     private int time = 100;
 
     private Potion fast = Objects.requireNonNull(Potion.getPotionById(1));
-    private Potion bleed = OHRPotion.BLEED;
 
     public ItemVladIIISword() {
         super(VLADIII);
@@ -64,12 +63,12 @@ public class ItemVladIIISword extends ItemSwordBase {
                 EntityPlayer player = (EntityPlayer) entityIn;
                 if (isOpening) {
                     if (!player.isPotionActive(fast)) {
-                        player.addPotionEffect(new PotionEffect(fast, 2000, 1));
-                        player.addPotionEffect(new PotionEffect(bleed, 2000, 1));
+                        player.addPotionEffect(new PotionEffect(fast, 20000, 1));
+                        player.addPotionEffect(new PotionEffect(OHRPotion.BLEED, 20000, 0));
                     }
-                } else if (player.isPotionActive(fast) && player.isPotionActive(bleed)) {
+                } else if (player.isPotionActive(fast) && player.isPotionActive(OHRPotion.BLEED)) {
                     player.removePotionEffect(fast);
-                    player.removePotionEffect(bleed);
+                    player.removePotionEffect(OHRPotion.BLEED);
                 }
             }
         }

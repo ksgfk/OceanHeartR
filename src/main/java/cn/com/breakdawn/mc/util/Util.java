@@ -144,6 +144,6 @@ public class Util {
             int cooldown = (int) (cooledAttackStrength * player.getCooldownPeriod());
             canReturnHealth = cooldown == 16;
         } else canReturnHealth = false;
-        if (!player.world.isRemote && canReturnHealth) player.setHealth(player.getHealth() + health);
+        if (!player.world.isRemote && canReturnHealth) player.heal(health);
     }
 }

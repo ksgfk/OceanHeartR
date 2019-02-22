@@ -23,14 +23,16 @@
 package cn.com.breakdawn.mc;
 
 import cn.com.breakdawn.mc.common.CommonProxy;
-import cn.com.breakdawn.mc.common.init.*;
+import cn.com.breakdawn.mc.common.init.OHRGui;
+import cn.com.breakdawn.mc.common.init.OHRNetwork;
+import cn.com.breakdawn.mc.common.init.OHRPotion;
+import cn.com.breakdawn.mc.common.init.OHRTileEntities;
 import cn.com.breakdawn.mc.world.gen.WorldGenOHROres;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;

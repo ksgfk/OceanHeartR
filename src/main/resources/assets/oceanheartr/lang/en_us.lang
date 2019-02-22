@@ -165,6 +165,8 @@ redPacket.received=§a[RedPacket]:You receive a red packet form§e %s!
 
 #Effect
 effect.oceanheartr.bleed=Bleed
+effect.oceanheartr.feed=Full
+effect.oceanheartr.oxygen=Oxygen
 
 #Config
 oceanheartr.config=Ocean Heart R Config

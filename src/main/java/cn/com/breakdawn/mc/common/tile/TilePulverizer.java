@@ -22,7 +22,7 @@ import net.minecraft.util.ITickable;
 import javax.annotation.Nonnull;
 
 /**
- * @auther KSGFK
+ * @author KSGFK
  */
 public class TilePulverizer extends TileInventory implements IEnergyReceiver, ITickable {
     private EnergyStorage storage = new EnergyStorage(OHRConfig.general.pulMaxEnergy);
@@ -134,7 +134,6 @@ public class TilePulverizer extends TileInventory implements IEnergyReceiver, IT
         if (isProcessing && processTime < perTime) {
             int testExt = modifyEnergy(storage.getMaxExtract(), true);
             if (testExt == storage.getMaxExtract()) {
-                OceanHeartR.getLogger().info(testExt);
                 modifyEnergy(testExt, false);
                 processTime++;
             }
