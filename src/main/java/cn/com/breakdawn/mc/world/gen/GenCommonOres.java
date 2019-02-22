@@ -2,6 +2,7 @@ package cn.com.breakdawn.mc.world.gen;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeOcean;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 
@@ -44,6 +45,20 @@ public class GenCommonOres {
             z = chunkZ * 16 + random.nextInt(16);
 
             gen.generate(world, random, new BlockPos(x, y, z));
+        }
+    }
+
+    static void genInOcean(WorldGenerator gen, World world, Random random, int chunkX, int chunkZ, int chance, int minHeight, int maxHeight) {
+        if (minHeight > maxHeight || minHeight < 0 || maxHeight > 256) throw new IllegalArgumentException("矿物生成超出世界边界");
+        int heightDiff = maxHeight - minHeight + 1;
+        for (int a = 0; a < chance; a++) {
+            int x = chunkX * 16 + random.nextInt(16);
+            int y = minHeight + random.nextInt(heightDiff);
+            int z = chunkZ * 16 + random.nextInt(16);
+            BlockPos pos = new BlockPos(x, y, z);
+            if (world.getBiome(pos) instanceof BiomeOcean) {
+                gen.generate(world, random, pos);
+            }
         }
     }
 }

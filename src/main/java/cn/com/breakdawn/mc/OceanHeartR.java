@@ -70,6 +70,10 @@ public class OceanHeartR {
 
     private static OHRGui gui = new OHRGui();
 
+    public static OHRGui getGui() {
+        return gui;
+    }
+
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(proxy);
@@ -83,9 +87,5 @@ public class OceanHeartR {
         network = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
         OHRNetwork.init();
         gui.init();
-    }
-
-    public static OHRGui getGui() {
-        return gui;
     }
 }

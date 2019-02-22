@@ -22,6 +22,7 @@ import net.minecraft.util.ITickable;
 import javax.annotation.Nonnull;
 
 /**
+ * TODO:能打其他矿石的打粉机
  * @author KSGFK
  */
 public class TilePulverizer extends TileInventory implements IEnergyReceiver, ITickable {
