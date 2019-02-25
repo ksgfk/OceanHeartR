@@ -168,6 +168,9 @@ effect.oceanheartr.bleed=流血
 effect.oceanheartr.feed=饫甘餍肥
 effect.oceanheartr.oxygen=鳃
 
+# Enchantment
+enchantment.oceanheartr.soulbond=绑定
+
 # Config
 oceanheartr.config=海洋之心R配置文件
 oceanheartr.config.general=通用

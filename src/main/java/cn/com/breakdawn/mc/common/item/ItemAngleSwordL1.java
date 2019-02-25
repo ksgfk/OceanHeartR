@@ -1,7 +1,7 @@
 package cn.com.breakdawn.mc.common.item;
 
+import cn.com.breakdawn.mc.common.init.OHREnch;
 import cn.com.breakdawn.mc.util.Util;
-//import cofh.core.init.CoreEnchantments;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
@@ -53,6 +53,6 @@ public class ItemAngleSwordL1 extends ItemSwordBase {
     }
 
     static {
-        //enchMap.put(CoreEnchantments.soulbound, 3);
+        enchMap.put(OHREnch.SOUL_BOND, 3);
     }
 }

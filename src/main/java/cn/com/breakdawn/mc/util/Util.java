@@ -1,8 +1,13 @@
 package cn.com.breakdawn.mc.util;
 
+import cn.com.breakdawn.mc.common.init.OHREnch;
 import com.mojang.authlib.GameProfile;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -20,6 +25,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -27,13 +33,8 @@ import java.util.UUID;
  * KSGFK 创建于 2019/2/2
  */
 public class Util {
-    /**
-     * 添加附魔,自带附魔检查
-     *
-     * @param stack 需要附魔的ItemStack
-     * @param id    附魔ID
-     * @param level 附魔等级
-     */
+    public static final Random RANDOM = new Random();
+
     public static void addEnchantment(ItemStack stack, short id, short level) {
         boolean canEnch = false;
 
@@ -145,5 +146,60 @@ public class Util {
             canReturnHealth = cooldown == 16;
         } else canReturnHealth = false;
         if (!player.world.isRemote && canReturnHealth) player.heal(health);
+    }
+
+    public static void removeEnchantment(ItemStack stack, Enchantment enc) {
+
+        if (stack.getTagCompound() == null) {
+            return;
+        }
+        if (!stack.getTagCompound().hasKey("ench", 9)) {
+            return;
+        }
+        NBTTagList list = stack.getTagCompound().getTagList("ench", 10);
+        int encId = Enchantment.getEnchantmentID(enc);
+
+        for (int i = 0; i < list.tagCount(); i++) {
+            NBTTagCompound tag = list.getCompoundTagAt(i);
+            int id = tag.getInteger("id");
+            if (encId == id) {
+                list.removeTag(i);
+                break;
+            }
+        }
+    }
+
+    public static void addEnchantment(ItemStack stack, Enchantment enc, int level) {
+        stack.addEnchantment(enc, level);
+    }
+
+    public static int clamp(int a, int min, int max) {
+        return a < min ? min : (a > max ? max : a);
+    }
+
+    public static boolean addToPlayerInventory(EntityPlayer player, ItemStack stack) {
+        if (stack.isEmpty() || player == null) {
+            return false;
+        }
+        if (stack.getItem() instanceof ItemArmor) {
+            ItemArmor arm = (ItemArmor) stack.getItem();
+            int index = arm.armorType.getIndex();
+            if (player.inventory.armorInventory.get(index).isEmpty()) {
+                player.inventory.armorInventory.set(index, stack);
+                return true;
+            }
+        }
+        InventoryPlayer inv = player.inventory;
+        for (int i = 0; i < inv.mainInventory.size(); i++) {
+            if (inv.mainInventory.get(i).isEmpty()) {
+                inv.mainInventory.set(i, stack.copy());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isSoulbound(ItemStack stack) {
+        return EnchantmentHelper.getEnchantmentLevel(OHREnch.SOUL_BOND, stack) > 0;
     }
 }

@@ -168,6 +168,9 @@ effect.oceanheartr.bleed=Bleed
 effect.oceanheartr.feed=Full
 effect.oceanheartr.oxygen=Oxygen
 
+#Enchantment
+enchantment.oceanheartr.soulbond=Bond
+
 #Config
 oceanheartr.config=Ocean Heart R Config
 oceanheartr.config.general=General

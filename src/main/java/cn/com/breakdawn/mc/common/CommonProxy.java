@@ -25,11 +25,13 @@ package cn.com.breakdawn.mc.common;
 
 import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.common.init.OHRBlocks;
+import cn.com.breakdawn.mc.common.init.OHREnch;
 import cn.com.breakdawn.mc.common.init.OHRItems;
 import cn.com.breakdawn.mc.util.NameBuilder;
 import cn.com.breakdawn.mc.util.RegBlock;
 import cn.com.breakdawn.mc.util.RegItem;
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemMultiTexture;
 import net.minecraft.util.IStringSerializable;
@@ -117,6 +119,13 @@ public class CommonProxy {
                 OceanHeartR.getLogger().warn("Un-able to register item block " + field.toGenericString(), e);
             }
         }
+    }
+
+    @SubscribeEvent
+    public void registerEnchantments(RegistryEvent.Register<Enchantment> event) {
+        event.getRegistry().register(OHREnch.SOUL_BOND);
+
+        OHREnch.init();
     }
 
     /**

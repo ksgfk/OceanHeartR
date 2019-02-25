@@ -23,10 +23,7 @@
 package cn.com.breakdawn.mc;
 
 import cn.com.breakdawn.mc.common.CommonProxy;
-import cn.com.breakdawn.mc.common.init.OHRGui;
-import cn.com.breakdawn.mc.common.init.OHRNetwork;
-import cn.com.breakdawn.mc.common.init.OHRPotion;
-import cn.com.breakdawn.mc.common.init.OHRTileEntities;
+import cn.com.breakdawn.mc.common.init.*;
 import cn.com.breakdawn.mc.world.gen.WorldGenOHROres;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -41,7 +38,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = OceanHeartR.MODID, name = OceanHeartR.NAME, version = OceanHeartR.VERSION,
-        //dependencies = "required-after:cofhcore@[4.6.1,);required-after:codechickenlib@[3.2.2.353,)")
         dependencies = "required-after:codechickenlib@[3.2.2.353,)")
 public class OceanHeartR {
     public static final String MODID = "oceanheartr";
@@ -75,11 +71,14 @@ public class OceanHeartR {
         return gui;
     }
 
+    private static OHREvent ohrEvent = new OHREvent();
+
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(proxy);
         OHRTileEntities.init();
         OHRPotion.init();
+        MinecraftForge.EVENT_BUS.register(ohrEvent);
     }
 
     @EventHandler
