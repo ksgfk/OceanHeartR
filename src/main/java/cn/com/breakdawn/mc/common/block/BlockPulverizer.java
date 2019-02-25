@@ -68,7 +68,7 @@ public class BlockPulverizer extends BlockCanDismantle {
             worldIn.removeTileEntity(pos);
         }
     }
-
+/*
     @Override
     public ArrayList<ItemStack> dismantleBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, boolean returnDrops) {
         TileEntity tile = world.getTileEntity(pos);
@@ -91,4 +91,5 @@ public class BlockPulverizer extends BlockCanDismantle {
     public BlockRenderLayer getBlockLayer() {
         return BlockRenderLayer.CUTOUT;
     }
+    */
 }

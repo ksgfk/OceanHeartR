@@ -41,7 +41,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = OceanHeartR.MODID, name = OceanHeartR.NAME, version = OceanHeartR.VERSION,
-        dependencies = "required-after:cofhcore@[4.6.1,);required-after:codechickenlib@[3.2.2.353,)")
+        //dependencies = "required-after:cofhcore@[4.6.1,);required-after:codechickenlib@[3.2.2.353,)")
+        dependencies = "required-after:codechickenlib@[3.2.2.353,)")
 public class OceanHeartR {
     public static final String MODID = "oceanheartr";
     public static final String NAME = "Ocean Heart R";

@@ -17,8 +17,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * @author KSGFK create in 2019/2/25
@@ -68,7 +66,7 @@ public class BlockPurify extends BlockCanDismantle {
             worldIn.removeTileEntity(pos);
         }
     }
-
+/*
     @Override
     public ArrayList<ItemStack> dismantleBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, boolean returnDrops) {
         TileEntity tile = world.getTileEntity(pos);
@@ -81,7 +79,7 @@ public class BlockPurify extends BlockCanDismantle {
         }
         return this.dismantleDelegate(retTag, world, pos, player, returnDrops, false);
     }
-
+*/
     @Override
     public boolean isOpaqueCube(IBlockState state) {
         return false;

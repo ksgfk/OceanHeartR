@@ -70,7 +70,7 @@ public class BlockDynamoNature extends BlockCanDismantle {
             }
         }
     }
-
+/*
     @Override
     public ArrayList<ItemStack> dismantleBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, boolean returnDrops) {
         TileEntity tile = world.getTileEntity(pos);
@@ -83,4 +83,5 @@ public class BlockDynamoNature extends BlockCanDismantle {
         }
         return dismantleDelegate(retTag, world, pos, player, returnDrops, false);
     }
+*/
 }

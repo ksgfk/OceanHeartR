@@ -1,7 +1,7 @@
 package cn.com.breakdawn.mc.common.block;
 
-import cofh.api.block.IDismantleable;
-import cofh.core.util.CoreUtils;
+//import cofh.api.block.IDismantleable;
+//import cofh.core.util.CoreUtils;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
@@ -14,17 +14,18 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 
 /**
- * @auther KSGFK
+ * @author KSGFK
  */
-public abstract class BlockCanDismantle extends BlockTileBase implements IDismantleable {
+//public abstract class BlockCanDismantle extends BlockTileBase implements IDismantleable {
+public abstract class BlockCanDismantle extends BlockTileBase {
     protected BlockCanDismantle(Material materialIn) {
         super(materialIn);
     }
 
-    @Override
-    public ArrayList<ItemStack> dismantleBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, boolean returnDrops) {
-        return null;
-    }
+    //@Override
+    //public ArrayList<ItemStack> dismantleBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, boolean returnDrops) {
+    //    return null;
+    //}
 
     ArrayList<ItemStack> dismantleDelegate(NBTTagCompound nbt, World world, BlockPos pos, EntityPlayer player, boolean returnDrops, boolean simulate) {
         //TileEntity tile = world.getTileEntity(pos);
@@ -59,17 +60,17 @@ public abstract class BlockCanDismantle extends BlockTileBase implements IDisman
                 //}
                 world.spawnEntity(dropEntity);
 
-                if (player != null) {
-                    CoreUtils.dismantleLog(player.getName(), state.getBlock(), meta, pos);
-                }
+                //if (player != null) {
+                //    CoreUtils.dismantleLog(player.getName(), state.getBlock(), meta, pos);
+                //}
             }
         }
         ret.add(dropBlock);
         return ret;
     }
 
-    @Override
-    public boolean canDismantle(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
-        return true;
-    }
+    //@Override
+    //public boolean canDismantle(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
+    //    return true;
+    //}
 }
