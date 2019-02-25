@@ -5,8 +5,6 @@ import cn.com.breakdawn.mc.util.Util;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.AnvilUpdateEvent;
@@ -16,7 +14,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ListIterator;
 
-//@EventBusSubscriber(modid = OceanHeartR.MODID)
 public class OHREvent {
     @SubscribeEvent
     public static void canPutInAnvil(AnvilUpdateEvent event) {

@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
  * @author ksgfk
  */
 public class ContainerDynamoNature extends Container {
-    private Slot inputSlot;
+    private SlotItemHandler inputSlot;
     private TileDynamoNature dynNature;
 
     public ContainerDynamoNature(TileEntity tileEntity, EntityPlayer player) {

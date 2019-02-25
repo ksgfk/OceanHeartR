@@ -7,26 +7,27 @@ import cn.com.breakdawn.mc.network.DynNatureMsg;
 import cofh.redstoneflux.api.IEnergyProvider;
 import cofh.redstoneflux.api.IEnergyReceiver;
 import cofh.redstoneflux.impl.EnergyStorage;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.Nonnull;
 
 /**
- * 自然结晶发电机本体
+ * TODO:更新背包方式
  *
  * @author KSGFK
  */
-public class TileDynamoNature extends TileInventory implements ITickable, IEnergyProvider, IEnergyReceiver {
+public class TileDynamoNature extends TileEntity implements ITickable, IEnergyProvider, IEnergyReceiver {
     private EnergyStorage storage = new EnergyStorage(OHRConfig.general.dynNatureMaxEnergy);
-    private Slot inputSlot = new Slot(this, 0, 80, 30) {
+    private ItemStackHandler items = new ItemStackHandler(1);
+    private SlotItemHandler inputSlot = new SlotItemHandler(items, 0, 80, 30) {
         @Override
         public boolean isItemValid(@Nonnull ItemStack stack) {
             if (OHRConfig.general.dynNatureCanPut)
@@ -53,37 +54,19 @@ public class TileDynamoNature extends TileInventory implements ITickable, IEnerg
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
-        storage.readFromNBT(nbt.getCompoundTag("info"));
-        this.powerGening = nbt.getCompoundTag("info").getInteger("Gening");
-        if (inputSlot != null) {
-            ItemStack i = new ItemStack(OHRItems.NATURE_INGOT);
-            i.setCount(nbt.getCompoundTag("info").getShort("Count"));
-            i.setItemDamage(nbt.getCompoundTag("info").getShort("Meta"));
-            inputSlot.putStack(i);
-        }
+        storage.readFromNBT(nbt);
+        this.powerGening = nbt.getInteger("Gening");
+        items.deserializeNBT(nbt.getCompoundTag("input"));
         this.nbtTagCompound = nbt;
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        super.writeToNBT(nbt);
-        if (nbt.hasKey("info")) {
-            storage.writeToNBT(nbt.getCompoundTag("info"));
-            nbt.getCompoundTag("info").setShort("Count", (short) inputSlot.getStack().getCount());
-            nbt.getCompoundTag("info").setShort("Meta", (short) inputSlot.getStack().getMetadata());
-            nbt.getCompoundTag("info").setInteger("Gening", this.powerGening);
-        } else {
-            NBTTagCompound n = new NBTTagCompound();
-            storage.writeToNBT(n);
-            n.setInteger("Gening", powerGening);
-            if (inputSlot != null) {
-                n.setShort("Count", (short) inputSlot.getStack().getCount());
-                n.setShort("Meta", (short) inputSlot.getStack().getMetadata());
-            }
-            nbt.setTag("info", n);
-        }
+        nbt.setTag("input", items.serializeNBT());
+        storage.writeToNBT(nbt);
+        nbt.setInteger("Gening", this.powerGening);
         this.nbtTagCompound = nbt;
-        return nbt;
+        return super.writeToNBT(nbt);
     }
 
     /* IEnergyConnection */
@@ -172,101 +155,8 @@ public class TileDynamoNature extends TileInventory implements ITickable, IEnerg
     }
 
     /*储存*/
-    private int[] a = new int[1];
     private ItemStack air = new ItemStack(Items.AIR);
     public ItemStack[] inventory = new ItemStack[]{air};
-
-    @Override
-    public int[] getSlotsForFace(EnumFacing side) {
-        return a;
-    }
-
-    @Override
-    public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
-        return true;
-    }
-
-    @Override
-    public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
-        return false;
-    }
-
-    @Override
-    public int getSizeInventory() {
-        return 1;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        for (ItemStack stack : inventory) {
-            if (!stack.isEmpty()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public ItemStack getStackInSlot(int index) {
-        return inventory[index];
-    }
-
-    @Override
-    public ItemStack decrStackSize(int index, int count) {
-        if (inventory[index].isEmpty()) {
-            return ItemStack.EMPTY;
-        }
-        if (inventory[index].getCount() <= count) {
-            count = inventory[index].getCount();
-        }
-        ItemStack stack = inventory[index].splitStack(count);
-
-        if (inventory[index].getCount() <= 0) {
-            inventory[index] = ItemStack.EMPTY;
-        }
-        return stack;
-    }
-
-    @Override
-    public ItemStack removeStackFromSlot(int index) {
-        if (inventory[index].isEmpty()) {
-            return ItemStack.EMPTY;
-        }
-        ItemStack stack = inventory[index];
-        inventory[index] = ItemStack.EMPTY;
-        return stack;
-    }
-
-    @Override
-    public void setInventorySlotContents(int index, ItemStack stack) {
-        inventory[index] = stack;
-        this.markDirty();
-    }
-
-    @Override
-    public int getInventoryStackLimit() {
-        return 64;
-    }
-
-    @Override
-    public boolean isUsableByPlayer(EntityPlayer player) {
-        return player.getDistanceSq(pos) <= 64D && world.getTileEntity(pos) == this;
-    }
-
-    @Override
-    public boolean isItemValidForSlot(int index, ItemStack stack) {
-        return true;
-    }
-
-    @Override
-    public void clear() {
-        inventory[0] = new ItemStack(Items.AIR);
-    }
-
-    @Override
-    public String getName() {
-        return "dynNature";
-    }
 
     public void setPlayer(EntityPlayerMP player) {
         this.player = player;
@@ -276,27 +166,11 @@ public class TileDynamoNature extends TileInventory implements ITickable, IEnerg
         isOpenGui = openGui;
     }
 
-    public Slot getInputSlot() {
+    public SlotItemHandler getInputSlot() {
         return inputSlot;
     }
 
-    public void setInputSlot(Slot inputSlot) {
+    public void setInputSlot(SlotItemHandler inputSlot) {
         this.inputSlot = inputSlot;
-    }
-
-    public EnergyStorage getStorage() {
-        return storage;
-    }
-
-    public NBTTagCompound getNbtTagCompound() {
-        return nbtTagCompound;
-    }
-
-    public void setNbtTagCompound(NBTTagCompound nbtTagCompound) {
-        this.nbtTagCompound = nbtTagCompound;
-    }
-
-    public void setPowerGening(int powerGening) {
-        this.powerGening = powerGening;
     }
 }

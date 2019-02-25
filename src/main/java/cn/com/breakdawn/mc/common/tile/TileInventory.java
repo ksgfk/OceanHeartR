@@ -7,7 +7,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 
 /**
- * @auther KSGFK
+ * @author KSGFK
  */
 public abstract class TileInventory extends TileEntity implements ISidedInventory {
     @Override
