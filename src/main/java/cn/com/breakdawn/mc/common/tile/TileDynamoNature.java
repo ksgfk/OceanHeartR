@@ -4,11 +4,10 @@ import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.common.init.OHRItems;
 import cn.com.breakdawn.mc.config.OHRConfig;
 import cn.com.breakdawn.mc.network.DynNatureMsg;
+import cn.com.breakdawn.mc.util.RedStoneEnergy;
 import cofh.redstoneflux.api.IEnergyProvider;
 import cofh.redstoneflux.api.IEnergyReceiver;
-import cofh.redstoneflux.impl.EnergyStorage;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -20,12 +19,10 @@ import net.minecraftforge.items.SlotItemHandler;
 import javax.annotation.Nonnull;
 
 /**
- * TODO:更新背包方式
- *
  * @author KSGFK
  */
 public class TileDynamoNature extends TileEntity implements ITickable, IEnergyProvider, IEnergyReceiver {
-    private EnergyStorage storage = new EnergyStorage(OHRConfig.general.dynNatureMaxEnergy);
+    private RedStoneEnergy storage = new RedStoneEnergy(OHRConfig.general.dynNatureMaxEnergy);
     private ItemStackHandler items = new ItemStackHandler(1);
     private SlotItemHandler inputSlot = new SlotItemHandler(items, 0, 80, 30) {
         @Override
@@ -40,7 +37,6 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
             return 64;
         }
     };
-    private NBTTagCompound nbtTagCompound;
     private int powerGening = 0;
     private int maxPowerGen = OHRConfig.general.dynNaturePerGen;
     private EntityPlayerMP player;
@@ -55,17 +51,15 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
         storage.readFromNBT(nbt);
-        this.powerGening = nbt.getInteger("Gening");
+        powerGening = nbt.getInteger("Gening");
         items.deserializeNBT(nbt.getCompoundTag("input"));
-        this.nbtTagCompound = nbt;
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setTag("input", items.serializeNBT());
         storage.writeToNBT(nbt);
-        nbt.setInteger("Gening", this.powerGening);
-        this.nbtTagCompound = nbt;
+        nbt.setInteger("Gening", powerGening);
+        nbt.setTag("input", items.serializeNBT());
         return super.writeToNBT(nbt);
     }
 
@@ -100,10 +94,9 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
 
     public void update() {
         if (!world.isRemote) {
-            //OceanHeartR.getLogger().info();
             /*发电*/
-            if (inventory[0].getItem().equals(OHRItems.NATURE_INGOT)) {
-                ItemStack nature = inventory[0];
+            if (items.getStackInSlot(0).getItem().equals(OHRItems.NATURE_INGOT)) {
+                ItemStack nature = items.getStackInSlot(0);
                 if (powerGening == 0) {
                     if (nature.getCount() > 0) {
                         nature.setCount(nature.getCount() - 1);
@@ -154,10 +147,6 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
         }
     }
 
-    /*储存*/
-    private ItemStack air = new ItemStack(Items.AIR);
-    public ItemStack[] inventory = new ItemStack[]{air};
-
     public void setPlayer(EntityPlayerMP player) {
         this.player = player;
     }
@@ -168,9 +157,5 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
 
     public SlotItemHandler getInputSlot() {
         return inputSlot;
-    }
-
-    public void setInputSlot(SlotItemHandler inputSlot) {
-        this.inputSlot = inputSlot;
     }
 }

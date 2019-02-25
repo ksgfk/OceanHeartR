@@ -1,107 +1,39 @@
 package cn.com.breakdawn.mc.inventory;
 
+import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.common.tile.TileDynamoNature;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.SlotItemHandler;
-
-import javax.annotation.Nonnull;
-import java.util.List;
+import sausage_core.api.core.inventory.ContainerBase;
 
 /**
- * 自然结晶发电机箱子容器
- *
  * @author ksgfk
  */
-public class ContainerDynamoNature extends Container {
-    private SlotItemHandler inputSlot;
-    private TileDynamoNature dynNature;
-
+public class ContainerDynamoNature extends ContainerBase<TileDynamoNature> {
     public ContainerDynamoNature(TileEntity tileEntity, EntityPlayer player) {
-        super();
-        this.dynNature = (TileDynamoNature) tileEntity;
-        inputSlot = dynNature.getInputSlot();
-        /*机器*/
-        this.addSlotToContainer(inputSlot);
-        /*玩家背包*/
-        for (int i = 0; i < 3; ++i) {
-            for (int j = 0; j < 9; ++j) {
+        super(tileEntity);
+        if (tileEntity instanceof TileDynamoNature) {
+            TileDynamoNature tile = (TileDynamoNature) tileEntity;
+            SlotItemHandler inputSlot = tile.getInputSlot();
+            this.addSlotToContainer(inputSlot);
+        } else OceanHeartR.getLogger().error("How can it be!");
+
+        for (int i = 0; i < 3; ++i)
+            for (int j = 0; j < 9; ++j)
                 this.addSlotToContainer(new Slot(player.inventory, j + i * 9 + 9, 8 + j * 18, 74 + i * 18));
-            }
-        }
-        for (int i = 0; i < 9; ++i) {
+
+        for (int i = 0; i < 9; ++i)
             this.addSlotToContainer(new Slot(player.inventory, i, 8 + i * 18, 132));
-        }
-    }
-
-    @Override
-    public boolean canInteractWith(EntityPlayer playerIn) {
-        return playerIn.getDistanceSq(this.dynNature.getPos()) <= 64;
-    }
-
-    /**
-     * 来自ChinaCraft2红包代码
-     */
-    @Nonnull
-    @Override
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
-        ItemStack var3 = ItemStack.EMPTY;
-        Slot var4 = this.inventorySlots.get(par2);
-        if (var4 != null && var4.getHasStack()) {
-            ItemStack var5 = var4.getStack();
-            var3 = var5.copy();
-            // 点击到Slot的ID为0的时候，将物品送回玩家的背包中
-            if (par2 == 0) {
-                if (!this.mergeItemStack(var5, 1, 28, false)) {
-                    return ItemStack.EMPTY;
-                }
-                var4.onSlotChange(var5, var3);
-            }
-            // 点击到玩家的背包的时候将物品送到玩家的快捷栏中
-            else if (par2 > 0 && par2 < 28) {
-                if (!this.mergeItemStack(var5, 28, 37, false)) {
-                    return ItemStack.EMPTY;
-                }
-            }
-            // 点击到玩家的快捷栏的时候将物品送到背包中
-            else if (par2 >= 28 && par2 < 37) {
-                if (!this.mergeItemStack(var5, 1, 28, false)) {
-                    return ItemStack.EMPTY;
-                }
-            }
-            if (var5.getMaxStackSize() == 0) {
-                var4.putStack(ItemStack.EMPTY);
-            } else {
-                var4.onSlotChanged();
-            }
-            if (var5.getMaxStackSize() == var3.getMaxStackSize()) {
-                return ItemStack.EMPTY;
-            }
-            var4.onTake(par1EntityPlayer, var5);
-        }
-        return var3;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void setAll(List<ItemStack> stacks) {
-        for (int i = 0; i < stacks.size(); ++i) {
-            putStackInSlot(i, stacks.get(i));
-        }
     }
 
     @Override
     public void onContainerClosed(EntityPlayer playerIn) {
-        dynNature.setOpenGui(false);
-        dynNature.setInputSlot(inputSlot);
+        tileEntity.setOpenGui(false);
     }
 
     public TileDynamoNature getDynNature() {
-        return dynNature;
+        return tileEntity;
     }
 }
