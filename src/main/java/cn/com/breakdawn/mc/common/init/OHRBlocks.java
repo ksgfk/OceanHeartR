@@ -57,4 +57,7 @@ public final class OHRBlocks {
 
     @RegBlock("pulverizer")
     public static final Block PULVERIZER = new BlockPulverizer();
+
+    @RegBlock("purify")
+    public static final Block PURIFY = new BlockPurify();
 }
