@@ -9,7 +9,7 @@ import net.minecraftforge.items.SlotItemHandler;
 import sausage_core.api.core.inventory.ContainerBase;
 
 /**
- * @author ksgfk
+ * @author KSGFK
  */
 public class ContainerDynamoNature extends ContainerBase<TileDynamoNature> {
     public ContainerDynamoNature(TileEntity tileEntity, EntityPlayer player) {

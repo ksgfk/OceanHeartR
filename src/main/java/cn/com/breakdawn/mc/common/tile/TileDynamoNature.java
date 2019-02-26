@@ -94,13 +94,23 @@ public class TileDynamoNature extends TileEntity implements ITickable {
                     world.getTileEntity(pos.north()),
                     world.getTileEntity(pos.east()),
                     world.getTileEntity(pos.west())};
-            for (int a = 0; a < EnumFacing.values().length; a++) {
-                if (all[a] != null) {
-                    receiveRF(all[a], EnumFacing.getFront(a), storage.getMaxExtract());
-                }
-            }
+            for (int a = 0; a < EnumFacing.values().length; a++)
+                if (all[a] != null) receiveRF(all[a], EnumFacing.getFront(a), storage.getMaxExtract());
             if (isOpenGui)
                 OceanHeartR.getNetwork().sendTo(new DynNatureMsg(storage.getEnergyStored(), storage.getMaxEnergyStored(), powerGening), player);
+        }
+    }
+
+    private void receiveRF(TileEntity tileEntity, EnumFacing to, int ext) {
+        if (tileEntity.hasCapability(CapabilityEnergy.ENERGY, to)) {
+            if (tileEntity.getCapability(CapabilityEnergy.ENERGY, to).canReceive()) {
+                int testRec = tileEntity.getCapability(CapabilityEnergy.ENERGY, to).receiveEnergy(ext, true);
+                int testExt = storage.extractEnergy(ext, true);
+                if (testRec > 0 && testExt > 0) {
+                    tileEntity.getCapability(CapabilityEnergy.ENERGY, to).receiveEnergy(testRec, false);
+                    storage.extractEnergy(testRec, false);
+                }
+            }
         }
     }
 
@@ -113,23 +123,6 @@ public class TileDynamoNature extends TileEntity implements ITickable {
     @Override
     public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
         return CapabilityEnergy.ENERGY.cast(storage);
-    }
-
-    private void receiveRF(TileEntity tileEntity, EnumFacing to, int ext) {
-        if (tileEntity.hasCapability(CapabilityEnergy.ENERGY, to)) {
-            if (tileEntity.getCapability(CapabilityEnergy.ENERGY, to).canReceive()) {
-                int testRec = tileEntity.getCapability(CapabilityEnergy.ENERGY, to).receiveEnergy(ext, true);
-                int testExt = storage.extractEnergy(ext, true);
-                if (testRec > 0 && testExt > 0) {
-                    tileEntity.getCapability(CapabilityEnergy.ENERGY, to).receiveEnergy(testRec, false);
-                    storage.extractEnergy(testRec, false);
-                }
-            } else {
-                OceanHeartR.getLogger().info("cant receive");
-            }
-        } else {
-            OceanHeartR.getLogger().info("it is null");
-        }
     }
 
     public void setPlayer(EntityPlayerMP player) {

@@ -6,28 +6,30 @@ import cn.com.breakdawn.mc.common.init.OHRBlocks;
 import cn.com.breakdawn.mc.common.init.OHRItems;
 import cn.com.breakdawn.mc.config.OHRConfig;
 import cn.com.breakdawn.mc.network.PulMsg;
-import cofh.redstoneflux.api.IEnergyReceiver;
-import cofh.redstoneflux.impl.EnergyStorage;
+import cn.com.breakdawn.mc.util.RedStoneEnergy;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * TODO:能打其他矿石的打粉机
+ *
  * @author KSGFK
  */
-public class TilePulverizer extends TileInventory implements IEnergyReceiver, ITickable {
-    private EnergyStorage storage = new EnergyStorage(OHRConfig.general.pulMaxEnergy);
-    private NBTTagCompound nbtTagCompound;
+public class TilePulverizer extends TileEntity implements ITickable {
+    private RedStoneEnergy storage = new RedStoneEnergy(OHRConfig.general.pulMaxEnergy);
     private EntityPlayerMP player;
     private boolean isOpenGui;
     private int processTime = 0;
@@ -37,7 +39,8 @@ public class TilePulverizer extends TileInventory implements IEnergyReceiver, IT
 
     private IBlockState block = OHRBlocks.NATURE_ORE.getDefaultState().withProperty(BlockNatureOre.VARIANT, BlockNatureOre.EnumType.OVERWORLD);
 
-    private Slot inputSlot = new Slot(this, 0, 56, 30) {
+    private ItemStackHandler items = new ItemStackHandler(2);
+    private SlotItemHandler inputSlot = new SlotItemHandler(items, 0, 56, 30) {
         @Override
         public boolean isItemValid(@Nonnull ItemStack stack) {
             return stack.getItem().equals(Item.getItemFromBlock(block.getBlock())) && super.isItemValid(stack);
@@ -48,7 +51,7 @@ public class TilePulverizer extends TileInventory implements IEnergyReceiver, IT
             return 64;
         }
     };
-    private Slot outputSlot = new Slot(this, 1, 110, 30) {
+    private SlotItemHandler outputSlot = new SlotItemHandler(items, 1, 110, 30) {
         @Override
         public boolean isItemValid(ItemStack stack) {
             return false;
@@ -63,49 +66,17 @@ public class TilePulverizer extends TileInventory implements IEnergyReceiver, IT
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
-        storage.readFromNBT(nbt.getCompoundTag("info"));
-        this.processTime = nbt.getCompoundTag("info").getInteger("process");
-        if (inputSlot != null) {
-            ItemStack i = new ItemStack(block.getBlock());
-            i.setCount(nbt.getCompoundTag("info").getShort("inCount"));
-            i.setItemDamage(nbt.getCompoundTag("info").getShort("inMeta"));
-            inputSlot.putStack(i);
-        }
-        if (inputSlot != null) {
-            ItemStack s = new ItemStack(OHRItems.NATURE_POWDER);
-            s.setCount(nbt.getCompoundTag("info").getShort("outCount"));
-            s.setItemDamage(nbt.getCompoundTag("info").getShort("outMeta"));
-            outputSlot.putStack(s);
-        }
-        this.nbtTagCompound = nbt;
+        storage.readFromNBT(nbt);
+        processTime = nbt.getInteger("process");
+        items.deserializeNBT(nbt.getCompoundTag("items"));
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        super.writeToNBT(nbt);
-        if (nbt.hasKey("info")) {
-            storage.writeToNBT(nbt.getCompoundTag("info"));
-            nbt.getCompoundTag("info").setShort("inCount", (short) inputSlot.getStack().getCount());
-            nbt.getCompoundTag("info").setShort("inMeta", (short) inputSlot.getStack().getMetadata());
-            nbt.getCompoundTag("info").setShort("outCount", (short) outputSlot.getStack().getCount());
-            nbt.getCompoundTag("info").setShort("outMeta", (short) outputSlot.getStack().getMetadata());
-            nbt.getCompoundTag("info").setInteger("Gening", this.processTime);
-        } else {
-            NBTTagCompound n = new NBTTagCompound();
-            storage.writeToNBT(n);
-            n.setInteger("process", processTime);
-            if (inputSlot != null) {
-                n.setShort("inCount", (short) inputSlot.getStack().getCount());
-                n.setShort("inMeta", (short) inputSlot.getStack().getMetadata());
-            }
-            if (outputSlot != null) {
-                n.setShort("outCount", (short) outputSlot.getStack().getCount());
-                n.setShort("outMeta", (short) outputSlot.getStack().getMetadata());
-            }
-            nbt.setTag("info", n);
-        }
-        this.nbtTagCompound = nbt;
-        return nbt;
+        storage.writeToNBT(nbt);
+        nbt.setInteger("process", processTime);
+        nbt.setTag("items", items.serializeNBT());
+        return super.writeToNBT(nbt);
     }
 
     @Override
@@ -117,14 +88,13 @@ public class TilePulverizer extends TileInventory implements IEnergyReceiver, IT
                 processOre(1);
             }
 
-            if (isOpenGui) {
+            if (isOpenGui)
                 OceanHeartR.getNetwork().sendTo(new PulMsg(storage.getEnergyStored(), storage.getMaxEnergyStored(), processTime), player);
-            }
         }
     }
 
     private void processOre(int itemDamage) {
-        ItemStack in = inputSlot.getStack();
+        ItemStack in = items.getStackInSlot(0);
         int count = in.getCount();
         if (!in.isEmpty() && !isProcessing) {
             in.setCount(count - 1);
@@ -142,11 +112,11 @@ public class TilePulverizer extends TileInventory implements IEnergyReceiver, IT
 
         if (processTime >= perTime) {
             isProcessing = false;
-            ItemStack stack = outputSlot.getStack();
+            ItemStack stack = items.getStackInSlot(1);
             if (!stack.getItem().equals(OHRItems.NATURE_POWDER)) {
                 ItemStack normal = new ItemStack(OHRItems.NATURE_POWDER);
                 normal.setItemDamage(lastDamage);
-                outputSlot.putStack(normal);
+                items.setStackInSlot(1, normal);
                 stack.setCount(stack.getCount() + 1);
                 processTime = 0;
             } else {
@@ -167,106 +137,15 @@ public class TilePulverizer extends TileInventory implements IEnergyReceiver, IT
         return energyExtracted;
     }
 
-    /*储存*/
-    private int[] a = new int[2];
-    private ItemStack air = new ItemStack(Items.AIR);
-    public ItemStack[] inventory = new ItemStack[]{air, air};
-
     @Override
-    public int[] getSlotsForFace(EnumFacing side) {
-        return a;
+    public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
+        return capability.equals(CapabilityEnergy.ENERGY);
     }
 
+    @Nullable
     @Override
-    public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
-        return true;
-    }
-
-    @Override
-    public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
-        return true;
-    }
-
-    @Override
-    public int getSizeInventory() {
-        return 2;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        for (ItemStack stack : inventory) {
-            if (!stack.isEmpty()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public ItemStack getStackInSlot(int index) {
-        return inventory[index];
-    }
-
-    @Override
-    public ItemStack decrStackSize(int index, int count) {
-        if (inventory[index].isEmpty()) {
-            return ItemStack.EMPTY;
-        }
-        if (inventory[index].getCount() <= count) {
-            count = inventory[index].getCount();
-        }
-        ItemStack stack = inventory[index].splitStack(count);
-
-        if (inventory[index].getCount() <= 0) {
-            inventory[index] = ItemStack.EMPTY;
-        }
-        return stack;
-    }
-
-    @Override
-    public ItemStack removeStackFromSlot(int index) {
-        if (inventory[index].isEmpty()) {
-            return ItemStack.EMPTY;
-        }
-        ItemStack stack = inventory[index];
-        inventory[index] = ItemStack.EMPTY;
-        return stack;
-    }
-
-    @Override
-    public void setInventorySlotContents(int index, ItemStack stack) {
-        inventory[index] = stack;
-        this.markDirty();
-    }
-
-    @Override
-    public int getInventoryStackLimit() {
-        return 64;
-    }
-
-    @Override
-    public boolean isUsableByPlayer(EntityPlayer player) {
-        return player.getDistanceSq(pos) <= 64D && world.getTileEntity(pos) == this;
-    }
-
-    @Override
-    public boolean isItemValidForSlot(int index, ItemStack stack) {
-        return true;
-    }
-
-    @Override
-    public void clear() {
-        inventory[0] = new ItemStack(Items.AIR);
-
-    }
-
-    @Override
-    public String getName() {
-        return "pul";
-    }
-
-    public boolean isOpenGui() {
-        return isOpenGui;
+    public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+        return CapabilityEnergy.ENERGY.cast(storage);
     }
 
     public void setOpenGui(boolean openGui) {
@@ -281,23 +160,11 @@ public class TilePulverizer extends TileInventory implements IEnergyReceiver, IT
         this.player = player;
     }
 
-    public Slot getInputSlot() {
+    public SlotItemHandler getInputSlot() {
         return inputSlot;
     }
 
-    public void setInputSlot(Slot inputSlot) {
-        this.inputSlot = inputSlot;
-    }
-
-    public NBTTagCompound getNbt() {
-        return nbtTagCompound;
-    }
-
-    public void setNbt(NBTTagCompound nbt) {
-        this.nbtTagCompound = nbt;
-    }
-
-    public Slot getOutputSlot() {
+    public SlotItemHandler getOutputSlot() {
         return outputSlot;
     }
 
@@ -305,26 +172,7 @@ public class TilePulverizer extends TileInventory implements IEnergyReceiver, IT
         return perTime;
     }
 
-    /* IEnergyConnection */
-    @Override
-    public boolean canConnectEnergy(EnumFacing from) {
-        return true;
-    }
-
-    /* IEnergyReceiver */
-    @Override
-    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
-        return storage.receiveEnergy(maxReceive, simulate);
-    }
-
-    /* IEnergyHandler */
-    @Override
-    public int getEnergyStored(EnumFacing from) {
-        return storage.getEnergyStored();
-    }
-
-    @Override
-    public int getMaxEnergyStored(EnumFacing from) {
+    public int getMaxEnergyStored(EnumFacing facing) {
         return storage.getMaxEnergyStored();
     }
 }

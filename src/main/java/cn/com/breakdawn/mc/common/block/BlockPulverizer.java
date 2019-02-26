@@ -2,6 +2,7 @@ package cn.com.breakdawn.mc.common.block;
 
 import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.common.tile.TilePulverizer;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -10,20 +11,18 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
- * @auther KSGFK
+ * @author KSGFK
  */
-public class BlockPulverizer extends BlockCanDismantle {
+public class BlockPulverizer extends BlockContainer {
     public BlockPulverizer() {
         super(Material.IRON);
     }
@@ -68,7 +67,23 @@ public class BlockPulverizer extends BlockCanDismantle {
             worldIn.removeTileEntity(pos);
         }
     }
-/*
+
+    @Override
+    public boolean isFullCube(IBlockState state) {
+        return false;
+    }
+
+    @Override
+    public EnumBlockRenderType getRenderType(IBlockState state) {//渲染类型设为普通方块
+        return EnumBlockRenderType.MODEL;
+    }
+
+    @Override
+    public boolean isOpaqueCube(IBlockState state) {
+        return false;
+    }
+
+    /*
     @Override
     public ArrayList<ItemStack> dismantleBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, boolean returnDrops) {
         TileEntity tile = world.getTileEntity(pos);
