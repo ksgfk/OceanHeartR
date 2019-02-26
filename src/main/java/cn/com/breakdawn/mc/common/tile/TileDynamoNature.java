@@ -5,23 +5,23 @@ import cn.com.breakdawn.mc.common.init.OHRItems;
 import cn.com.breakdawn.mc.config.OHRConfig;
 import cn.com.breakdawn.mc.network.DynNatureMsg;
 import cn.com.breakdawn.mc.util.RedStoneEnergy;
-import cofh.redstoneflux.api.IEnergyProvider;
-import cofh.redstoneflux.api.IEnergyReceiver;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * @author KSGFK
  */
-public class TileDynamoNature extends TileEntity implements ITickable, IEnergyProvider, IEnergyReceiver {
+public class TileDynamoNature extends TileEntity implements ITickable {
     private RedStoneEnergy storage = new RedStoneEnergy(OHRConfig.general.dynNatureMaxEnergy);
     private ItemStackHandler items = new ItemStackHandler(1);
     private SlotItemHandler inputSlot = new SlotItemHandler(items, 0, 80, 30) {
@@ -62,26 +62,22 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
         nbt.setTag("input", items.serializeNBT());
         return super.writeToNBT(nbt);
     }
-
-    /* IEnergyConnection */
+    /*
     @Override
     public boolean canConnectEnergy(EnumFacing from) {
         return true;
     }
 
-    /* IEnergyReceiver */
     @Override
     public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
         return storage.receiveEnergy(maxReceive, simulate);
     }
 
-    /* IEnergyProvider */
     @Override
     public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
         return storage.extractEnergy(maxExtract, simulate);
     }
 
-    /* IEnergyHandler */
     @Override
     public int getEnergyStored(EnumFacing from) {
         return storage.getEnergyStored();
@@ -91,7 +87,7 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
     public int getMaxEnergyStored(EnumFacing from) {
         return storage.getMaxEnergyStored();
     }
-
+    */
     public void update() {
         if (!world.isRemote) {
             /*发电*/
@@ -124,7 +120,7 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
                     world.getTileEntity(pos.west())};
             for (int a = 0; a < EnumFacing.values().length; a++) {
                 if (all[a] != null) {
-                    receiveRF(all[a], EnumFacing.getFront(a), storage.getMaxExtract());
+                    //receiveRF(all[a], EnumFacing.getFront(a), storage.getMaxExtract());
                 }
             }
             if (isOpenGui) {
@@ -133,6 +129,17 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
         }
     }
 
+    @Override
+    public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
+        return true;
+    }
+
+    @Nullable
+    @Override
+    public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+        return super.getCapability(capability, facing);
+    }
+    /*
     private void receiveRF(TileEntity tileEntity, EnumFacing to, int ext) {
         if (tileEntity instanceof IEnergyReceiver) {
             IEnergyReceiver r = (IEnergyReceiver) tileEntity;
@@ -143,10 +150,11 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
                     r.receiveEnergy(to, testRec, false);
                     this.extractEnergy(null, testRec, false);
                 }
+                TODO:不使用redstone flux API发送能量
             }
         }
     }
-
+    */
     public void setPlayer(EntityPlayerMP player) {
         this.player = player;
     }
@@ -157,5 +165,9 @@ public class TileDynamoNature extends TileEntity implements ITickable, IEnergyPr
 
     public SlotItemHandler getInputSlot() {
         return inputSlot;
+    }
+
+    public int getMaxEnergyStored(EnumFacing facing){
+        return storage.getMaxEnergyStored();
     }
 }

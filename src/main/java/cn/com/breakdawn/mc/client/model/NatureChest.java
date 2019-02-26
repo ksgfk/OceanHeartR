@@ -12,18 +12,18 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
 /**
- * @author KSGFK create in 2019/2/20
+ * @author KSGFK create in 2019/2/25
  */
-public class NatureHeltmet extends ModelBiped {
-    private static final ResourceLocation MODEL = new ResourceLocation(OceanHeartR.MODID, "textures/armors/nature_helmet.obj");
+public class NatureChest extends ModelBiped {
+    private static final ResourceLocation MODEL = new ResourceLocation(OceanHeartR.MODID, "textures/armors/nature_chest.obj");
     private CCModel model;
     private CCRenderState ccrs;
 
-    public NatureHeltmet() {
+    public NatureChest() {
         this.bipedHead = new ModelRenderer(this, 0, 0);
         this.bipedHead.addBox(-4, -8, -4, 8, 8, 8, 0);
         this.bipedHead.setRotationPoint(0.0F, 0.0F, 6.0F);
-        model = OBJParser.parseModels(MODEL).get("Box003");
+        model = OBJParser.parseModels(MODEL).get("Box005");
         ccrs = CCRenderState.instance();
     }
 
@@ -39,17 +39,8 @@ public class NatureHeltmet extends ModelBiped {
     }
 
     private void renderCore() {
-        GlStateManager.scale(0.015F, 0.015F, 0.015F);
+        GlStateManager.scale(0.0125F, 0.0125F, 0.0125F);
         GlStateManager.rotate(180f, 1f, 0, 0);
-        if (bipedHead.rotateAngleZ != 0.0F) {
-            GlStateManager.rotate(bipedHead.rotateAngleZ * (180F / (float) Math.PI), 0.0F, 0.0F, 1.0F);
-        }
-        if (bipedHead.rotateAngleY != 0.0F) {
-            GlStateManager.rotate(-bipedHead.rotateAngleY * (180F / (float) Math.PI), 0.0F, 1.0F, 0.0F);
-        }
-        if (bipedHead.rotateAngleX != 0.0F) {
-            GlStateManager.rotate(bipedHead.rotateAngleX * (180F / (float) Math.PI), 1.0F, 0.0F, 0.0F);
-        }
         ccrs.reset();
         ccrs.startDrawing(4, DefaultVertexFormats.ITEM);
         model.render(ccrs);

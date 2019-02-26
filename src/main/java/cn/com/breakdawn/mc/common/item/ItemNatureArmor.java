@@ -65,10 +65,8 @@ public class ItemNatureArmor extends ItemArmor {
     @SideOnly(Side.CLIENT)
     @Override
     public boolean hasEffect(ItemStack stack) {
-        if (armorType == EntityEquipmentSlot.CHEST) {
+        if (armorType == EntityEquipmentSlot.CHEST)
             EnchantmentHelper.setEnchantments(enchMap, stack);
-            return true;
-        }
         return false;
     }
 
@@ -84,8 +82,9 @@ public class ItemNatureArmor extends ItemArmor {
     @Nullable
     @Override
     public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot, ModelBiped _default) {
-        if (armorSlot.equals(EntityEquipmentSlot.LEGS)) return null;//TODO:模型
+        if (armorSlot.equals(EntityEquipmentSlot.LEGS)) return null;
         else if (armorSlot.equals(EntityEquipmentSlot.HEAD)) return OHRModel.HEAD_MODEL;
+        else if (armorSlot.equals(EntityEquipmentSlot.CHEST)) return OHRModel.CHEST_MODEL;
         return super.getArmorModel(entityLiving, itemStack, armorSlot, _default);
     }
 
@@ -95,6 +94,7 @@ public class ItemNatureArmor extends ItemArmor {
     public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
         if (slot.equals(EntityEquipmentSlot.LEGS)) return OHRModel.LEGS_TEXTURE.toString();
         else if (slot.equals(EntityEquipmentSlot.HEAD)) return OHRModel.HEAD_TEXTURE.toString();
+        else if (slot.equals(EntityEquipmentSlot.CHEST)) return OHRModel.CHEST_TEXTURE.toString();
         return super.getArmorTexture(stack, entity, slot, type);
     }
 
