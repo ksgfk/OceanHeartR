@@ -12,6 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
@@ -62,32 +63,7 @@ public class TileDynamoNature extends TileEntity implements ITickable {
         nbt.setTag("input", items.serializeNBT());
         return super.writeToNBT(nbt);
     }
-    /*
-    @Override
-    public boolean canConnectEnergy(EnumFacing from) {
-        return true;
-    }
 
-    @Override
-    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
-        return storage.receiveEnergy(maxReceive, simulate);
-    }
-
-    @Override
-    public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
-        return storage.extractEnergy(maxExtract, simulate);
-    }
-
-    @Override
-    public int getEnergyStored(EnumFacing from) {
-        return storage.getEnergyStored();
-    }
-
-    @Override
-    public int getMaxEnergyStored(EnumFacing from) {
-        return storage.getMaxEnergyStored();
-    }
-    */
     public void update() {
         if (!world.isRemote) {
             /*发电*/
@@ -120,41 +96,42 @@ public class TileDynamoNature extends TileEntity implements ITickable {
                     world.getTileEntity(pos.west())};
             for (int a = 0; a < EnumFacing.values().length; a++) {
                 if (all[a] != null) {
-                    //receiveRF(all[a], EnumFacing.getFront(a), storage.getMaxExtract());
+                    receiveRF(all[a], EnumFacing.getFront(a), storage.getMaxExtract());
                 }
             }
-            if (isOpenGui) {
+            if (isOpenGui)
                 OceanHeartR.getNetwork().sendTo(new DynNatureMsg(storage.getEnergyStored(), storage.getMaxEnergyStored(), powerGening), player);
-            }
         }
     }
 
     @Override
     public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-        return true;
+        return capability.equals(CapabilityEnergy.ENERGY);
     }
 
     @Nullable
     @Override
     public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-        return super.getCapability(capability, facing);
+        return CapabilityEnergy.ENERGY.cast(storage);
     }
-    /*
+
     private void receiveRF(TileEntity tileEntity, EnumFacing to, int ext) {
-        if (tileEntity instanceof IEnergyReceiver) {
-            IEnergyReceiver r = (IEnergyReceiver) tileEntity;
-            if (r.canConnectEnergy(to)) {
-                int testRec = r.receiveEnergy(to, ext, true);
-                int testExt = this.extractEnergy(null, ext, true);
+        if (tileEntity.hasCapability(CapabilityEnergy.ENERGY, to)) {
+            if (tileEntity.getCapability(CapabilityEnergy.ENERGY, to).canReceive()) {
+                int testRec = tileEntity.getCapability(CapabilityEnergy.ENERGY, to).receiveEnergy(ext, true);
+                int testExt = storage.extractEnergy(ext, true);
                 if (testRec > 0 && testExt > 0) {
-                    r.receiveEnergy(to, testRec, false);
-                    this.extractEnergy(null, testRec, false);
+                    tileEntity.getCapability(CapabilityEnergy.ENERGY, to).receiveEnergy(testRec, false);
+                    storage.extractEnergy(testRec, false);
                 }
-                TODO:不使用redstone flux API发送能量
+            } else {
+                OceanHeartR.getLogger().info("cant receive");
             }
+        } else {
+            OceanHeartR.getLogger().info("it is null");
         }
     }
-    */
+
     public void setPlayer(EntityPlayerMP player) {
         this.player = player;
     }
@@ -167,7 +144,7 @@ public class TileDynamoNature extends TileEntity implements ITickable {
         return inputSlot;
     }
 
-    public int getMaxEnergyStored(EnumFacing facing){
+    public int getMaxEnergyStored(EnumFacing facing) {
         return storage.getMaxEnergyStored();
     }
 }
