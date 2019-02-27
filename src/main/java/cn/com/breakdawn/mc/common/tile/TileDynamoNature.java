@@ -140,4 +140,8 @@ public class TileDynamoNature extends TileEntity implements ITickable {
     public int getMaxEnergyStored(EnumFacing facing) {
         return storage.getMaxEnergyStored();
     }
+
+    public int getMaxPowerGen() {
+        return maxPowerGen;
+    }
 }

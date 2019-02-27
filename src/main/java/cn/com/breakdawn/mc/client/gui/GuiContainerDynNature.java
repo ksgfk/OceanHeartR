@@ -22,6 +22,8 @@ public class GuiContainerDynNature extends GuiContainer {
     private ContainerDynamoNature dynamoNature;
     private int energy;
     private int maxEnergy;
+    private int gening;
+    private int maxPowerGen;
 
     public GuiContainerDynNature(ContainerDynamoNature inventorySlotsIn) {
         super(inventorySlotsIn);
@@ -30,6 +32,7 @@ public class GuiContainerDynNature extends GuiContainer {
         this.dynamoNature = inventorySlotsIn;
 
         maxEnergy = dynamoNature.getDynNature().getMaxEnergyStored(null);
+        maxPowerGen = dynamoNature.getDynNature().getMaxPowerGen();
     }
 
     @Override
@@ -41,6 +44,9 @@ public class GuiContainerDynNature extends GuiContainer {
 
         int textureWidth = energy * 89 / maxEnergy;
         this.drawTexturedModalRect(offsetX + 43, offsetY + 55, 0, 156, textureWidth, 4);
+
+        int wide = (maxPowerGen - gening) * 26 / maxPowerGen;
+        this.drawTexturedModalRect(offsetX + 102, offsetY + 25, 89, 156, wide, 26);
     }
 
     @Override
@@ -58,5 +64,9 @@ public class GuiContainerDynNature extends GuiContainer {
 
     public void setMaxEnergy(int maxEnergy) {
         this.maxEnergy = maxEnergy;
+    }
+
+    public void setGening(int gening) {
+        this.gening = gening;
     }
 }

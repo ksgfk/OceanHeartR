@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.Side;
 /**
  * 给客户端发送能量数据
  *
- * @auther KSGFK
+ * @author KSGFK
  */
 public class DynNatureMsg implements IMessage {
     private int energy;
@@ -32,14 +32,17 @@ public class DynNatureMsg implements IMessage {
     public void fromBytes(ByteBuf buf) {
         String e = ByteBufUtils.readUTF8String(buf);
         String m = ByteBufUtils.readUTF8String(buf);
+        String g = ByteBufUtils.readUTF8String(buf);
         energy = Integer.parseInt(e);
         maxEnergy = Integer.parseInt(m);
+        gening = Integer.parseInt(g);
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
         ByteBufUtils.writeUTF8String(buf, String.valueOf(energy));
         ByteBufUtils.writeUTF8String(buf, String.valueOf(maxEnergy));
+        ByteBufUtils.writeUTF8String(buf, String.valueOf(gening));
     }
 
     public int getEnergy() {
@@ -50,6 +53,10 @@ public class DynNatureMsg implements IMessage {
         return maxEnergy;
     }
 
+    public int getGening() {
+        return gening;
+    }
+
     public static class Handler implements IMessageHandler<DynNatureMsg, IMessage> {
 
         @Override
@@ -57,7 +64,8 @@ public class DynNatureMsg implements IMessage {
             if (ctx.side == Side.CLIENT) {
                 Minecraft.getMinecraft().addScheduledTask(() -> {
                     OceanHeartR.getGui().getDynNature().setEnergy(message.getEnergy());
-                    OceanHeartR.getGui().getDynNature().setMaxEnergy(message.getMaxEnergy());
+                    //OceanHeartR.getGui().getDynNature().setMaxEnergy(message.getMaxEnergy());
+                    OceanHeartR.getGui().getDynNature().setGening(message.getGening());
                 });
             }
             return null;
