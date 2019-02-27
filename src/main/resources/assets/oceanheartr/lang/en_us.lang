@@ -76,6 +76,7 @@ tile.fruit_yggdrasill.name=§cFruit of Yggdrasill
 tile.dynamo_nature.name=Nature Dynamo Mk.Ⅰ
 tile.pulverizer.name=Pulverizer
 tile.purify.name=Purify
+tile.phi.name=Nuclear fusion
 
 #Tooltip
 tooltip.shift=§oPress SHIFT to see more

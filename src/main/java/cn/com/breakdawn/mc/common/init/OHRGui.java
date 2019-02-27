@@ -1,14 +1,8 @@
 package cn.com.breakdawn.mc.common.init;
 
 import cn.com.breakdawn.mc.OceanHeartR;
-import cn.com.breakdawn.mc.client.gui.GuiContainerDynNature;
-import cn.com.breakdawn.mc.client.gui.GuiContainerPul;
-import cn.com.breakdawn.mc.client.gui.GuiContainerPurify;
-import cn.com.breakdawn.mc.client.gui.GuiContainerRedPacket;
-import cn.com.breakdawn.mc.inventory.ContainerDynamoNature;
-import cn.com.breakdawn.mc.inventory.ContainerPulverizer;
-import cn.com.breakdawn.mc.inventory.ContainerPurify;
-import cn.com.breakdawn.mc.inventory.ContainerRedPacket;
+import cn.com.breakdawn.mc.client.gui.*;
+import cn.com.breakdawn.mc.inventory.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -24,6 +18,7 @@ public class OHRGui implements IGuiHandler {
     private GuiContainerDynNature dynNature;
     private GuiContainerPul pul;
     private GuiContainerPurify purify;
+    private GuiContainerPhi phi;
 
     public void init() {
         NetworkRegistry.INSTANCE.registerGuiHandler(OceanHeartR.instance, this);
@@ -41,6 +36,8 @@ public class OHRGui implements IGuiHandler {
                 return new ContainerPulverizer(world.getTileEntity(new BlockPos(x, y, z)), player);
             case 6:
                 return new ContainerPurify(world.getTileEntity(new BlockPos(x, y, z)), player);
+            case 7:
+                return new ContainerPhi(world.getTileEntity(new BlockPos(x, y, z)), player);
             default:
                 return null;
         }
@@ -58,6 +55,8 @@ public class OHRGui implements IGuiHandler {
                 return pul = new GuiContainerPul(new ContainerPulverizer(world.getTileEntity(new BlockPos(x, y, z)), player));
             case 6:
                 return purify = new GuiContainerPurify(new ContainerPurify(world.getTileEntity(new BlockPos(x, y, z)), player));
+            case 7:
+                return phi = new GuiContainerPhi(new ContainerPhi(world.getTileEntity(new BlockPos(x, y, z)), player));
             default:
                 return null;
         }
@@ -73,5 +72,9 @@ public class OHRGui implements IGuiHandler {
 
     public GuiContainerPurify getPurify() {
         return purify;
+    }
+
+    public GuiContainerPhi getPhi() {
+        return phi;
     }
 }

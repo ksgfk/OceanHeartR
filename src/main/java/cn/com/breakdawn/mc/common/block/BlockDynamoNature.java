@@ -10,7 +10,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -34,10 +33,7 @@ public class BlockDynamoNature extends BlockTileBase {
     @Nullable
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
-        NBTTagCompound nbt = new NBTTagCompound();
-        TileDynamoNature dyn = new TileDynamoNature();
-        dyn.readFromNBT(nbt);
-        return dyn;
+        return new TileDynamoNature();
     }
 
     @Override

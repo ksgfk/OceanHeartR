@@ -60,4 +60,7 @@ public final class OHRBlocks {
 
     @RegBlock("purify")
     public static final Block PURIFY = new BlockPurify();
+
+    @RegBlock("phi")
+    public static final Block PHI = new BlockPhi();
 }

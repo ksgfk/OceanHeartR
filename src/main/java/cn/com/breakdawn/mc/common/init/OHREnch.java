@@ -10,6 +10,6 @@ public class OHREnch {
     public static final Enchantment SOUL_BOND = new EnchSoulBond();
 
     public static void init() {
-        CreativeTabsOHR.tabsOceanHeart.setRelevantEnchantmentTypes(SOUL_BOND.type);
+        //CreativeTabsOHR.tabsOceanHeart.setRelevantEnchantmentTypes(SOUL_BOND.type);
     }
 }
