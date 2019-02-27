@@ -1,13 +1,11 @@
 package cn.com.breakdawn.mc.common.tile;
 
 import cn.com.breakdawn.mc.OceanHeartR;
-import cn.com.breakdawn.mc.common.block.BlockNatureOre;
 import cn.com.breakdawn.mc.common.init.OHRBlocks;
 import cn.com.breakdawn.mc.common.init.OHRItems;
 import cn.com.breakdawn.mc.config.OHRConfig;
 import cn.com.breakdawn.mc.network.PulMsg;
 import cn.com.breakdawn.mc.util.RedStoneEnergy;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -34,16 +32,14 @@ public class TilePulverizer extends TileEntity implements ITickable {
     private boolean isOpenGui;
     private int processTime = 0;
     private int perTime = OHRConfig.general.pulPerGenTime;
-    private boolean isProcessing = false;
-    private int lastDamage = 0;
-
-    private IBlockState block = OHRBlocks.NATURE_ORE.getDefaultState().withProperty(BlockNatureOre.VARIANT, BlockNatureOre.EnumType.OVERWORLD);
+    private boolean isProcessing;
+    private int lastDamage;
 
     private ItemStackHandler items = new ItemStackHandler(2);
     private SlotItemHandler inputSlot = new SlotItemHandler(items, 0, 56, 30) {
         @Override
         public boolean isItemValid(@Nonnull ItemStack stack) {
-            return stack.getItem().equals(Item.getItemFromBlock(block.getBlock())) && super.isItemValid(stack);
+            return stack.getItem().equals(Item.getItemFromBlock(OHRBlocks.NATURE_ORE)) && super.isItemValid(stack);
         }
 
         @Override
@@ -68,6 +64,8 @@ public class TilePulverizer extends TileEntity implements ITickable {
         super.readFromNBT(nbt);
         storage.readFromNBT(nbt);
         processTime = nbt.getInteger("process");
+        isProcessing = nbt.getBoolean("isProcess");
+        lastDamage = nbt.getInteger("last");
         items.deserializeNBT(nbt.getCompoundTag("items"));
     }
 
@@ -75,6 +73,8 @@ public class TilePulverizer extends TileEntity implements ITickable {
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
         storage.writeToNBT(nbt);
         nbt.setInteger("process", processTime);
+        nbt.setBoolean("isProcess", isProcessing);
+        nbt.setInteger("last", lastDamage);
         nbt.setTag("items", items.serializeNBT());
         return super.writeToNBT(nbt);
     }
@@ -82,59 +82,41 @@ public class TilePulverizer extends TileEntity implements ITickable {
     @Override
     public void update() {
         if (!world.isRemote) {
-            if (inputSlot.getStack().getItemDamage() == 0) {
-                processOre(0);
-            } else if (inputSlot.getStack().getItemDamage() == 1) {
-                processOre(1);
+            int testExt = storage.extractEnergy(storage.getMaxExtract(), true);
+            if (testExt == storage.getMaxExtract()) {
+                if (isProcessing) {
+                    if (processTime >= perTime) {
+                        if (items.getStackInSlot(1).getCount() < items.getStackInSlot(1).getMaxStackSize()) {
+                            isProcessing = false;
+                            if (!items.getStackInSlot(1).isEmpty()) {
+                                if (lastDamage != items.getStackInSlot(1).getItemDamage()) {
+                                    if (lastDamage == 0 && items.getStackInSlot(1).getItemDamage() == 1)
+                                        items.getStackInSlot(1).setCount(items.getStackInSlot(1).getCount() + 1);
+                                    else {
+                                        items.getStackInSlot(1).setItemDamage(1);
+                                        items.getStackInSlot(1).setCount(items.getStackInSlot(1).getCount() + 1);
+                                    }
+                                } else
+                                    items.getStackInSlot(1).setCount(items.getStackInSlot(1).getCount() + 1);
+                            } else
+                                items.setStackInSlot(1, new ItemStack(OHRItems.NATURE_POWDER, 1, lastDamage));
+                            processTime = 0;
+                        }
+                    } else {
+                        storage.extractEnergy(testExt, false);
+                        processTime++;
+                    }
+                } else if (!items.getStackInSlot(0).isEmpty()) {
+                    items.getStackInSlot(0).setCount(items.getStackInSlot(0).getCount() - 1);
+                    processTime = 0;
+                    isProcessing = true;
+                    lastDamage = items.getStackInSlot(0).getItemDamage();
+                }
             }
 
             if (isOpenGui)
                 OceanHeartR.getNetwork().sendTo(new PulMsg(storage.getEnergyStored(), storage.getMaxEnergyStored(), processTime), player);
         }
-    }
-
-    private void processOre(int itemDamage) {
-        ItemStack in = items.getStackInSlot(0);
-        int count = in.getCount();
-        if (!in.isEmpty() && !isProcessing) {
-            in.setCount(count - 1);
-            isProcessing = true;
-            processTime = 0;
-            lastDamage = in.getItemDamage();
-        }
-        if (isProcessing && processTime < perTime) {
-            int testExt = modifyEnergy(storage.getMaxExtract(), true);
-            if (testExt == storage.getMaxExtract()) {
-                modifyEnergy(testExt, false);
-                processTime++;
-            }
-        }
-
-        if (processTime >= perTime) {
-            isProcessing = false;
-            ItemStack stack = items.getStackInSlot(1);
-            if (!stack.getItem().equals(OHRItems.NATURE_POWDER)) {
-                ItemStack normal = new ItemStack(OHRItems.NATURE_POWDER);
-                normal.setItemDamage(lastDamage);
-                items.setStackInSlot(1, normal);
-                stack.setCount(stack.getCount() + 1);
-                processTime = 0;
-            } else {
-                if (stack.getItemDamage() != itemDamage) {
-                    stack.setItemDamage(1);
-                }
-                stack.setCount(stack.getCount() + 1);
-                processTime = 0;
-            }
-        }
-    }
-
-    private int modifyEnergy(int maxExtract, boolean simulate) {
-        int energyExtracted = Math.min(storage.getEnergyStored(), Math.min(storage.getMaxEnergyStored(), maxExtract));
-        if (!simulate) {
-            storage.setEnergyStored(storage.getEnergyStored() - energyExtracted);
-        }
-        return energyExtracted;
     }
 
     @Override
