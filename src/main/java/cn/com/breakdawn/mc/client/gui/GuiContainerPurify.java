@@ -4,6 +4,7 @@ import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.inventory.ContainerPurify;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -44,6 +45,9 @@ public class GuiContainerPurify extends GuiContainer {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+        String title = I18n.format("tile.purify.name");
+        this.fontRenderer.drawString(title, (this.xSize - this.fontRenderer.getStringWidth(title)) / 2, 6, 0x404040);
+
         String a = energy + "/" + maxEnergy;
         this.fontRenderer.drawString(a, 88 - this.fontRenderer.getStringWidth(a) / 2, 60, 0x404040);
     }

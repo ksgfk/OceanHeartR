@@ -135,6 +135,9 @@ tooltip.vlad_iii_sword.normal=§c世界上第一只吸血鬼的剑
 tooltip.vlad_iii_sword.initiative=§a主动:按下右键时会使周围4x4x4空间内的生物进入虚弱状态,持续5秒.
 tooltip.vlad_iii_sword.passive=§a被动:蓄满力时攻击敌人时吸取1点生命值
 
+tooltip.dynamo_nature.normal=从自然结晶中提取RF能源
+tooltip.purify.normal=自然矿石粉末中含有大量杂质,会影响结晶时的纯度
+
 # 附魔等级
 enchantment.level.20=XX
 enchantment.level.25=XXV

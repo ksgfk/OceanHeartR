@@ -4,6 +4,8 @@ import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.common.tile.TileDynamoNature;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -16,6 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * 自然结晶发电机
@@ -67,5 +70,10 @@ public class BlockDynamoNature extends BlockTileBase {
                 dyn.readFromNBT(stack.getTagCompound());
             }
         }
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced) {
+        tooltip.add(I18n.format("tooltip.dynamo_nature.normal"));
     }
 }

@@ -133,7 +133,10 @@ tooltip.red_packet.normal=The red packet in the traditional sense is also called
 
 tooltip.vlad_iii_sword.normal=§cThe sword of the first vampire in the world
 tooltip.vlad_iii_sword.initiative=§a主动:Pressing the right button will cause the creatures in the surrounding 4x4x4 space to enter a weak state.Lasts 5 seconds.CD:
-tooltip.vlad_iii_sword.passive=§a被动:蓄满力时攻击敌人时吸取1点生命值
+tooltip.vlad_iii_sword.passive=§aPassive: 1 point of health when attacking enemies when full
+
+tooltip.dynamo_nature.normal=Extracting RF energy from natural crystallization
+tooltip.purify.normal=Natural ore powder contains a lot of impurities, which will affect the purity during crystallization.
 
 #Enchantment level
 enchantment.level.20=XX

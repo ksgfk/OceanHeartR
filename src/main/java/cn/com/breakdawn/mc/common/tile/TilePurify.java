@@ -102,8 +102,8 @@ public class TilePurify extends TileEntity implements ITickable {
                         storage.extractEnergy(testExt, false);
                         processTime++;
                     }
-                } else if (!items.getStackInSlot(0).isEmpty()) {
-                    items.getStackInSlot(0).setCount(items.getStackInSlot(0).getCount() - 1);
+                } else if (!items.getStackInSlot(0).equals(ItemStack.EMPTY) && items.getStackInSlot(0).getCount() > 1) {
+                    items.getStackInSlot(0).setCount(items.getStackInSlot(0).getCount() - 2);
                     processTime = 0;
                     isProcessing = true;
                     lastDamage = items.getStackInSlot(0).getItemDamage();
