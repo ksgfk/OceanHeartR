@@ -1,31 +1,29 @@
 package cn.com.breakdawn.mc.common.tile;
 
 import cn.com.breakdawn.mc.OceanHeartR;
-import cn.com.breakdawn.mc.common.block.BlockNatureOre;
-import cn.com.breakdawn.mc.common.init.OHRBlocks;
 import cn.com.breakdawn.mc.common.init.OHRItems;
 import cn.com.breakdawn.mc.config.OHRConfig;
 import cn.com.breakdawn.mc.network.PurifyMsg;
-import cofh.redstoneflux.api.IEnergyReceiver;
-import cofh.redstoneflux.impl.EnergyStorage;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import cn.com.breakdawn.mc.util.RedStoneEnergy;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * @author KSGFK create in 2019/2/25
  */
-public class TilePurify extends TileInventory implements IEnergyReceiver, ITickable {
-    private EnergyStorage storage = new EnergyStorage(OHRConfig.general.pulMaxEnergy);
-    private NBTTagCompound nbtTagCompound;
+public class TilePurify extends TileEntity implements ITickable {
+    private RedStoneEnergy storage = new RedStoneEnergy(OHRConfig.general.pulMaxEnergy);
     private EntityPlayerMP player;
     private boolean isOpenGui;
     private int processTime = 0;
@@ -33,7 +31,8 @@ public class TilePurify extends TileInventory implements IEnergyReceiver, ITicka
     private boolean isProcessing = false;
     private int lastDamage = 0;
 
-    private Slot inputSlot = new Slot(this, 0, 56, 30) {
+    private ItemStackHandler items = new ItemStackHandler(2);
+    private SlotItemHandler inputSlot = new SlotItemHandler(items, 0, 56, 30) {
         @Override
         public boolean isItemValid(@Nonnull ItemStack stack) {
             return stack.getItem().equals(OHRItems.NATURE_POWDER) && super.isItemValid(stack);
@@ -44,7 +43,7 @@ public class TilePurify extends TileInventory implements IEnergyReceiver, ITicka
             return 64;
         }
     };
-    private Slot outputSlot = new Slot(this, 1, 110, 30) {
+    private SlotItemHandler outputSlot = new SlotItemHandler(items, 1, 110, 30) {
         @Override
         public boolean isItemValid(ItemStack stack) {
             return false;
@@ -59,212 +58,72 @@ public class TilePurify extends TileInventory implements IEnergyReceiver, ITicka
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
-        storage.readFromNBT(nbt.getCompoundTag("info"));
-        this.processTime = nbt.getCompoundTag("info").getInteger("process");
-        if (inputSlot != null) {
-            ItemStack i = new ItemStack(OHRItems.NATURE_POWDER);
-            i.setCount(nbt.getCompoundTag("info").getShort("inCount"));
-            i.setItemDamage(nbt.getCompoundTag("info").getShort("inMeta"));
-            inputSlot.putStack(i);
-        }
-        if (outputSlot != null) {
-            ItemStack s = new ItemStack(OHRItems.NATURE_MARROW);
-            s.setCount(nbt.getCompoundTag("info").getShort("outCount"));
-            s.setItemDamage(nbt.getCompoundTag("info").getShort("outMeta"));
-            outputSlot.putStack(s);
-        }
-        this.nbtTagCompound = nbt;
+        storage.readFromNBT(nbt);
+        processTime = nbt.getInteger("process");
+        isProcessing = nbt.getBoolean("isProcess");
+        lastDamage = nbt.getInteger("last");
+        items.deserializeNBT(nbt.getCompoundTag("items"));
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        super.writeToNBT(nbt);
-        if (nbt.hasKey("info")) {
-            storage.writeToNBT(nbt.getCompoundTag("info"));
-            nbt.getCompoundTag("info").setShort("inCount", (short) inputSlot.getStack().getCount());
-            nbt.getCompoundTag("info").setShort("inMeta", (short) inputSlot.getStack().getMetadata());
-            nbt.getCompoundTag("info").setShort("outCount", (short) outputSlot.getStack().getCount());
-            nbt.getCompoundTag("info").setShort("outMeta", (short) outputSlot.getStack().getMetadata());
-            nbt.getCompoundTag("info").setInteger("Gening", this.processTime);
-        } else {
-            NBTTagCompound n = new NBTTagCompound();
-            storage.writeToNBT(n);
-            n.setInteger("process", processTime);
-            if (inputSlot != null) {
-                n.setShort("inCount", (short) inputSlot.getStack().getCount());
-                n.setShort("inMeta", (short) inputSlot.getStack().getMetadata());
-            }
-            if (outputSlot != null) {
-                n.setShort("outCount", (short) outputSlot.getStack().getCount());
-                n.setShort("outMeta", (short) outputSlot.getStack().getMetadata());
-            }
-            nbt.setTag("info", n);
-        }
-        this.nbtTagCompound = nbt;
-        return nbt;
+        storage.writeToNBT(nbt);
+        nbt.setInteger("process", processTime);
+        nbt.setBoolean("isProcess", isProcessing);
+        nbt.setInteger("last", lastDamage);
+        nbt.setTag("items", items.serializeNBT());
+        return super.writeToNBT(nbt);
     }
 
     @Override
     public void update() {
         if (!world.isRemote) {
-            if (inputSlot.getStack().getItemDamage() == 0) {
-                processOre(0);
-            } else if (inputSlot.getStack().getItemDamage() == 1) {
-                processOre(1);
-            }
-
-            if (isOpenGui) {
-                OceanHeartR.getNetwork().sendTo(new PurifyMsg(storage.getEnergyStored(), storage.getMaxEnergyStored(), processTime), player);
-            }
-        }
-    }
-
-    private void processOre(int itemDamage) {
-        ItemStack in = inputSlot.getStack();
-        int count = in.getCount();
-        if (!in.isEmpty() && !isProcessing) {
-            if (in.getCount() > 1) {
-                in.setCount(count - 2);
-                isProcessing = true;
-                processTime = 0;
-                lastDamage = in.getItemDamage();
-            }
-        }
-        if (isProcessing && processTime < perTime) {
-            int testExt = modifyEnergy(storage.getMaxExtract(), true);
+            int testExt = storage.extractEnergy(storage.getMaxExtract(), true);
             if (testExt == storage.getMaxExtract()) {
-                modifyEnergy(testExt, false);
-                processTime++;
-            }
-        }
-
-        if (processTime >= perTime) {
-            isProcessing = false;
-            ItemStack stack = outputSlot.getStack();
-            if (!stack.getItem().equals(OHRItems.NATURE_MARROW)) {
-                ItemStack normal = new ItemStack(OHRItems.NATURE_MARROW);
-                normal.setItemDamage(lastDamage);
-                outputSlot.putStack(normal);
-                stack.setCount(stack.getCount() + 1);
-                processTime = 0;
-            } else {
-                if (stack.getItemDamage() != itemDamage) {
-                    stack.setItemDamage(1);
+                if (isProcessing) {
+                    if (processTime >= perTime) {
+                        if (items.getStackInSlot(1).getCount() < items.getStackInSlot(1).getMaxStackSize()) {
+                            isProcessing = false;
+                            if (!items.getStackInSlot(1).isEmpty()) {
+                                if (lastDamage != items.getStackInSlot(1).getItemDamage()) {
+                                    if (lastDamage == 0 && items.getStackInSlot(1).getItemDamage() == 1)
+                                        items.getStackInSlot(1).setCount(items.getStackInSlot(1).getCount() + 1);
+                                    else {
+                                        items.getStackInSlot(1).setItemDamage(1);
+                                        items.getStackInSlot(1).setCount(items.getStackInSlot(1).getCount() + 1);
+                                    }
+                                } else
+                                    items.getStackInSlot(1).setCount(items.getStackInSlot(1).getCount() + 1);
+                            } else
+                                items.setStackInSlot(1, new ItemStack(OHRItems.NATURE_MARROW, 1, lastDamage));
+                            processTime = 0;
+                        }
+                    } else {
+                        storage.extractEnergy(testExt, false);
+                        processTime++;
+                    }
+                } else if (!items.getStackInSlot(0).isEmpty()) {
+                    items.getStackInSlot(0).setCount(items.getStackInSlot(0).getCount() - 1);
+                    processTime = 0;
+                    isProcessing = true;
+                    lastDamage = items.getStackInSlot(0).getItemDamage();
                 }
-                stack.setCount(stack.getCount() + 1);
-                processTime = 0;
             }
+
+            if (isOpenGui)
+                OceanHeartR.getNetwork().sendTo(new PurifyMsg(storage.getEnergyStored(), storage.getMaxEnergyStored(), processTime), player);
         }
     }
 
-    private int modifyEnergy(int maxExtract, boolean simulate) {
-        int energyExtracted = Math.min(storage.getEnergyStored(), Math.min(storage.getMaxEnergyStored(), maxExtract));
-        if (!simulate) {
-            storage.setEnergyStored(storage.getEnergyStored() - energyExtracted);
-        }
-        return energyExtracted;
-    }
-
-    /*储存*/
-    private int[] a = new int[2];
-    private ItemStack air = new ItemStack(Items.AIR);
-    public ItemStack[] inventory = new ItemStack[]{air, air};
-
     @Override
-    public int[] getSlotsForFace(EnumFacing side) {
-        return a;
+    public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
+        return capability.equals(CapabilityEnergy.ENERGY);
     }
 
+    @Nullable
     @Override
-    public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
-        return true;
-    }
-
-    @Override
-    public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
-        return true;
-    }
-
-    @Override
-    public int getSizeInventory() {
-        return 2;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        for (ItemStack stack : inventory) {
-            if (!stack.isEmpty()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public ItemStack getStackInSlot(int index) {
-        return inventory[index];
-    }
-
-    @Override
-    public ItemStack decrStackSize(int index, int count) {
-        if (inventory[index].isEmpty()) {
-            return ItemStack.EMPTY;
-        }
-        if (inventory[index].getCount() <= count) {
-            count = inventory[index].getCount();
-        }
-        ItemStack stack = inventory[index].splitStack(count);
-
-        if (inventory[index].getCount() <= 0) {
-            inventory[index] = ItemStack.EMPTY;
-        }
-        return stack;
-    }
-
-    @Override
-    public ItemStack removeStackFromSlot(int index) {
-        if (inventory[index].isEmpty()) {
-            return ItemStack.EMPTY;
-        }
-        ItemStack stack = inventory[index];
-        inventory[index] = ItemStack.EMPTY;
-        return stack;
-    }
-
-    @Override
-    public void setInventorySlotContents(int index, ItemStack stack) {
-        inventory[index] = stack;
-        this.markDirty();
-    }
-
-    @Override
-    public int getInventoryStackLimit() {
-        return 64;
-    }
-
-    @Override
-    public boolean isUsableByPlayer(EntityPlayer player) {
-        return player.getDistanceSq(pos) <= 64D && world.getTileEntity(pos) == this;
-    }
-
-    @Override
-    public boolean isItemValidForSlot(int index, ItemStack stack) {
-        return true;
-    }
-
-    @Override
-    public void clear() {
-        inventory[0] = new ItemStack(Items.AIR);
-
-    }
-
-    @Override
-    public String getName() {
-        return "pul";
-    }
-
-    public boolean isOpenGui() {
-        return isOpenGui;
+    public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+        return CapabilityEnergy.ENERGY.cast(storage);
     }
 
     public void setOpenGui(boolean openGui) {
@@ -279,23 +138,11 @@ public class TilePurify extends TileInventory implements IEnergyReceiver, ITicka
         this.player = player;
     }
 
-    public Slot getInputSlot() {
+    public SlotItemHandler getInputSlot() {
         return inputSlot;
     }
 
-    public void setInputSlot(Slot inputSlot) {
-        this.inputSlot = inputSlot;
-    }
-
-    public NBTTagCompound getNbt() {
-        return nbtTagCompound;
-    }
-
-    public void setNbt(NBTTagCompound nbt) {
-        this.nbtTagCompound = nbt;
-    }
-
-    public Slot getOutputSlot() {
+    public SlotItemHandler getOutputSlot() {
         return outputSlot;
     }
 
@@ -303,25 +150,6 @@ public class TilePurify extends TileInventory implements IEnergyReceiver, ITicka
         return perTime;
     }
 
-    /* IEnergyConnection */
-    @Override
-    public boolean canConnectEnergy(EnumFacing from) {
-        return true;
-    }
-
-    /* IEnergyReceiver */
-    @Override
-    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
-        return storage.receiveEnergy(maxReceive, simulate);
-    }
-
-    /* IEnergyHandler */
-    @Override
-    public int getEnergyStored(EnumFacing from) {
-        return storage.getEnergyStored();
-    }
-
-    @Override
     public int getMaxEnergyStored(EnumFacing from) {
         return storage.getMaxEnergyStored();
     }

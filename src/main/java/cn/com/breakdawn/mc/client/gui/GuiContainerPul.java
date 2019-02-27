@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
 /**
- * @auther KSGFK
+ * @author KSGFK
  */
 public class GuiContainerPul extends GuiContainer {
     private static final String TEXTURE_PATH = "textures/gui/5.png";

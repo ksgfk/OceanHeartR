@@ -17,6 +17,7 @@ import java.util.ArrayList;
  * @author KSGFK
  */
 //public abstract class BlockCanDismantle extends BlockTileBase implements IDismantleable {
+@Deprecated
 public abstract class BlockCanDismantle extends BlockTileBase {
     protected BlockCanDismantle(Material materialIn) {
         super(materialIn);

@@ -17,15 +17,15 @@ public class GuiContainerPurify extends GuiContainer {
     private int maxEnergy;
     private int process;
     private int perTime;
-    private ContainerPurify pul;
+    private ContainerPurify pur;
 
     public GuiContainerPurify(ContainerPurify inventorySlotsIn) {
         super(inventorySlotsIn);
         this.xSize = 176;
         this.ySize = 156;
-        this.pul = inventorySlotsIn;
-        maxEnergy = pul.getPul().getMaxEnergyStored(null);
-        perTime = pul.getPul().getPerTime();
+        this.pur = inventorySlotsIn;
+        maxEnergy = pur.getPur().getMaxEnergyStored(null);
+        perTime = pur.getPur().getPerTime();
     }
 
     @Override

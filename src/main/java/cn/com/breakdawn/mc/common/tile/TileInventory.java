@@ -9,6 +9,7 @@ import net.minecraft.util.EnumFacing;
 /**
  * @author KSGFK
  */
+@Deprecated
 public abstract class TileInventory extends TileEntity implements ISidedInventory {
     @Override
     public int[] getSlotsForFace(EnumFacing side) {

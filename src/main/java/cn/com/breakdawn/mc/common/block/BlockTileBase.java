@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 /**
- * @auther KSGFK
+ * @author KSGFK
  */
 public abstract class BlockTileBase extends BlockContainer {
     protected BlockTileBase(Material materialIn) {
@@ -35,5 +35,10 @@ public abstract class BlockTileBase extends BlockContainer {
     @Override
     public EnumBlockRenderType getRenderType(IBlockState state) {//渲染类型设为普通方块
         return EnumBlockRenderType.MODEL;
+    }
+
+    @Override
+    public boolean isOpaqueCube(IBlockState state) {
+        return false;
     }
 }

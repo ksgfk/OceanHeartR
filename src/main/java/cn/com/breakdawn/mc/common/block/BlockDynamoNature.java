@@ -16,15 +16,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * 自然结晶发电机
  *
  * @author ksgfk
  */
-public class BlockDynamoNature extends BlockCanDismantle {
+public class BlockDynamoNature extends BlockTileBase {
 
     public BlockDynamoNature() {
         super(Material.IRON);
@@ -70,18 +68,4 @@ public class BlockDynamoNature extends BlockCanDismantle {
             }
         }
     }
-/*
-    @Override
-    public ArrayList<ItemStack> dismantleBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, boolean returnDrops) {
-        TileEntity tile = world.getTileEntity(pos);
-        NBTTagCompound retTag = null;
-        if (tile instanceof TileDynamoNature) {
-            TileDynamoNature dyn = (TileDynamoNature) tile;
-            retTag = dyn.writeToNBT(dyn.getNbtTagCompound());
-            dyn.inventory = new ItemStack[dyn.inventory.length];
-            Arrays.fill(dyn.inventory, ItemStack.EMPTY);
-        }
-        return dismantleDelegate(retTag, world, pos, player, returnDrops, false);
-    }
-*/
 }
