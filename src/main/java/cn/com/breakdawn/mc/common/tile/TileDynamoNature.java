@@ -102,7 +102,7 @@ public class TileDynamoNature extends TileEntity implements ITickable {
     }
 
     private void receiveRF(TileEntity tileEntity, EnumFacing to, int ext) {
-        if (tileEntity.hasCapability(CapabilityEnergy.ENERGY, to)) {
+        if (tileEntity.hasCapability(CapabilityEnergy.ENERGY, to) && !(tileEntity instanceof TileDynamoNature)) {
             if (tileEntity.getCapability(CapabilityEnergy.ENERGY, to).canReceive()) {
                 int testRec = tileEntity.getCapability(CapabilityEnergy.ENERGY, to).receiveEnergy(ext, true);
                 int testExt = storage.extractEnergy(ext, true);

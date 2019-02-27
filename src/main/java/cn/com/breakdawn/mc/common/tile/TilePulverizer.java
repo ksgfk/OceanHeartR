@@ -134,10 +134,6 @@ public class TilePulverizer extends TileEntity implements ITickable {
         isOpenGui = openGui;
     }
 
-    public EntityPlayerMP getPlayer() {
-        return player;
-    }
-
     public void setPlayer(EntityPlayerMP player) {
         this.player = player;
     }

@@ -23,11 +23,11 @@ import javax.annotation.Nullable;
  * @author KSGFK create in 2019/2/25
  */
 public class TilePurify extends TileEntity implements ITickable {
-    private RedStoneEnergy storage = new RedStoneEnergy(OHRConfig.general.pulMaxEnergy);
+    private RedStoneEnergy storage = new RedStoneEnergy(OHRConfig.general.purMaxEnergy);
     private EntityPlayerMP player;
     private boolean isOpenGui;
     private int processTime = 0;
-    private int perTime = OHRConfig.general.pulPerGenTime;
+    private int perTime = OHRConfig.general.purPerGenTime;
     private boolean isProcessing = false;
     private int lastDamage = 0;
 
@@ -51,8 +51,8 @@ public class TilePurify extends TileEntity implements ITickable {
     };
 
     public TilePurify() {
-        storage.setMaxReceive(OHRConfig.general.pulMaxReceive);
-        storage.setMaxExtract(OHRConfig.general.pulMaxExtract);
+        storage.setMaxReceive(OHRConfig.general.purMaxReceive);
+        storage.setMaxExtract(OHRConfig.general.purMaxExtract);
     }
 
     @Override
@@ -128,10 +128,6 @@ public class TilePurify extends TileEntity implements ITickable {
 
     public void setOpenGui(boolean openGui) {
         isOpenGui = openGui;
-    }
-
-    public EntityPlayerMP getPlayer() {
-        return player;
     }
 
     public void setPlayer(EntityPlayerMP player) {

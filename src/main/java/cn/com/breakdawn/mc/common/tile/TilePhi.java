@@ -1,7 +1,9 @@
 package cn.com.breakdawn.mc.common.tile;
 
+import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.common.init.OHRItems;
 import cn.com.breakdawn.mc.config.OHRConfig;
+import cn.com.breakdawn.mc.network.PhiMsg;
 import cn.com.breakdawn.mc.util.RedStoneEnergy;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -9,17 +11,21 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * @author KSGFK create in 2019/2/27
  */
 public class TilePhi extends TileEntity implements ITickable {
-    private RedStoneEnergy storage = new RedStoneEnergy(OHRConfig.general.dynNatureMaxEnergy);
+    private RedStoneEnergy storage = new RedStoneEnergy(OHRConfig.general.phiMaxEnergy);
     private ItemStackHandler items = new ItemStackHandler(6);
     private SlotItemHandler slot0 = new SlotItemHandler(items, 0, 28, 13) {
         @Override
@@ -27,31 +33,31 @@ public class TilePhi extends TileEntity implements ITickable {
             return stack.getItem().equals(OHRItems.NATURE_MARROW) && super.isItemValid(stack);
         }
     };
-    private SlotItemHandler slot1 = new SlotItemHandler(items, 0, 76, 13) {
+    private SlotItemHandler slot1 = new SlotItemHandler(items, 1, 76, 13) {
         @Override
         public boolean isItemValid(@Nonnull ItemStack stack) {
             return stack.getItem().equals(OHRItems.NATURE_MARROW) && super.isItemValid(stack);
         }
     };
-    private SlotItemHandler slot2 = new SlotItemHandler(items, 0, 28, 61) {
+    private SlotItemHandler slot2 = new SlotItemHandler(items, 2, 28, 61) {
         @Override
         public boolean isItemValid(@Nonnull ItemStack stack) {
             return stack.getItem().equals(OHRItems.NATURE_MARROW) && super.isItemValid(stack);
         }
     };
-    private SlotItemHandler slot3 = new SlotItemHandler(items, 0, 76, 61) {
+    private SlotItemHandler slot3 = new SlotItemHandler(items, 3, 76, 61) {
         @Override
         public boolean isItemValid(@Nonnull ItemStack stack) {
             return stack.getItem().equals(OHRItems.NATURE_MARROW) && super.isItemValid(stack);
         }
     };
-    private SlotItemHandler slot4 = new SlotItemHandler(items, 0, 52, 37) {
+    private SlotItemHandler slot4 = new SlotItemHandler(items, 4, 52, 37) {
         @Override
         public boolean isItemValid(@Nonnull ItemStack stack) {
             return stack.getItem().equals(Item.getItemFromBlock(Blocks.SAPLING)) && super.isItemValid(stack);
         }
     };
-    private SlotItemHandler out = new SlotItemHandler(items, 0, 109, 37) {
+    private SlotItemHandler out = new SlotItemHandler(items, 5, 109, 37) {
         @Override
         public boolean isItemValid(@Nonnull ItemStack stack) {
             return false;
@@ -61,8 +67,14 @@ public class TilePhi extends TileEntity implements ITickable {
     private EntityPlayerMP player;
     private boolean isOpenGui;
 
-    public TilePhi() {
+    private int processTime = 0;
+    private int perTime = OHRConfig.general.phiPerGenTime;
+    private boolean isProcessing = false;
+    private int lastDamage = 0;
 
+    public TilePhi() {
+        storage.setMaxReceive(OHRConfig.general.phiMaxReceive);
+        storage.setMaxExtract(OHRConfig.general.phiMaxExtract);
     }
 
     @Override
@@ -81,7 +93,65 @@ public class TilePhi extends TileEntity implements ITickable {
 
     @Override
     public void update() {
+        if (!world.isRemote) {
+            //TODO:基本功能已实现,增加彩蛋:被污染结晶会爆炸
+            int testExt = storage.extractEnergy(storage.getMaxExtract(), true);
+            if (testExt == storage.getMaxExtract()) {
+                if (isProcessing) {
+                    if (processTime >= perTime) {
+                        if (items.getStackInSlot(5).getCount() < items.getStackInSlot(5).getMaxStackSize()) {
+                            isProcessing = false;
+                            if (!items.getStackInSlot(5).isEmpty()) {
+                                if (lastDamage != items.getStackInSlot(1).getItemDamage()) {
+                                    if (lastDamage == 0 && items.getStackInSlot(5).getItemDamage() == 1)
+                                        items.getStackInSlot(1).setCount(items.getStackInSlot(5).getCount() + 1);
+                                    else {
+                                        items.getStackInSlot(5).setItemDamage(5);
+                                        items.getStackInSlot(5).setCount(items.getStackInSlot(5).getCount() + 1);
+                                    }
+                                } else
+                                    items.getStackInSlot(5).setCount(items.getStackInSlot(5).getCount() + 1);
+                            } else
+                                items.setStackInSlot(5, new ItemStack(OHRItems.NATURE_INGOT, 1, lastDamage));
+                            processTime = 0;
+                        }
+                    } else {
+                        storage.extractEnergy(testExt, false);
+                        processTime++;
+                    }
+                } else {
+                    boolean can = false;
+                    for (int a = 0; a < 5; a++) {
+                        if (items.getStackInSlot(a).isEmpty()) {
+                            can = false;
+                            break;
+                        } else can = true;
+                    }
+                    if (can) {
+                        for (int a = 0; a < 5; a++) {
+                            items.getStackInSlot(a).setCount(items.getStackInSlot(a).getCount() - 1);
+                            processTime = 0;
+                            isProcessing = true;
+                            lastDamage = items.getStackInSlot(0).getItemDamage();
+                        }
+                    }
+                }
+            }
 
+            if (isOpenGui)
+                OceanHeartR.getNetwork().sendTo(new PhiMsg(storage.getEnergyStored(), storage.getMaxEnergyStored(), processTime), player);
+        }
+    }
+
+    @Override
+    public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
+        return capability.equals(CapabilityEnergy.ENERGY);
+    }
+
+    @Nullable
+    @Override
+    public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+        return CapabilityEnergy.ENERGY.cast(storage);
     }
 
     public SlotItemHandler getSlot0() {
@@ -114,5 +184,13 @@ public class TilePhi extends TileEntity implements ITickable {
 
     public void setPlayer(EntityPlayerMP player) {
         this.player = player;
+    }
+
+    public int getMaxEnergyStored(EnumFacing from) {
+        return storage.getMaxEnergyStored();
+    }
+
+    public int getPerTime() {
+        return perTime;
     }
 }

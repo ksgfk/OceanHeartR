@@ -46,7 +46,10 @@ public class GuiContainerDynNature extends GuiContainer {
         this.drawTexturedModalRect(offsetX + 43, offsetY + 55, 0, 156, textureWidth, 4);
 
         int wide = (maxPowerGen - gening) * 26 / maxPowerGen;
-        this.drawTexturedModalRect(offsetX + 102, offsetY + 25, 89, 156, wide, 26);
+        if (gening == 0)
+            this.drawTexturedModalRect(offsetX + 102, offsetY + 25, 89, 156, 0, 26);
+        else
+            this.drawTexturedModalRect(offsetX + 102, offsetY + 25, 89, 156, wide, 26);
     }
 
     @Override

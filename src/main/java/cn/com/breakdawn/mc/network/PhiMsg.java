@@ -10,39 +10,37 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
 /**
- * 给客户端发送能量数据
- *
- * @author KSGFK
+ * @author KSGFK create in 2019/2/27
  */
-public class DynNatureMsg implements IMessage {
+public class PhiMsg implements IMessage {
     private int energy;
     private int maxEnergy;
-    private int gening;
+    private int process;
 
-    public DynNatureMsg() {
+    public PhiMsg() {
     }
 
-    public DynNatureMsg(int energy, int maxEnergy, int gening) {
+    public PhiMsg(int energy, int maxEnergy, int process) {
         this.energy = energy;
         this.maxEnergy = maxEnergy;
-        this.gening = gening;
+        this.process = process;
     }
 
     @Override
     public void fromBytes(ByteBuf buf) {
         String e = ByteBufUtils.readUTF8String(buf);
         String m = ByteBufUtils.readUTF8String(buf);
-        String g = ByteBufUtils.readUTF8String(buf);
+        String p = ByteBufUtils.readUTF8String(buf);
         energy = Integer.parseInt(e);
         maxEnergy = Integer.parseInt(m);
-        gening = Integer.parseInt(g);
+        process = Integer.parseInt(p);
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
         ByteBufUtils.writeUTF8String(buf, String.valueOf(energy));
         ByteBufUtils.writeUTF8String(buf, String.valueOf(maxEnergy));
-        ByteBufUtils.writeUTF8String(buf, String.valueOf(gening));
+        ByteBufUtils.writeUTF8String(buf, String.valueOf(process));
     }
 
     public int getEnergy() {
@@ -53,19 +51,19 @@ public class DynNatureMsg implements IMessage {
         return maxEnergy;
     }
 
-    public int getGening() {
-        return gening;
+    public int getProcess() {
+        return process;
     }
 
-    public static class Handler implements IMessageHandler<DynNatureMsg, IMessage> {
+    public static class Handler implements IMessageHandler<PhiMsg, IMessage> {
 
         @Override
-        public IMessage onMessage(DynNatureMsg message, MessageContext ctx) {
+        public IMessage onMessage(PhiMsg message, MessageContext ctx) {
             if (ctx.side == Side.CLIENT) {
                 Minecraft.getMinecraft().addScheduledTask(() -> {
-                    OceanHeartR.getGui().getDynNature().setEnergy(message.getEnergy());
-                    OceanHeartR.getGui().getDynNature().setMaxEnergy(message.getMaxEnergy());
-                    OceanHeartR.getGui().getDynNature().setGening(message.getGening());
+                    OceanHeartR.getGui().getPhi().setEnergy(message.getEnergy());
+                    OceanHeartR.getGui().getPhi().setMaxEnergy(message.getMaxEnergy());
+                    OceanHeartR.getGui().getPhi().setProcess(message.getProcess());
                 });
             }
             return null;

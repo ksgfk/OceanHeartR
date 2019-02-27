@@ -1,10 +1,7 @@
 package cn.com.breakdawn.mc.common.init;
 
 import cn.com.breakdawn.mc.OceanHeartR;
-import cn.com.breakdawn.mc.network.DynNatureMsg;
-import cn.com.breakdawn.mc.network.PulMsg;
-import cn.com.breakdawn.mc.network.PurifyMsg;
-import cn.com.breakdawn.mc.network.RedPacketMessage;
+import cn.com.breakdawn.mc.network.*;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class OHRNetwork {
@@ -17,5 +14,7 @@ public class OHRNetwork {
         OceanHeartR.getNetwork().registerMessage(PulMsg.Handler.class, PulMsg.class, 240, Side.SERVER);
         OceanHeartR.getNetwork().registerMessage(PurifyMsg.Handler.class, PurifyMsg.class, 241, Side.CLIENT);
         OceanHeartR.getNetwork().registerMessage(PurifyMsg.Handler.class, PurifyMsg.class, 242, Side.SERVER);
+        OceanHeartR.getNetwork().registerMessage(PhiMsg.Handler.class, PhiMsg.class, 243, Side.CLIENT);
+        OceanHeartR.getNetwork().registerMessage(PhiMsg.Handler.class, PhiMsg.class, 244, Side.SERVER);
     }
 }
