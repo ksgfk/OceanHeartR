@@ -25,8 +25,8 @@ public class GuiContainerPurify extends GuiContainer {
         this.xSize = 176;
         this.ySize = 156;
         this.pur = inventorySlotsIn;
-        maxEnergy = pur.getPur().getMaxEnergyStored(null);
-        perTime = pur.getPur().getPerTime();
+        maxEnergy = pur.getTileEntity().getMaxEnergyStored(null);
+        perTime = pur.getTileEntity().getPerTime();
     }
 
     @Override

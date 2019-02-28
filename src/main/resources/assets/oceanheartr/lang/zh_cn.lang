@@ -138,6 +138,7 @@ tooltip.vlad_iii_sword.passive=§a被动:蓄满力时攻击敌人时吸取1点�
 
 tooltip.dynamo_nature.normal=从自然结晶中提取RF能源
 tooltip.purify.normal=自然矿石粉末中含有大量杂质,会影响结晶时的纯度
+tooltip.phi.normal=§警告:不要将诅咒之力放进该机器!
 
 # 附魔等级
 enchantment.level.20=XX

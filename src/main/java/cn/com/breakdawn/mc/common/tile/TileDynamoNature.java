@@ -5,26 +5,20 @@ import cn.com.breakdawn.mc.common.init.OHRItems;
 import cn.com.breakdawn.mc.config.OHRConfig;
 import cn.com.breakdawn.mc.network.DynNatureMsg;
 import cn.com.breakdawn.mc.util.RedStoneEnergy;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
-import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * @author KSGFK
  */
-public class TileDynamoNature extends TileEntity implements ITickable {
-    private RedStoneEnergy storage = new RedStoneEnergy(OHRConfig.general.dynNatureMaxEnergy);
-    private ItemStackHandler items = new ItemStackHandler(1);
+public class TileDynamoNature extends TileMachine {
     private SlotItemHandler inputSlot = new SlotItemHandler(items, 0, 80, 30) {
         @Override
         public boolean isItemValid(@Nonnull ItemStack stack) {
@@ -40,10 +34,9 @@ public class TileDynamoNature extends TileEntity implements ITickable {
     };
     private int powerGening = 0;
     private int maxPowerGen = OHRConfig.general.dynNaturePerGen;
-    private EntityPlayerMP player;
-    private boolean isOpenGui;
 
     public TileDynamoNature() {
+        super(new RedStoneEnergy(OHRConfig.general.dynNatureMaxEnergy), new ItemStackHandler(1));
         storage.setMaxExtract(OHRConfig.general.dynNatureMaxExtract);
         storage.setMaxReceive(OHRConfig.general.dynNatureMaxReceive);
     }
@@ -51,19 +44,16 @@ public class TileDynamoNature extends TileEntity implements ITickable {
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
-        storage.readFromNBT(nbt);
         powerGening = nbt.getInteger("Gening");
-        items.deserializeNBT(nbt.getCompoundTag("input"));
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        storage.writeToNBT(nbt);
         nbt.setInteger("Gening", powerGening);
-        nbt.setTag("input", items.serializeNBT());
         return super.writeToNBT(nbt);
     }
 
+    @Override
     public void update() {
         if (!world.isRemote) {
             /*发电*/
@@ -114,31 +104,8 @@ public class TileDynamoNature extends TileEntity implements ITickable {
         }
     }
 
-    @Override
-    public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability.equals(CapabilityEnergy.ENERGY);
-    }
-
-    @Nullable
-    @Override
-    public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-        return CapabilityEnergy.ENERGY.cast(storage);
-    }
-
-    public void setPlayer(EntityPlayerMP player) {
-        this.player = player;
-    }
-
-    public void setOpenGui(boolean openGui) {
-        isOpenGui = openGui;
-    }
-
     public SlotItemHandler getInputSlot() {
         return inputSlot;
-    }
-
-    public int getMaxEnergyStored(EnumFacing facing) {
-        return storage.getMaxEnergyStored();
     }
 
     public int getMaxPowerGen() {

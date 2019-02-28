@@ -138,6 +138,7 @@ tooltip.vlad_iii_sword.passive=§aPassive: 1 point of health when attacking enem
 
 tooltip.dynamo_nature.normal=Extracting RF energy from natural crystallization
 tooltip.purify.normal=Natural ore powder contains a lot of impurities, which will affect the purity during crystallization.
+tooltip.phi.normal=§cWARNING:Don't put POWER OF CURSE into this machine!
 
 #Enchantment level
 enchantment.level.20=XX

@@ -31,8 +31,8 @@ public class GuiContainerDynNature extends GuiContainer {
         this.ySize = 156;
         this.dynamoNature = inventorySlotsIn;
 
-        maxEnergy = dynamoNature.getDynNature().getMaxEnergyStored(null);
-        maxPowerGen = dynamoNature.getDynNature().getMaxPowerGen();
+        maxEnergy = dynamoNature.getTileEntity().getMaxEnergyStored(null);
+        maxPowerGen = dynamoNature.getTileEntity().getMaxPowerGen();
     }
 
     @Override

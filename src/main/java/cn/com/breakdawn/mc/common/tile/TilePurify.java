@@ -5,33 +5,17 @@ import cn.com.breakdawn.mc.common.init.OHRItems;
 import cn.com.breakdawn.mc.config.OHRConfig;
 import cn.com.breakdawn.mc.network.PurifyMsg;
 import cn.com.breakdawn.mc.util.RedStoneEnergy;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * @author KSGFK create in 2019/2/25
  */
-public class TilePurify extends TileEntity implements ITickable {
-    private RedStoneEnergy storage = new RedStoneEnergy(OHRConfig.general.purMaxEnergy);
-    private EntityPlayerMP player;
-    private boolean isOpenGui;
-    private int processTime = 0;
-    private int perTime = OHRConfig.general.purPerGenTime;
-    private boolean isProcessing = false;
-    private int lastDamage = 0;
-
-    private ItemStackHandler items = new ItemStackHandler(2);
+public class TilePurify extends TileMachine {
     private SlotItemHandler inputSlot = new SlotItemHandler(items, 0, 56, 30) {
         @Override
         public boolean isItemValid(@Nonnull ItemStack stack) {
@@ -50,7 +34,13 @@ public class TilePurify extends TileEntity implements ITickable {
         }
     };
 
+    private int processTime = 0;
+    private int perTime = OHRConfig.general.purPerGenTime;
+    private boolean isProcessing = false;
+    private int lastDamage = 0;
+
     public TilePurify() {
+        super(new RedStoneEnergy(OHRConfig.general.purMaxEnergy), new ItemStackHandler(2));
         storage.setMaxReceive(OHRConfig.general.purMaxReceive);
         storage.setMaxExtract(OHRConfig.general.purMaxExtract);
     }
@@ -58,20 +48,16 @@ public class TilePurify extends TileEntity implements ITickable {
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
-        storage.readFromNBT(nbt);
         processTime = nbt.getInteger("process");
         isProcessing = nbt.getBoolean("isProcess");
         lastDamage = nbt.getInteger("last");
-        items.deserializeNBT(nbt.getCompoundTag("items"));
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        storage.writeToNBT(nbt);
         nbt.setInteger("process", processTime);
         nbt.setBoolean("isProcess", isProcessing);
         nbt.setInteger("last", lastDamage);
-        nbt.setTag("items", items.serializeNBT());
         return super.writeToNBT(nbt);
     }
 
@@ -115,25 +101,6 @@ public class TilePurify extends TileEntity implements ITickable {
         }
     }
 
-    @Override
-    public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability.equals(CapabilityEnergy.ENERGY);
-    }
-
-    @Nullable
-    @Override
-    public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-        return CapabilityEnergy.ENERGY.cast(storage);
-    }
-
-    public void setOpenGui(boolean openGui) {
-        isOpenGui = openGui;
-    }
-
-    public void setPlayer(EntityPlayerMP player) {
-        this.player = player;
-    }
-
     public SlotItemHandler getInputSlot() {
         return inputSlot;
     }
@@ -144,9 +111,5 @@ public class TilePurify extends TileEntity implements ITickable {
 
     public int getPerTime() {
         return perTime;
-    }
-
-    public int getMaxEnergyStored(EnumFacing from) {
-        return storage.getMaxEnergyStored();
     }
 }

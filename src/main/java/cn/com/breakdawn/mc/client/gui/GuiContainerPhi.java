@@ -22,8 +22,8 @@ public class GuiContainerPhi extends GuiContainer {
         super(inventorySlotsIn);
         this.xSize = 176;
         this.ySize = 187;
-        maxEnergy = inventorySlotsIn.getPhi().getMaxEnergyStored(null);
-        perTime = inventorySlotsIn.getPhi().getPerTime();
+        maxEnergy = inventorySlotsIn.getTileEntity().getMaxEnergyStored(null);
+        perTime = inventorySlotsIn.getTileEntity().getPerTime();
     }
 
     @Override

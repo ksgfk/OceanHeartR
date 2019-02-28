@@ -25,8 +25,8 @@ public class GuiContainerPul extends GuiContainer {
         this.xSize = 176;
         this.ySize = 156;
         this.pul = inventorySlotsIn;
-        maxEnergy = pul.getPul().getMaxEnergyStored(null);
-        perTime = pul.getPul().getPerTime();
+        maxEnergy = pul.getTileEntity().getMaxEnergyStored(null);
+        perTime = pul.getTileEntity().getPerTime();
     }
 
     @Override

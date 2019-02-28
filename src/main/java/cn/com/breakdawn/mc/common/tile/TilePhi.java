@@ -5,28 +5,19 @@ import cn.com.breakdawn.mc.common.init.OHRItems;
 import cn.com.breakdawn.mc.config.OHRConfig;
 import cn.com.breakdawn.mc.network.PhiMsg;
 import cn.com.breakdawn.mc.util.RedStoneEnergy;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * @author KSGFK create in 2019/2/27
  */
-public class TilePhi extends TileEntity implements ITickable {
-    private RedStoneEnergy storage = new RedStoneEnergy(OHRConfig.general.phiMaxEnergy);
-    private ItemStackHandler items = new ItemStackHandler(6);
+public class TilePhi extends TileMachine {
     private SlotItemHandler slot0 = new SlotItemHandler(items, 0, 28, 13) {
         @Override
         public boolean isItemValid(@Nonnull ItemStack stack) {
@@ -64,14 +55,12 @@ public class TilePhi extends TileEntity implements ITickable {
         }
     };
 
-    private EntityPlayerMP player;
-    private boolean isOpenGui;
-
     private int processTime = 0;
     private int perTime = OHRConfig.general.phiPerGenTime;
     private boolean isProcessing = false;
 
     public TilePhi() {
+        super(new RedStoneEnergy(OHRConfig.general.phiMaxEnergy), new ItemStackHandler(6));
         storage.setMaxReceive(OHRConfig.general.phiMaxReceive);
         storage.setMaxExtract(OHRConfig.general.phiMaxExtract);
     }
@@ -79,15 +68,11 @@ public class TilePhi extends TileEntity implements ITickable {
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        storage.readFromNBT(compound);
-        items.deserializeNBT(compound.getCompoundTag("items"));
         processTime = compound.getInteger("process");
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        storage.writeToNBT(compound);
-        compound.setTag("items", items.serializeNBT());
         compound.setInteger("process", processTime);
         return super.writeToNBT(compound);
     }
@@ -144,17 +129,6 @@ public class TilePhi extends TileEntity implements ITickable {
         }
     }
 
-    @Override
-    public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability.equals(CapabilityEnergy.ENERGY);
-    }
-
-    @Nullable
-    @Override
-    public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-        return CapabilityEnergy.ENERGY.cast(storage);
-    }
-
     public SlotItemHandler getSlot0() {
         return slot0;
     }
@@ -177,18 +151,6 @@ public class TilePhi extends TileEntity implements ITickable {
 
     public SlotItemHandler getOut() {
         return out;
-    }
-
-    public void setOpenGui(boolean openGui) {
-        isOpenGui = openGui;
-    }
-
-    public void setPlayer(EntityPlayerMP player) {
-        this.player = player;
-    }
-
-    public int getMaxEnergyStored(EnumFacing from) {
-        return storage.getMaxEnergyStored();
     }
 
     public int getPerTime() {
