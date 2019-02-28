@@ -70,7 +70,6 @@ public class TilePhi extends TileEntity implements ITickable {
     private int processTime = 0;
     private int perTime = OHRConfig.general.phiPerGenTime;
     private boolean isProcessing = false;
-    private int lastDamage = 0;
 
     public TilePhi() {
         storage.setMaxReceive(OHRConfig.general.phiMaxReceive);
@@ -82,37 +81,31 @@ public class TilePhi extends TileEntity implements ITickable {
         super.readFromNBT(compound);
         storage.readFromNBT(compound);
         items.deserializeNBT(compound.getCompoundTag("items"));
+        processTime = compound.getInteger("process");
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         storage.writeToNBT(compound);
         compound.setTag("items", items.serializeNBT());
+        compound.setInteger("process", processTime);
         return super.writeToNBT(compound);
     }
 
     @Override
     public void update() {
+        boolean isBoom = false;
         if (!world.isRemote) {
-            //TODO:基本功能已实现,增加彩蛋:被污染结晶会爆炸
             int testExt = storage.extractEnergy(storage.getMaxExtract(), true);
             if (testExt == storage.getMaxExtract()) {
                 if (isProcessing) {
                     if (processTime >= perTime) {
                         if (items.getStackInSlot(5).getCount() < items.getStackInSlot(5).getMaxStackSize()) {
                             isProcessing = false;
-                            if (!items.getStackInSlot(5).isEmpty()) {
-                                if (lastDamage != items.getStackInSlot(1).getItemDamage()) {
-                                    if (lastDamage == 0 && items.getStackInSlot(5).getItemDamage() == 1)
-                                        items.getStackInSlot(1).setCount(items.getStackInSlot(5).getCount() + 1);
-                                    else {
-                                        items.getStackInSlot(5).setItemDamage(5);
-                                        items.getStackInSlot(5).setCount(items.getStackInSlot(5).getCount() + 1);
-                                    }
-                                } else
-                                    items.getStackInSlot(5).setCount(items.getStackInSlot(5).getCount() + 1);
-                            } else
-                                items.setStackInSlot(5, new ItemStack(OHRItems.NATURE_INGOT, 1, lastDamage));
+                            if (!items.getStackInSlot(5).isEmpty())
+                                items.getStackInSlot(5).setCount(items.getStackInSlot(5).getCount() + 1);
+                            else
+                                items.setStackInSlot(5, new ItemStack(OHRItems.NATURE_INGOT, 1, 0));
                             processTime = 0;
                         }
                     } else {
@@ -121,6 +114,7 @@ public class TilePhi extends TileEntity implements ITickable {
                     }
                 } else {
                     boolean can = false;
+                    int[] damage = new int[4];
                     for (int a = 0; a < 5; a++) {
                         if (items.getStackInSlot(a).isEmpty()) {
                             can = false;
@@ -130,16 +124,23 @@ public class TilePhi extends TileEntity implements ITickable {
                     if (can) {
                         for (int a = 0; a < 5; a++) {
                             items.getStackInSlot(a).setCount(items.getStackInSlot(a).getCount() - 1);
-                            processTime = 0;
-                            isProcessing = true;
-                            lastDamage = items.getStackInSlot(0).getItemDamage();
+                            if (a < 4) damage[a] = items.getStackInSlot(a).getItemDamage();
                         }
+                        for (int a : damage) if (a == 1) isBoom = true;
+                        if (isBoom)
+                            world.createExplosion(player, player.posX, player.posY, player.posZ, 15, true);
+                        processTime = 0;
+                        isProcessing = true;
                     }
                 }
             }
-
             if (isOpenGui)
                 OceanHeartR.getNetwork().sendTo(new PhiMsg(storage.getEnergyStored(), storage.getMaxEnergyStored(), processTime), player);
+        }
+
+        if (isBoom) {
+            player.closeContainer();
+            player.closeScreen();
         }
     }
 
