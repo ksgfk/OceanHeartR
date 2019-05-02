@@ -24,7 +24,9 @@
 package cn.com.breakdawn.mc.client;
 
 import cn.com.breakdawn.mc.OceanHeartR;
+import cn.com.breakdawn.mc.client.render.EntityGodBrickRender;
 import cn.com.breakdawn.mc.common.CommonProxy;
+import cn.com.breakdawn.mc.common.entity.EntityGodBrick;
 import cn.com.breakdawn.mc.common.init.OHRBlocks;
 import cn.com.breakdawn.mc.common.init.OHRItems;
 import cn.com.breakdawn.mc.common.init.OHRModel;
@@ -36,6 +38,7 @@ import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -117,5 +120,9 @@ public class ClientProxy extends CommonProxy {
     @SideOnly(Side.CLIENT)
     private void registerModel() {
         OBJLoader.INSTANCE.addDomain(OceanHeartR.MODID);
+    }
+
+    public static void entityRenderRegistry() {
+        RenderingRegistry.registerEntityRenderingHandler(EntityGodBrick.class, EntityGodBrickRender.FACTORY);
     }
 }

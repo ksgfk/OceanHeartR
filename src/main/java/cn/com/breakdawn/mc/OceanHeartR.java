@@ -22,6 +22,7 @@
  */
 package cn.com.breakdawn.mc;
 
+import cn.com.breakdawn.mc.client.ClientProxy;
 import cn.com.breakdawn.mc.common.CommonProxy;
 import cn.com.breakdawn.mc.common.init.*;
 import cn.com.breakdawn.mc.world.gen.WorldGenOHROres;
@@ -79,6 +80,7 @@ public class OceanHeartR {
         OHRTileEntities.init();
         OHRPotion.init();
         MinecraftForge.EVENT_BUS.register(ohrEvent);
+        ClientProxy.entityRenderRegistry();
     }
 
     @EventHandler

@@ -45,6 +45,8 @@ item.vlad_iii_sword.name=§cVlad III
 
 item.red_packet.name=Red Packet
 
+item.god_brick.name=§cGod's brick
+
 #Blocks
 tile.first_block.name=Trial type 1
 tile.nature_ore.overworld.name=Nature ore
@@ -139,6 +141,8 @@ tooltip.vlad_iii_sword.passive=§aPassive: 1 point of health when attacking enem
 tooltip.dynamo_nature.normal=Extracting RF energy from natural crystallization
 tooltip.purify.normal=Natural ore powder contains a lot of impurities, which will affect the purity during crystallization.
 tooltip.phi.normal=§cWARNING:Don't put POWER OF CURSE into this machine!
+
+tooltip.god_brick.base=§cThe people's bricks, the right button can directly hit the power of a brick, only the evil creators will be attacked.
 
 #Enchantment level
 enchantment.level.20=XX

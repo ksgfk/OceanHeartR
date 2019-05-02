@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "oceanheartr:god_brick",
+  "result": {
+    "item": "oceanheartr:god_brick",
+    "count": 1
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:brick",
+      "data": 0
+    },
+    {
+      "item": "minecraft:brick",
+      "data": 0
+    },
+    {
+      "item": "minecraft:brick",
+      "data": 0
+    }
+  ]
+}

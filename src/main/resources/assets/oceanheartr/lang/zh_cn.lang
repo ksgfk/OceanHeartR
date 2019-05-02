@@ -45,6 +45,8 @@ item.vlad_iii_sword.name=§c弗拉德三世
 
 item.red_packet.name=红包
 
+item.god_brick.name=§c板砖
+
 # 方块
 tile.first_block.name=试作型方块1号
 tile.nature_ore.overworld.name=自然矿石
@@ -139,6 +141,8 @@ tooltip.vlad_iii_sword.passive=§a被动:蓄满力时攻击敌人时吸取1点�
 tooltip.dynamo_nature.normal=从自然结晶中提取RF能源
 tooltip.purify.normal=自然矿石粉末中含有大量杂质,会影响结晶时的纯度
 tooltip.phi.normal=§警告:不要将诅咒之力放进该机器!
+
+tooltip.god_brick.base=§c人民的板砖,右键可直接打出一发板砖之力,只有万恶的创造者才会被攻击
 
 # 附魔等级
 enchantment.level.20=XX

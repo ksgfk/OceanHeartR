@@ -74,5 +74,8 @@ public final class OHRItems {
     public static final Item VLAD_III = new ItemVladIIISword();
 
     @RegItem("red_packet")
-    public static Item RED_PACKET = new ItemRedPacket();
+    public static final Item RED_PACKET = new ItemRedPacket();
+
+    @RegItem("god_brick")
+    public static final Item GOD_BRICK = new ItemGodBrick();
 }

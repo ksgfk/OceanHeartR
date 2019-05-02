@@ -26,6 +26,7 @@ package cn.com.breakdawn.mc.common;
 import cn.com.breakdawn.mc.OceanHeartR;
 import cn.com.breakdawn.mc.common.init.OHRBlocks;
 import cn.com.breakdawn.mc.common.init.OHREnch;
+import cn.com.breakdawn.mc.common.init.OHREntities;
 import cn.com.breakdawn.mc.common.init.OHRItems;
 import cn.com.breakdawn.mc.util.NameBuilder;
 import cn.com.breakdawn.mc.util.RegBlock;
@@ -37,6 +38,7 @@ import net.minecraft.item.ItemMultiTexture;
 import net.minecraft.util.IStringSerializable;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.lang.reflect.Constructor;
@@ -126,6 +128,11 @@ public class CommonProxy {
         event.getRegistry().register(OHREnch.SOUL_BOND);
 
         OHREnch.init();
+    }
+
+    @SubscribeEvent
+    public void onEntityRegistation(RegistryEvent.Register<EntityEntry> event) {
+        OHREntities.Init(event);
     }
 
     /**

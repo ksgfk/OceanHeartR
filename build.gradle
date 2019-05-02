@@ -63,6 +63,7 @@ dependencies {
     //deobfCompile "cofh:ThermalFoundation:${mc_version}-${tf_version}:universal"
     //deobfCompile "cofh:ThermalExpansion:${mc_version}-${te_version}:universal"
     //deobfCompile "cofh:CoFHWorld:${mc_version}-${cofhworld_version}:universal"
+    compile fileTree(dir: 'lib', includes: ['*.jar'])
 }
 
 repositories {
