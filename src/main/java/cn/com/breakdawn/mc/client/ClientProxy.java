@@ -104,6 +104,7 @@ public class ClientProxy extends CommonProxy {
     public void registerOBJModel(ModelRegistryEvent event) {
         registerModel();
         OHRModel.init();
+        ClientProxy.entityRenderRegistry();
     }
 
     @SideOnly(Side.CLIENT)
@@ -122,6 +123,7 @@ public class ClientProxy extends CommonProxy {
         OBJLoader.INSTANCE.addDomain(OceanHeartR.MODID);
     }
 
+    @SideOnly(Side.CLIENT)
     public static void entityRenderRegistry() {
         RenderingRegistry.registerEntityRenderingHandler(EntityGodBrick.class, EntityGodBrickRender.FACTORY);
     }

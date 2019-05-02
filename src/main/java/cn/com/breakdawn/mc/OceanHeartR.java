@@ -22,7 +22,6 @@
  */
 package cn.com.breakdawn.mc;
 
-import cn.com.breakdawn.mc.client.ClientProxy;
 import cn.com.breakdawn.mc.common.CommonProxy;
 import cn.com.breakdawn.mc.common.init.*;
 import cn.com.breakdawn.mc.world.gen.WorldGenOHROres;
@@ -39,7 +38,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = OceanHeartR.MODID, name = OceanHeartR.NAME, version = OceanHeartR.VERSION,
-        dependencies = "required-after:codechickenlib@[3.2.2.353,);required-after:sausage_core@[1.2,)")
+        dependencies = "required-after:codechickenlib@[3.2.2.353,)")
 public class OceanHeartR {
     public static final String MODID = "oceanheartr";
     public static final String NAME = "Ocean Heart R";
@@ -80,7 +79,6 @@ public class OceanHeartR {
         OHRTileEntities.init();
         OHRPotion.init();
         MinecraftForge.EVENT_BUS.register(ohrEvent);
-        ClientProxy.entityRenderRegistry();
     }
 
     @EventHandler

@@ -3,7 +3,6 @@ package cn.com.breakdawn.mc.inventory;
 import cn.com.breakdawn.mc.common.tile.TileMachine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
-import sausage_core.api.core.inventory.ContainerBase;
 
 /**
  * @author KSGFK create in 2019/2/28
