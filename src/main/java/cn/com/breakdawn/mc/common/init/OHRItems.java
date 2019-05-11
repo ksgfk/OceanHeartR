@@ -18,6 +18,7 @@ public final class OHRItems {
     /*工具材料,用来设置工具的基本属性,addToolMaterial()的参数依次是:工具材料名称,硬度,最大使用次数,挖掘效率,伤害(真实伤害-4才是这里要填的),附魔因素*/
     public static final Item.ToolMaterial NATURE = EnumHelper.addToolMaterial("nature", 3, 1561, 8, 4, 10);
     public static final ItemArmor.ArmorMaterial NATURE_ARMOR = EnumHelper.addArmorMaterial("nature", OceanHeartR.MODID + ":nature", 9999, new int[]{6, 12, 14, 4}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 3.0F);
+    public static final ItemArmor.ArmorMaterial R_78_2 = EnumHelper.addArmorMaterial("r_78_2", OceanHeartR.MODID + ":r_78_2", 9999, new int[]{6, 12, 14, 4}, 10, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 3.0F);
 
     @RegItem("first_item")
     public static final Item FIRST = new ItemBase();
@@ -78,4 +79,16 @@ public final class OHRItems {
 
     @RegItem("god_brick")
     public static final Item GOD_BRICK = new ItemGodBrick();
+
+    @RegItem("r_78_2_helmet")
+    public static final Item R_78_2_HELMET = new ItemRSeriesArmor(R_78_2,3,EntityEquipmentSlot.HEAD);
+
+    @RegItem("r_78_2_chestplate")
+    public static final Item R_78_2_CHESTPLATE = new ItemRSeriesArmor(R_78_2,3,EntityEquipmentSlot.CHEST);
+
+    @RegItem("r_78_2_leggings")
+    public static final Item R_78_2_LEGGINGS = new ItemRSeriesArmor(R_78_2,3,EntityEquipmentSlot.LEGS);
+
+    @RegItem("r_78_2_boots")
+    public static final Item R_78_2_BOOTS = new ItemRSeriesArmor(R_78_2,3,EntityEquipmentSlot.FEET);
 }
