@@ -37,6 +37,11 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * TODO：两套盔甲调整
+ * TODO：虎鲸，详情见文档
+ */
+
 @Mod(modid = OceanHeartR.MODID, name = OceanHeartR.NAME, version = OceanHeartR.VERSION,
         dependencies = "required-after:codechickenlib@[3.2.2.353,)")
 public class OceanHeartR {

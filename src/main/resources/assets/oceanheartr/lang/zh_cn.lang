@@ -47,6 +47,11 @@ item.red_packet.name=红包
 
 item.god_brick.name=§c板砖
 
+item.r_78_2_helmet.name=R系列装甲 78-MKⅡ
+item.r_78_2_chestplate.name=R系列装甲 78-MKⅡ
+item.r_78_2_leggings.name=R系列装甲 78-MKⅡ
+item.r_78_2_boots.name=R系列装甲 78-MKⅡ
+
 # 方块
 tile.first_block.name=试作型方块1号
 tile.nature_ore.overworld.name=自然矿石

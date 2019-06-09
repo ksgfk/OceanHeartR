@@ -47,6 +47,11 @@ item.red_packet.name=Red Packet
 
 item.god_brick.name=§cGod's brick
 
+item.r_78_2_helmet.name=R series armor 78-MKⅡ
+item.r_78_2_chestplate.name=R series armor 78-MKⅡ
+item.r_78_2_leggings.name=R series armor 78-MKⅡ
+item.r_78_2_boots.name=R series armor 78-MKⅡ
+
 #Blocks
 tile.first_block.name=Trial type 1
 tile.nature_ore.overworld.name=Nature ore

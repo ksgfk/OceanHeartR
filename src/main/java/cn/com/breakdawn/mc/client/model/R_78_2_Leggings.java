@@ -43,27 +43,39 @@ public class R_78_2_Leggings extends ModelBiped {
     }
 
     private void renderCore() {
-        GlStateManager.scale(0.0125F, 0.0125F, 0.0125F);
+        GlStateManager.scale(0.013F, 0.013F, 0.013F);
         GlStateManager.rotate(180f, 1f, 0, 0);
-        /*
-        if (bipedHead.rotateAngleZ != 0.0F) {
-            GlStateManager.rotate(bipedHead.rotateAngleZ * (180F / (float) Math.PI), 0.0F, 0.0F, 1.0F);
+
+        GlStateManager.pushMatrix();
+        if (bipedLeftLeg.rotateAngleZ != 0.0F) {
+            GlStateManager.rotate(bipedLeftLeg.rotateAngleZ * (180F / (float) Math.PI), 0.0F, 0.0F, 1.0F);
         }
-        if (bipedHead.rotateAngleY != 0.0F) {
-            GlStateManager.rotate(-bipedHead.rotateAngleY * (180F / (float) Math.PI), 0.0F, 1.0F, 0.0F);
+        if (bipedLeftLeg.rotateAngleY != 0.0F) {
+            GlStateManager.rotate(-bipedLeftLeg.rotateAngleY * (180F / (float) Math.PI), 0.0F, 1.0F, 0.0F);
         }
-        if (bipedHead.rotateAngleX != 0.0F) {
-            GlStateManager.rotate(bipedHead.rotateAngleX * (180F / (float) Math.PI), 1.0F, 0.0F, 0.0F);
+        if (bipedLeftLeg.rotateAngleX != 0.0F) {
+            GlStateManager.rotate(bipedLeftLeg.rotateAngleX * (180F / (float) Math.PI), 1.0F, 0.0F, 0.0F);
         }
-         */
         leftRender.reset();
         leftRender.startDrawing(4, DefaultVertexFormats.ITEM);
         left.render(leftRender);
         leftRender.draw();
+        GlStateManager.popMatrix();
 
+        GlStateManager.pushMatrix();
+        if (bipedRightLeg.rotateAngleZ != 0.0F) {
+            GlStateManager.rotate(bipedRightLeg.rotateAngleZ * (180F / (float) Math.PI), 0.0F, 0.0F, 1.0F);
+        }
+        if (bipedRightLeg.rotateAngleY != 0.0F) {
+            GlStateManager.rotate(-bipedRightLeg.rotateAngleY * (180F / (float) Math.PI), 0.0F, 1.0F, 0.0F);
+        }
+        if (bipedRightLeg.rotateAngleX != 0.0F) {
+            GlStateManager.rotate(bipedRightLeg.rotateAngleX * (180F / (float) Math.PI), 1.0F, 0.0F, 0.0F);
+        }
         rightRender.reset();
         rightRender.startDrawing(4, DefaultVertexFormats.ITEM);
         right.render(rightRender);
         rightRender.draw();
+        GlStateManager.popMatrix();
     }
 }

@@ -16,15 +16,23 @@ import net.minecraft.util.ResourceLocation;
  */
 public class R_78_2_Chest extends ModelBiped {
     private static final ResourceLocation MODEL = new ResourceLocation(OceanHeartR.MODID, "textures/armors/r_78_2_chestplate.obj");
-    private CCModel model;
-    private CCRenderState ccrs;
+    private CCModel chest;
+    private CCRenderState chestRender;
+    private CCModel left;
+    private CCRenderState leftRender;
+    private CCModel right;
+    private CCRenderState rightRender;
 
     public R_78_2_Chest() {
         this.bipedBody = new ModelRenderer(this, 0, 0);
         this.bipedBody.addBox(-4, -8, -4, 8, 8, 8, 0);
         this.bipedBody.setRotationPoint(0.0F, 0.0F, 6.0F);
-        model = OBJParser.parseModels(MODEL).get("Box007");
-        ccrs = CCRenderState.instance();
+        chest = OBJParser.parseModels(MODEL).get("Box007");
+        chestRender = CCRenderState.instance();
+        left = OBJParser.parseModels(MODEL).get("b001");
+        leftRender = CCRenderState.instance();
+        right = OBJParser.parseModels(MODEL).get("b002");
+        rightRender = CCRenderState.instance();
     }
 
     @Override
@@ -39,11 +47,51 @@ public class R_78_2_Chest extends ModelBiped {
     }
 
     private void renderCore() {
-        GlStateManager.scale(0.0125F, 0.0125F, 0.0125F);
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(0, -0.001F, 0);
+        GlStateManager.scale(0.0135F, 0.0135F, 0.0135F);
         GlStateManager.rotate(180f, 1f, 0, 0);
-        ccrs.reset();
-        ccrs.startDrawing(4, DefaultVertexFormats.ITEM);
-        model.render(ccrs);
-        ccrs.draw();
+        chestRender.reset();
+        chestRender.startDrawing(4, DefaultVertexFormats.ITEM);
+        chest.render(chestRender);
+        chestRender.draw();
+        GlStateManager.popMatrix();
+
+        GlStateManager.pushMatrix();
+
+        GlStateManager.rotate(180f, 1f, 0, 0);
+        GlStateManager.scale(0.015F, 0.015F, 0.015F);
+        if (bipedLeftArm.rotateAngleZ != 0.0F) {
+            GlStateManager.rotate(bipedLeftArm.rotateAngleZ * (180F / (float) Math.PI), 0.0F, 0.0F, 1.0F);
+        }
+        if (bipedLeftArm.rotateAngleY != 0.0F) {
+            GlStateManager.rotate(-bipedLeftArm.rotateAngleY * (180F / (float) Math.PI), 0.0F, 1.0F, 0.0F);
+        }
+        if (bipedLeftArm.rotateAngleX != 0.0F) {
+            GlStateManager.rotate(bipedLeftArm.rotateAngleX * (180F / (float) Math.PI), 1.0F, 0.0F, 0.0F);
+        }
+        leftRender.reset();
+        leftRender.startDrawing(4, DefaultVertexFormats.ITEM);
+        left.render(leftRender);
+        leftRender.draw();
+        GlStateManager.popMatrix();
+
+        GlStateManager.pushMatrix();
+        GlStateManager.rotate(180f, 1f, 0, 0);
+        GlStateManager.scale(0.015F, 0.015F, 0.015F);
+        if (bipedRightArm.rotateAngleZ != 0.0F) {
+            GlStateManager.rotate(bipedRightArm.rotateAngleZ * (180F / (float) Math.PI), 0.0F, 0.0F, 1.0F);
+        }
+        if (bipedRightArm.rotateAngleY != 0.0F) {
+            GlStateManager.rotate(-bipedRightArm.rotateAngleY * (180F / (float) Math.PI), 0.0F, 1.0F, 0.0F);
+        }
+        if (bipedRightArm.rotateAngleX != 0.0F) {
+            GlStateManager.rotate(bipedRightArm.rotateAngleX * (180F / (float) Math.PI), 1.0F, 0.0F, 0.0F);
+        }
+        rightRender.reset();
+        rightRender.startDrawing(4, DefaultVertexFormats.ITEM);
+        right.render(rightRender);
+        rightRender.draw();
+        GlStateManager.popMatrix();
     }
 }

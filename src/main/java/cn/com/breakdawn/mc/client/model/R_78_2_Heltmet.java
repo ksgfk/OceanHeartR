@@ -39,7 +39,7 @@ public class R_78_2_Heltmet extends ModelBiped {
     }
 
     private void renderCore() {
-        GlStateManager.scale(0.0255F, 0.0255F, 0.0255F);
+        GlStateManager.scale(0.025F, 0.025F, 0.025F);
         GlStateManager.rotate(180f, 1f, 0, 0);
         if (bipedHead.rotateAngleZ != 0.0F) {
             GlStateManager.rotate(bipedHead.rotateAngleZ * (180F / (float) Math.PI), 0.0F, 0.0F, 1.0F);
