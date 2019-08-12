@@ -4,6 +4,7 @@ import com.github.ksgfk.oceanheartr.common.CommonProxy;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.LogManager;
@@ -16,7 +17,7 @@ import org.apache.logging.log4j.Logger;
         acceptedMinecraftVersions = "1.12.2"
 )
 public enum OceanHeartR {
-    Instance;
+    INSTANCE;
 
     public static final String MOD_ID = "oceanheartr";
     public static final String MOD_NAME = "OceanHeartR";
@@ -26,7 +27,7 @@ public enum OceanHeartR {
 
     @Mod.InstanceFactory
     public static OceanHeartR getInstance() {
-        return Instance;
+        return INSTANCE;
     }
 
     @SidedProxy(clientSide = OceanHeartR.CLIENT, serverSide = OceanHeartR.COMMON, modId = OceanHeartR.MOD_ID)
@@ -35,7 +36,7 @@ public enum OceanHeartR {
     public static Logger logger = LogManager.getLogger(OceanHeartR.MOD_NAME);
 
     @Mod.EventHandler
-    public void preinit(FMLPreInitializationEvent event) {
+    public void preinit(FMLPreInitializationEvent event) throws ClassNotFoundException, IllegalAccessException {
         proxy.preInit(event);
     }
 
@@ -47,5 +48,10 @@ public enum OceanHeartR {
     @Mod.EventHandler
     public void postinit(FMLPostInitializationEvent event) {
 
+    }
+
+    @Mod.EventHandler
+    public void loadComplete(FMLLoadCompleteEvent event) {
+        proxy.loadComplete(event);
     }
 }
