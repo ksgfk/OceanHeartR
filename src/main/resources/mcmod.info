@@ -1,17 +1,16 @@
 [
   {
     "modid": "oceanheartr",
-    "name": "Ocean Heart R",
-    "description": "A Minecraft Forge Mod which override by my OceanHeart",
+    "name": "OceanHeartR",
+    "description": "injection point type '%s'",
     "version": "${version}",
     "mcversion": "${mcversion}",
-    "url": "",
-    "updateUrl": "https://github.com/ksgfk/OceanHeartR/",
+    "url": "https://github.com/ksgfk/oceanheartr",
+    "updateUrl": "",
     "authorList": [
-      "KSGFK",
-      "kabi0210"
+      "KSGFK"
     ],
-    "credits": "The Forge and FML guys",
+    "credits": "",
     "logoFile": "",
     "screenshots": [],
     "dependencies": []
