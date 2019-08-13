@@ -1,11 +1,13 @@
 package com.github.ksgfk.oceanheartr.common;
 
 import com.github.ksgfk.oceanheartr.OceanHeartR;
+import com.github.ksgfk.oceanheartr.common.event.SubscribeWorldOreGenEvent;
 import com.github.ksgfk.oceanheartr.common.manager.RegisterManager;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -22,6 +24,7 @@ import java.util.Optional;
 @Mod.EventBusSubscriber
 public class CommonProxy {
     public void preInit(FMLPreInitializationEvent event) throws ClassNotFoundException, IllegalAccessException {
+        MinecraftForge.ORE_GEN_BUS.register(SubscribeWorldOreGenEvent.class);
         RegisterManager rm = Optional.ofNullable(RegisterManager.getInstance()).orElseThrow(NullPointerException::new);
         rm.register(event.getAsmData());
     }
