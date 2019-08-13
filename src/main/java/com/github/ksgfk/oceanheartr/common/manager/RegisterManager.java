@@ -1,9 +1,12 @@
 package com.github.ksgfk.oceanheartr.common.manager;
 
+import com.github.ksgfk.oceanheartr.OceanHeartR;
 import com.github.ksgfk.oceanheartr.annotation.ModRegistry;
+import com.github.ksgfk.oceanheartr.annotation.OreDict;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
+import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Field;
@@ -24,6 +27,7 @@ public class RegisterManager {
     private Map<Class<?>, Consumer<Object>> tableDrive = new HashMap<>();
     private List<Item> ohrItems = new ArrayList<>();
     private List<Block> ohrBlocks = new ArrayList<>();
+    private List<Field> oreDict = new ArrayList<>();
 
     @Nullable
     public static RegisterManager getInstance() {
@@ -40,7 +44,14 @@ public class RegisterManager {
             Class<?> realClass = Class.forName(asmClass.getClassName());
             for (Field registerElement : realClass.getFields()) {
                 Object elementInstance = registerElement.get(null);
+                if (!tableDrive.containsKey(registerElement.getType())) {
+                    continue;
+                }
                 tableDrive.get(registerElement.getType()).accept(elementInstance);
+                if (!registerElement.isAnnotationPresent(OreDict.class)) {
+                    continue;
+                }
+                oreDict.add(registerElement);
             }
         }
     }
@@ -57,7 +68,28 @@ public class RegisterManager {
         return blockArray;
     }
 
+    public Iterable<Field> getOreDict() {
+        return oreDict;
+    }
+
     public static void dispose() {
         instance = null;
+    }
+
+    public static void registerOreDict(Field field) {
+        OreDict anno = field.getAnnotation(OreDict.class);
+        Object instance = null;
+        try {
+            instance = field.get(null);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        if (instance instanceof Item) {
+            OreDictionary.registerOre(anno.name(), (Item) instance);
+        } else if (instance instanceof Block) {
+            OreDictionary.registerOre(anno.name(), (Block) instance);
+        } else {
+            OceanHeartR.logger.warn("只有Item和Block可以注册矿词,不支持:{}", field.getType().getTypeName());
+        }
     }
 }

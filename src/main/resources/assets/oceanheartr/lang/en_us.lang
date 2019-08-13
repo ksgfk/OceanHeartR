@@ -3,6 +3,7 @@ item.oceanheartr.ocean_soul_ingot.name=§1Soul of Ocean
 
 # Blocks
 tile.oceanheartr.ocean_soul_block.name=§1Soul Block of Ocean
+tile.oceanheartr.ocean_soul_ore.name=§1Soul Ore of Ocean
 
 # Item Group
 itemGroup.oceanheartr.name=OceanHeartR

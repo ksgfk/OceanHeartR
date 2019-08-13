@@ -8,6 +8,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -23,6 +24,11 @@ public class CommonProxy {
     public void preInit(FMLPreInitializationEvent event) throws ClassNotFoundException, IllegalAccessException {
         RegisterManager rm = Optional.ofNullable(RegisterManager.getInstance()).orElseThrow(NullPointerException::new);
         rm.register(event.getAsmData());
+    }
+
+    public void init(FMLInitializationEvent event) {
+        RegisterManager rm = Optional.ofNullable(RegisterManager.getInstance()).orElseThrow(NullPointerException::new);
+        rm.getOreDict().forEach(RegisterManager::registerOreDict);
     }
 
     public void loadComplete(FMLLoadCompleteEvent event) {
