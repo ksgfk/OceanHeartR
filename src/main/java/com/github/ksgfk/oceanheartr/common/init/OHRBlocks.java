@@ -11,6 +11,7 @@ import net.minecraft.block.material.Material;
  */
 @ModRegistry
 public final class OHRBlocks {
+    @OreDict(name = "blockOceanSoul")
     public static final Block OceanSoul = new BlockOHRBase("ocean_soul_block", Material.ICE);
     @OreDict(name = "oreOceanSoul")
     public static final Block OceanSoulOre = new BlockOHRBase("ocean_soul_ore", Material.ICE);
