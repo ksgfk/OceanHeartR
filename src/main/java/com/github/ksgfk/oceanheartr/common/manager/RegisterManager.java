@@ -3,6 +3,7 @@ package com.github.ksgfk.oceanheartr.common.manager;
 import com.github.ksgfk.oceanheartr.OceanHeartR;
 import com.github.ksgfk.oceanheartr.annotation.ModRegistry;
 import com.github.ksgfk.oceanheartr.annotation.OreDict;
+import com.github.ksgfk.oceanheartr.annotation.OreGenBusSubscriber;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
@@ -28,6 +29,7 @@ public class RegisterManager {
     private List<Item> ohrItems = new ArrayList<>();
     private List<Block> ohrBlocks = new ArrayList<>();
     private List<Field> oreDict = new ArrayList<>();
+    private List<Class<?>> oreGenBusSuber = new ArrayList<>();
 
     @Nullable
     public static RegisterManager getInstance() {
@@ -40,6 +42,11 @@ public class RegisterManager {
     }
 
     public void register(ASMDataTable table) throws ClassNotFoundException, IllegalAccessException {
+        registerModElements(table);
+        registerEventSuber(table);
+    }
+
+    private void registerModElements(ASMDataTable table) throws ClassNotFoundException, IllegalAccessException {
         for (ASMDataTable.ASMData asmClass : table.getAll(ModRegistry.class.getName())) {
             Class<?> realClass = Class.forName(asmClass.getClassName());
             for (Field registerElement : realClass.getFields()) {
@@ -53,6 +60,12 @@ public class RegisterManager {
                 }
                 oreDict.add(registerElement);
             }
+        }
+    }
+
+    private void registerEventSuber(ASMDataTable table) throws ClassNotFoundException {
+        for (ASMDataTable.ASMData asmClass : table.getAll(OreGenBusSubscriber.class.getName())) {
+            oreGenBusSuber.add(Class.forName(asmClass.getClassName()));
         }
     }
 
@@ -70,6 +83,10 @@ public class RegisterManager {
 
     public Iterable<Field> getOreDict() {
         return oreDict;
+    }
+
+    public Iterable<Class<?>> getOreGenSuber() {
+        return oreGenBusSuber;
     }
 
     public static void dispose() {

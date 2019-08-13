@@ -1,5 +1,7 @@
 package com.github.ksgfk.oceanheartr.common.event;
 
+import com.github.ksgfk.oceanheartr.OceanHeartR;
+import com.github.ksgfk.oceanheartr.annotation.OreGenBusSubscriber;
 import com.github.ksgfk.oceanheartr.common.init.OHRBlocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
@@ -16,6 +18,7 @@ import java.util.Random;
 /**
  * @author KSGFK create in 2019/8/13
  */
+@OreGenBusSubscriber
 public final class SubscribeWorldOreGenEvent {
     @SubscribeEvent
     public static void onOceanSoulOreGen(OreGenEvent.Pre event) {
