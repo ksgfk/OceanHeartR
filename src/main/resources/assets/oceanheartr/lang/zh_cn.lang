@@ -1,5 +1,8 @@
 # 物品
-item.oceanheartr.ocean_soul.name=§1海洋之魂
+item.oceanheartr.ocean_soul_ingot.name=§1海洋之魂
 
-# Item Group
+# 方块
+tile.oceanheartr.ocean_soul_block.name=§1海洋之魂块
+
+# 物品栏
 itemGroup.oceanheartr.name=海洋之心
