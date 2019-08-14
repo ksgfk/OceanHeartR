@@ -5,5 +5,8 @@ item.oceanheartr.ocean_soul_ingot.name=§1海洋之魂
 tile.oceanheartr.ocean_soul_block.name=§1海洋之魂块
 tile.oceanheartr.ocean_soul_ore.name=§1海洋之魂矿石
 
+# 实体
+entity.oceanheartr.boom_ocean_soul_ore.name=§1破碎的海洋之魂
+
 # 物品栏
 itemGroup.oceanheartr.name=海洋之心

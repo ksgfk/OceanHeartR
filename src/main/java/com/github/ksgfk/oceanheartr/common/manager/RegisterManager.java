@@ -1,21 +1,23 @@
 package com.github.ksgfk.oceanheartr.common.manager;
 
 import com.github.ksgfk.oceanheartr.OceanHeartR;
-import com.github.ksgfk.oceanheartr.annotation.ModRegistry;
-import com.github.ksgfk.oceanheartr.annotation.OreDict;
-import com.github.ksgfk.oceanheartr.annotation.OreGenBusSubscriber;
+import com.github.ksgfk.oceanheartr.annotation.*;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
+import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * 该管理者的生命周期到触发{@link net.minecraftforge.fml.common.event.FMLLoadCompleteEvent}事件时结束
@@ -30,6 +32,8 @@ public class RegisterManager {
     private List<Block> ohrBlocks = new ArrayList<>();
     private List<Field> oreDict = new ArrayList<>();
     private List<Class<?>> oreGenBusSuber = new ArrayList<>();
+    private List<Class<? extends Entity>> ohrEntities = new ArrayList<>();
+    private List<ASMDataTable.ASMData> ohrEntityModels = new ArrayList<>();
 
     @Nullable
     public static RegisterManager getInstance() {
@@ -44,6 +48,8 @@ public class RegisterManager {
     public void register(ASMDataTable table) throws ClassNotFoundException, IllegalAccessException {
         registerModElements(table);
         registerEventSuber(table);
+        registerEntities(table);
+        registerEntityModels(table);
     }
 
     private void registerModElements(ASMDataTable table) throws ClassNotFoundException, IllegalAccessException {
@@ -69,6 +75,66 @@ public class RegisterManager {
         }
     }
 
+    private void registerEntities(ASMDataTable table) throws ClassNotFoundException {
+        for (ASMDataTable.ASMData asmClass : table.getAll(EntityRegistry.class.getName())) {
+            Class<?> realClass = Class.forName(asmClass.getClassName());
+            try {
+                Class<? extends Entity> e = realClass.asSubclass(Entity.class);
+                ohrEntities.add(e);
+            } catch (ClassCastException e) {
+                OceanHeartR.logger.error("class {} 不是Entity", realClass.getName());
+            }
+        }
+    }
+
+    private void registerEntityModels(ASMDataTable table) {
+        ohrEntityModels.addAll(table.getAll(EntityModelRegistry.class.getName()));
+    }
+
+    public EntityEntry[] getEntityEntries() {
+        return ohrEntities.stream()
+                .map((entityClass) -> {
+                    EntityRegistry anno = entityClass.getAnnotation(EntityRegistry.class);
+                    EntityEntryBuilder<Entity> builder = EntityEntryBuilder.create()
+                            .entity(entityClass)
+                            .id(new ResourceLocation(OceanHeartR.MOD_ID, anno.nameID()), anno.numID())
+                            .name(anno.nameID())
+                            .tracker(anno.updateRange(), anno.updateFrequency(), anno.isSendVelocityUpdates());
+                    if (anno.eggPrimaryColor() != -1 && anno.eggSecondaryColor() != -1) {
+                        builder.egg(anno.eggPrimaryColor(), anno.eggSecondaryColor());
+                    }
+                    if (anno.canAutoSpawn()) {
+                        List<Biome> biomes = Arrays.stream(anno.biomes())
+                                .map((biomeName -> {
+                                    Biome biome = Biome.REGISTRY.getObject(new ResourceLocation(biomeName));
+                                    if (biome == null) {
+                                        throw new IllegalStateException("不存在名为" + biomeName + "的Biome");
+                                    }
+                                    return biome;
+                                }))
+                                .collect(Collectors.toList());
+                        builder.spawn(anno.CreatureType(), anno.weight(), anno.min(), anno.max(), biomes);
+                    }
+                    return builder.build();
+                })
+                .toArray(EntityEntry[]::new);
+    }
+
+    public Item[] getItemBlocks() {
+        return ohrBlocks.stream()
+                .map(block -> {
+                    ItemBlock i = new ItemBlock(block);
+                    ResourceLocation rl = block.getRegistryName();
+                    if (rl == null) {
+                        OceanHeartR.logger.error("null ResourceLocation:" + block);
+                        return null;
+                    }
+                    i.setRegistryName(rl);
+                    return i;
+                })
+                .toArray(Item[]::new);
+    }
+
     public Item[] getItems() {
         Item[] itemArray = new Item[ohrItems.size()];
         ohrItems.toArray(itemArray);
@@ -87,6 +153,14 @@ public class RegisterManager {
 
     public Iterable<Class<?>> getOreGenSuber() {
         return oreGenBusSuber;
+    }
+
+    public List<Class<? extends Entity>> getEntities() {
+        return ohrEntities;
+    }
+
+    public List<ASMDataTable.ASMData> getOhrEntityModels() {
+        return ohrEntityModels;
     }
 
     public static void dispose() {

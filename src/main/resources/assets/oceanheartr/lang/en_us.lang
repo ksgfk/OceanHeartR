@@ -5,5 +5,8 @@ item.oceanheartr.ocean_soul_ingot.name=§1Soul of Ocean
 tile.oceanheartr.ocean_soul_block.name=§1Soul Block of Ocean
 tile.oceanheartr.ocean_soul_ore.name=§1Soul Ore of Ocean
 
+# Entities
+entity.oceanheartr.boom_ocean_soul_ore.name=§1Crumbling Soul Ore of Ocean
+
 # Item Group
 itemGroup.oceanheartr.name=OceanHeartR

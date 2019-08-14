@@ -1,11 +1,10 @@
 package com.github.ksgfk.oceanheartr.common;
 
 import com.github.ksgfk.oceanheartr.OceanHeartR;
+import com.github.ksgfk.oceanheartr.client.ClientProxy;
 import com.github.ksgfk.oceanheartr.common.manager.RegisterManager;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -13,8 +12,8 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.EntityEntry;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -23,13 +22,14 @@ import java.util.Optional;
 @Mod.EventBusSubscriber
 public class CommonProxy {
     public void preInit(FMLPreInitializationEvent event) throws ClassNotFoundException, IllegalAccessException {
-        RegisterManager rm = Optional.ofNullable(RegisterManager.getInstance()).orElseThrow(NullPointerException::new);
+        RegisterManager rm = checkRegisterManager();
         rm.register(event.getAsmData());
         rm.getOreGenSuber().forEach(MinecraftForge.ORE_GEN_BUS::register);
+        //MinecraftForge.EVENT_BUS.register(ClientProxy.class);
     }
 
     public void init(FMLInitializationEvent event) {
-        RegisterManager rm = Optional.ofNullable(RegisterManager.getInstance()).orElseThrow(NullPointerException::new);
+        RegisterManager rm = checkRegisterManager();
         rm.getOreDict().forEach(RegisterManager::registerOreDict);
     }
 
@@ -40,25 +40,24 @@ public class CommonProxy {
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
-        RegisterManager rm = Optional.ofNullable(RegisterManager.getInstance()).orElseThrow(NullPointerException::new);
+        RegisterManager rm = checkRegisterManager();
         event.getRegistry().registerAll(rm.getItems());
-        event.getRegistry().registerAll(Arrays.stream(rm.getBlocks())
-                .map(block -> {
-                    ItemBlock i = new ItemBlock(block);
-                    ResourceLocation rl = block.getRegistryName();
-                    if (rl == null) {
-                        OceanHeartR.logger.error("null ResourceLocation:" + block);
-                        return null;
-                    }
-                    i.setRegistryName(rl);
-                    return i;
-                })
-                .toArray(Item[]::new));
+        event.getRegistry().registerAll(rm.getItemBlocks());
     }
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
-        RegisterManager rm = Optional.ofNullable(RegisterManager.getInstance()).orElseThrow(NullPointerException::new);
+        RegisterManager rm = checkRegisterManager();
         event.getRegistry().registerAll(rm.getBlocks());
+    }
+
+    @SubscribeEvent
+    public static void registerEntities(RegistryEvent.Register<EntityEntry> event) {
+        RegisterManager rm = checkRegisterManager();
+        event.getRegistry().registerAll(rm.getEntityEntries());
+    }
+
+    protected static RegisterManager checkRegisterManager() {
+        return Optional.ofNullable(RegisterManager.getInstance()).orElseThrow(NullPointerException::new);
     }
 }
