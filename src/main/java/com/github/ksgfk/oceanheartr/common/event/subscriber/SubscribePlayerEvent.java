@@ -31,7 +31,8 @@ public final class SubscribePlayerEvent {
         EntityPlayer player = event.getClicker();
         ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
         world.setBlockToAir(pos);
-        world.spawnEntity(new EntityBoomOceanSoulOre(world));
         heldItem.damageItem(1, player);
+        EntityBoomOceanSoulOre ore = new EntityBoomOceanSoulOre(world, pos, player);
+        world.spawnEntity(ore);
     }
 }
