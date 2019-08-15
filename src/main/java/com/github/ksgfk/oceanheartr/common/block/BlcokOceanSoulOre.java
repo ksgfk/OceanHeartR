@@ -1,5 +1,6 @@
 package com.github.ksgfk.oceanheartr.common.block;
 
+import com.github.ksgfk.oceanheartr.common.entity.EntityBoomOceanSoulOre;
 import com.github.ksgfk.oceanheartr.common.init.OHRBlocks;
 import com.github.ksgfk.oceanheartr.common.init.OHRItems;
 import net.minecraft.block.material.Material;
@@ -10,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
 /**
@@ -36,5 +38,15 @@ public class BlcokOceanSoulOre extends BlockOHRBase {
             }
         }
         return super.onBlockActivated(world, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
+    }
+
+    @Override
+    public void onExplosionDestroy(World worldIn, BlockPos pos, Explosion explosionIn) {
+        if (worldIn.isRemote) {
+            return;
+        }
+        EntityBoomOceanSoulOre ore = new EntityBoomOceanSoulOre(worldIn, pos, explosionIn.getExplosivePlacedBy());
+        ore.setCoolDown((worldIn.rand.nextInt(ore.getCooldown() / 2) + ore.getCooldown() / 4));
+        worldIn.spawnEntity(ore);
     }
 }

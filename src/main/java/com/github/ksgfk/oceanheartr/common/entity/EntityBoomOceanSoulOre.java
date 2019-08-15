@@ -23,8 +23,6 @@ import javax.annotation.Nullable;
 @EntityRegistry(
         nameID = OceanHeartR.MOD_ID + ".boom_ocean_soul_ore",
         numID = 233,
-        eggPrimaryColor = 111111,
-        eggSecondaryColor = 111111,
         canAutoSpawn = false
 )
 public class EntityBoomOceanSoulOre extends EntityLiving {
@@ -142,5 +140,13 @@ public class EntityBoomOceanSoulOre extends EntityLiving {
     @Nullable
     public EntityLivingBase getPlacedBy() {
         return placedBy;
+    }
+
+    public int getCooldown() {
+        return this.coolDown;
+    }
+
+    public void setCoolDown(int coolDown) {
+        this.coolDown = coolDown;
     }
 }
