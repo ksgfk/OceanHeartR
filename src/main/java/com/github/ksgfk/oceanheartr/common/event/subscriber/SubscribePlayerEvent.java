@@ -1,10 +1,10 @@
 package com.github.ksgfk.oceanheartr.common.event.subscriber;
 
+import com.github.ksgfk.oceanheartr.common.entity.EntityBoomOceanSoulOre;
 import com.github.ksgfk.oceanheartr.common.event.ClickOHRBlockEvent;
 import com.github.ksgfk.oceanheartr.common.init.OHRBlocks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @Mod.EventBusSubscriber
 public final class SubscribePlayerEvent {
     @SubscribeEvent
-    public static void onPlayerClickOre(ClickOHRBlockEvent event) {
+    public static void onPlayerClickOceanSoulOre(ClickOHRBlockEvent event) {
         World world = event.getWorld();
         if (world.isRemote) {
             return;
@@ -30,10 +30,8 @@ public final class SubscribePlayerEvent {
         BlockPos pos = event.getPos();
         EntityPlayer player = event.getClicker();
         ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-        if (heldItem.getItem() != Items.DIAMOND_PICKAXE) {
-            world.setBlockToAir(pos);
-            heldItem.damageItem(1, player);
-            //return;
-        }
+        world.setBlockToAir(pos);
+        world.spawnEntity(new EntityBoomOceanSoulOre(world));
+        heldItem.damageItem(1, player);
     }
 }
