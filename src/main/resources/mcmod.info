@@ -2,13 +2,14 @@
   {
     "modid": "oceanheartr",
     "name": "OceanHeartR",
-    "description": "injection point type '%s'",
+    "description": "Simple mod",
     "version": "${version}",
     "mcversion": "${mcversion}",
     "url": "https://github.com/ksgfk/oceanheartr",
     "updateUrl": "",
     "authorList": [
-      "KSGFK"
+      "KSGFK",
+      "kabi0210"
     ],
     "credits": "",
     "logoFile": "",

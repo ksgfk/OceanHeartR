@@ -12,4 +12,5 @@ import net.minecraft.item.Item;
 public final class OHRItems {
     @OreDict(name = "ingotOceanSoul")
     public static final Item OceanSoul = new ItemOHRBase("ocean_soul_ingot");
+    public static final Item FrigidDrillingBitRtx3080 = new ItemOHRBase("frigid_drilling_bit_rtx3080");
 }
