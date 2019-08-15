@@ -1,6 +1,5 @@
-package com.github.ksgfk.oceanheartr.common.event;
+package com.github.ksgfk.oceanheartr.common.event.subscriber;
 
-import com.github.ksgfk.oceanheartr.OceanHeartR;
 import com.github.ksgfk.oceanheartr.annotation.OreGenBusSubscriber;
 import com.github.ksgfk.oceanheartr.common.init.OHRBlocks;
 import net.minecraft.block.material.Material;
