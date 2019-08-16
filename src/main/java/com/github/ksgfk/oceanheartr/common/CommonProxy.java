@@ -25,12 +25,12 @@ public class CommonProxy {
         RegisterManager rm = checkRegisterManager();
         rm.register(event.getAsmData());
         rm.getOreGenSuber().forEach(MinecraftForge.ORE_GEN_BUS::register);
-        //MinecraftForge.EVENT_BUS.register(ClientProxy.class);
     }
 
     public void init(FMLInitializationEvent event) {
         RegisterManager rm = checkRegisterManager();
         rm.getOreDict().forEach(RegisterManager::registerOreDict);
+        rm.getFurnace().forEach(RegisterManager::registerFurnaceSmelt);
     }
 
     public void loadComplete(FMLLoadCompleteEvent event) {

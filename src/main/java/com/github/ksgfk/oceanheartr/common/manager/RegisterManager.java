@@ -6,11 +6,14 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
@@ -34,6 +37,7 @@ public class RegisterManager {
     private List<Class<?>> oreGenBusSuber = new ArrayList<>();
     private List<Class<? extends Entity>> ohrEntities = new ArrayList<>();
     private List<ASMDataTable.ASMData> ohrEntityModels = new ArrayList<>();
+    private List<Field> furnace = new ArrayList<>();
 
     @Nullable
     public static RegisterManager getInstance() {
@@ -61,10 +65,12 @@ public class RegisterManager {
                     continue;
                 }
                 tableDrive.get(registerElement.getType()).accept(elementInstance);
-                if (!registerElement.isAnnotationPresent(OreDict.class)) {
-                    continue;
+                if (registerElement.isAnnotationPresent(OreDict.class)) {
+                    oreDict.add(registerElement);
                 }
-                oreDict.add(registerElement);
+                if (registerElement.isAnnotationPresent(FurnaceSmelting.class)) {
+                    furnace.add(registerElement);
+                }
             }
         }
     }
@@ -163,6 +169,10 @@ public class RegisterManager {
         return ohrEntityModels;
     }
 
+    public List<Field> getFurnace() {
+        return furnace;
+    }
+
     public static void dispose() {
         instance = null;
     }
@@ -173,6 +183,7 @@ public class RegisterManager {
         try {
             instance = field.get(null);
         } catch (IllegalAccessException e) {
+            OceanHeartR.logger.error("无法获取字段引用的实例,{}", field.getType().getTypeName());
             e.printStackTrace();
         }
         if (instance instanceof Item) {
@@ -182,5 +193,30 @@ public class RegisterManager {
         } else {
             OceanHeartR.logger.warn("只有Item和Block可以注册矿词,不支持:{}", field.getType().getTypeName());
         }
+    }
+
+    public static void registerFurnaceSmelt(Field field) {
+        FurnaceSmelting smelting = field.getAnnotation(FurnaceSmelting.class);
+        Object instance;
+        try {
+            instance = field.get(null);
+        } catch (IllegalAccessException e) {
+            OceanHeartR.logger.error("无法获取字段引用的实例,{}", field.getType().getTypeName());
+            return;
+        }
+        ItemStack objStack = null;
+        if (instance instanceof Item) {
+            objStack = new ItemStack((Item) instance);
+        } else if (instance instanceof Block) {
+            objStack = new ItemStack((Block) instance);
+        } else {
+            OceanHeartR.logger.warn("只有Item和Block可以注册燃烧,不支持:{}", field.getType().getTypeName());
+            return;
+        }
+        Item output = Item.getByNameOrId(OceanHeartR.MOD_ID + ":" + smelting.output());
+        if (output == null) {
+            throw new IllegalArgumentException();
+        }
+        GameRegistry.addSmelting(objStack, new ItemStack(output), smelting.exp());
     }
 }
