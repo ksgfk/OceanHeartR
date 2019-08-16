@@ -2,6 +2,7 @@ package com.github.ksgfk.oceanheartr.common.block;
 
 import com.github.ksgfk.oceanheartr.OceanHeartR;
 import com.github.ksgfk.oceanheartr.common.event.ClickOHRBlockEvent;
+import com.github.ksgfk.oceanheartr.common.event.ExplosionDestroyOHRBlockEvent;
 import com.github.ksgfk.oceanheartr.common.event.OHRBlockActiveEvent;
 import com.github.ksgfk.oceanheartr.common.init.OHRCreativeTab;
 import net.minecraft.block.Block;
@@ -11,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -35,5 +37,10 @@ public class BlockOHRBase extends Block {
         OHRBlockActiveEvent event = new OHRBlockActiveEvent(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
         event.setCanceled(false);
         return MinecraftForge.EVENT_BUS.post(event);
+    }
+
+    @Override
+    public void onExplosionDestroy(World worldIn, BlockPos pos, Explosion explosionIn) {
+        MinecraftForge.EVENT_BUS.post(new ExplosionDestroyOHRBlockEvent(worldIn, pos, worldIn.getBlockState(pos), explosionIn));
     }
 }
