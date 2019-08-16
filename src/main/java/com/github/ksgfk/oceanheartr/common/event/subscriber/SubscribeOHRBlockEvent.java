@@ -20,7 +20,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  * @author KSGFK create in 2019/8/15
  */
 @Mod.EventBusSubscriber
-public final class SubscribePlayerEvent {
+public final class SubscribeOHRBlockEvent {
     @SubscribeEvent
     public static void onPlayerClickOceanSoulOre(ClickOHRBlockEvent event) {
         World world = event.getWorld();
