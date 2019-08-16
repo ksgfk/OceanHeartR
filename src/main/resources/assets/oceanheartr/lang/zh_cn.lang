@@ -1,6 +1,9 @@
 # 物品
 item.oceanheartr.ocean_soul_ingot.name=§1海洋之魂
 item.oceanheartr.frigid_drilling_bit_rtx3080.name=冷凝钻头-RTX3080
+item.oceanheartr.lava_soul_ingot.name=§6熔岩之魂
+item.oceanheartr.legend_ingot.name=§e传说
+item.oceanheartr.void_ingot.name=§5虚空
 
 # 方块
 tile.oceanheartr.ocean_soul_block.name=§1海洋之魂块
