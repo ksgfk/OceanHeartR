@@ -5,6 +5,9 @@ item.oceanheartr.frigid_drilling_bit_rtx3080.name=冷凝钻头-RTX3080
 # 方块
 tile.oceanheartr.ocean_soul_block.name=§1海洋之魂块
 tile.oceanheartr.ocean_soul_ore.name=§1海洋之魂矿石
+tile.oceanheartr.lava_soul_ore.name=§6熔岩之魂矿石
+tile.oceanheartr.legend_ore.name=§e传说矿石
+tile.oceanheartr.void_ore.name=§5虚空矿石
 
 # 实体
 entity.oceanheartr.boom_ocean_soul_ore.name=§1破碎的海洋之魂

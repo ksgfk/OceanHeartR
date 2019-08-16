@@ -5,6 +5,9 @@ item.oceanheartr.frigid_drilling_bit_rtx3080.name=Frigid Drilling Bit-RTX3080
 # Blocks
 tile.oceanheartr.ocean_soul_block.name=§1Soul Block of Ocean
 tile.oceanheartr.ocean_soul_ore.name=§1Soul Ore of Ocean
+tile.oceanheartr.lava_soul_ore.name=§6Soul Ore of Lava
+tile.oceanheartr.legend_ore.name=§eOre of Legend
+tile.oceanheartr.void_ore.name=§5Ore of Void
 
 # Entities
 entity.oceanheartr.boom_ocean_soul_ore.name=§1Crumbling Soul Ore of Ocean
