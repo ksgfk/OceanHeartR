@@ -16,7 +16,13 @@ public final class OHRItems {
     public static final Item LavaSoulIngot = new ItemOHRBase("lava_soul_ingot");
     @OreDict(name = "ingotLegend")
     public static final Item LegendIngot = new ItemOHRBase("legend_ingot");
+    @OreDict(name = "ingotLegendGold")
+    public static final Item LegendGoldIngot = new ItemOHRBase("legend_gold_ingot");
+    @OreDict(name = "powerLegend")
+    public static final Item LegendPower = new ItemOHRBase("power_legend");
     @OreDict(name = "ingotVoid")
     public static final Item VoidIngot = new ItemOHRBase("void_ingot");
+    @OreDict(name = "crystalNature")
+    public static final Item NatureIngot = new ItemOHRBase("nature_crystal");
     public static final Item FrigidDrillingBitRtx3080 = new ItemOHRBase("frigid_drilling_bit_rtx3080");
 }

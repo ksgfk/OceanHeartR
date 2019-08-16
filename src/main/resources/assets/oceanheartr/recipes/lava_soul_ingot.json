@@ -1,0 +1,14 @@
+{
+  "type": "forge:ore_shapeless",
+  "group": "oceanheartr:ingot",
+  "result": {
+    "item": "oceanheartr:lava_soul_ingot",
+    "count": 9
+  },
+  "ingredients": [
+    {
+      "type": "forge:ore_dict",
+      "ore": "blockLavaSoul"
+    }
+  ]
+}

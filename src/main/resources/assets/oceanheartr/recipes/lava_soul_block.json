@@ -1,0 +1,19 @@
+{
+  "type": "forge:ore_shaped",
+  "group": "oceanheartr:block",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "type": "forge:ore_dict",
+      "ore": "ingotLavaSoul"
+    }
+  },
+  "result": {
+    "item": "oceanheartr:lava_soul_block",
+    "count": 1
+  }
+}

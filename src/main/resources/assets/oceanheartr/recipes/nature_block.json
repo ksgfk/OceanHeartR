@@ -1,0 +1,19 @@
+{
+  "type": "forge:ore_shaped",
+  "group": "oceanheartr:block",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "type": "forge:ore_dict",
+      "ore": "crystalNature"
+    }
+  },
+  "result": {
+    "item": "oceanheartr:nature_block",
+    "count": 1
+  }
+}

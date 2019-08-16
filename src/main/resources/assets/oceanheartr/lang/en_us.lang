@@ -2,8 +2,11 @@
 item.oceanheartr.ocean_soul_ingot.name=§1Soul of Ocean
 item.oceanheartr.frigid_drilling_bit_rtx3080.name=Frigid Drilling Bit-RTX3080
 item.oceanheartr.lava_soul_ingot.name=§6Soul of Lava
-item.oceanheartr.legend_ingot.name=§eLegend
+item.oceanheartr.legend_ingot.name=§6Legend
 item.oceanheartr.void_ingot.name=§5Void
+item.oceanheartr.nature_crystal.name=§aNature Crystal
+item.oceanheartr.legend_gold_ingot.name=§eGold Legend
+item.oceanheartr.power_legend.name=§eForce of Legend
 
 # Blocks
 tile.oceanheartr.ocean_soul_block.name=§1Soul Block of Ocean
@@ -11,6 +14,10 @@ tile.oceanheartr.ocean_soul_ore.name=§1Soul Ore of Ocean
 tile.oceanheartr.lava_soul_ore.name=§6Soul Ore of Lava
 tile.oceanheartr.legend_ore.name=§eOre of Legend
 tile.oceanheartr.void_ore.name=§5Ore of Void
+tile.oceanheartr.lava_soul_block.name=§6Soul Block of Lava
+tile.oceanheartr.void_block.name=§5Void Block
+tile.oceanheartr.nature_block.name=§aNature
+tile.oceanheartr.nature_ore.name=§aOre of Nature
 
 # Entities
 entity.oceanheartr.boom_ocean_soul_ore.name=§1Crumbling Soul Ore of Ocean

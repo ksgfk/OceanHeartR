@@ -1,0 +1,17 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "type": "forge:ore_dict",
+      "ore": "powerLegend"
+    }
+  },
+  "result": {
+    "item": "oceanheartr:legend_gold_ingot"
+  }
+}

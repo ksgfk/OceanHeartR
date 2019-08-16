@@ -1,0 +1,28 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "#Y#",
+    "ZXZ",
+    "#Y#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:quartz_block",
+      "data": 0
+    },
+    "X": {
+      "item": "minecraft:diamond_block",
+      "data": 0
+    },
+    "Y": {
+      "item": "minecraft:gold_ingot"
+    },
+    "Z": {
+      "type": "forge:ore_dict",
+      "ore": "ingotLegend"
+    }
+  },
+  "result": {
+    "item": "oceanheartr:power_legend"
+  }
+}
