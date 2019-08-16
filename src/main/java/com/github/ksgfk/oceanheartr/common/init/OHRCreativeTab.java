@@ -11,7 +11,7 @@ public final class OHRCreativeTab {
     public static final CreativeTabs Main = new CreativeTabs(OceanHeartR.MOD_ID + ".name") {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(OHRItems.OceanSoulIngot);
+            return new ItemStack(OHRBlocks.OceanSoulBlock);
         }
     };
 }
