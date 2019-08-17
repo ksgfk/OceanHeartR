@@ -18,10 +18,10 @@ public final class OHRBlocks {
     @FurnaceSmelting(output = "ocean_soul_ingot")
     public static final Block OceanSoulOre = new BlockOHRBase("ocean_soul_ore", Material.ICE);
     @OreDict(name = "blockLavaSoul")
-    public static final Block LavaSoulBlock = new BlockOHRBase("lava_soul_block", Material.LAVA);
+    public static final Block LavaSoulBlock = new BlockOHRBase("lava_soul_block", Material.ROCK);
     @OreDict(name = "oreLavaSoul")
     @FurnaceSmelting(output = "lava_soul_ingot")
-    public static final Block LavaSoulOre = new BlockOHRBase("lava_soul_ore", Material.LAVA);
+    public static final Block LavaSoulOre = new BlockOHRBase("lava_soul_ore", Material.ROCK);
     @OreDict(name = "oreLegend")
     @FurnaceSmelting(output = "legend_ingot")
     public static final Block LegendOre = new BlockOHRBase("legend_ore", Material.ROCK);
