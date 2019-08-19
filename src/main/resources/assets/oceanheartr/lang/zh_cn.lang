@@ -7,6 +7,7 @@ item.oceanheartr.void_ingot.name=§5虚空
 item.oceanheartr.nature_crystal.name=§a自然结晶
 item.oceanheartr.legend_gold_ingot.name=§e金色传说
 item.oceanheartr.power_legend.name=§e传说之力
+item.oceanheartr.nature_crystal_polluted.name=§7被污染的自然结晶
 
 # 方块
 tile.oceanheartr.ocean_soul_block.name=§1海洋之魂聚合物
@@ -18,6 +19,7 @@ tile.oceanheartr.lava_soul_block.name=§6熔岩之魂聚合物
 tile.oceanheartr.void_block.name=§5虚空之石
 tile.oceanheartr.nature_block.name=§a自然聚合物
 tile.oceanheartr.nature_ore.name=§a自然矿石
+tile.oceanheartr.nature_block_polluted.name=§7被污染的自然聚合物
 
 # 实体
 entity.oceanheartr.boom_ocean_soul_ore.name=§1破碎的海洋之魂

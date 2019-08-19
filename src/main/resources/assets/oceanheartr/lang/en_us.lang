@@ -7,6 +7,7 @@ item.oceanheartr.void_ingot.name=§5Void
 item.oceanheartr.nature_crystal.name=§aNature Crystal
 item.oceanheartr.legend_gold_ingot.name=§eGold Legend
 item.oceanheartr.power_legend.name=§eForce of Legend
+item.oceanheartr.nature_crystal_polluted.name=§7Polluted Nature Crystal
 
 # Blocks
 tile.oceanheartr.ocean_soul_block.name=§1Soul Block of Ocean
@@ -18,6 +19,7 @@ tile.oceanheartr.lava_soul_block.name=§6Soul Block of Lava
 tile.oceanheartr.void_block.name=§5Void Block
 tile.oceanheartr.nature_block.name=§aNature
 tile.oceanheartr.nature_ore.name=§aOre of Nature
+tile.oceanheartr.nature_block_polluted.name=§7Polluted Nature
 
 # Entities
 entity.oceanheartr.boom_ocean_soul_ore.name=§1Crumbling Soul Ore of Ocean

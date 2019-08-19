@@ -24,5 +24,7 @@ public final class OHRItems {
     public static final Item VoidIngot = new ItemOHRBase("void_ingot");
     @OreDict(name = "crystalNature")
     public static final Item NatureIngot = new ItemOHRBase("nature_crystal");
+    @OreDict(name = "crystalNaturePolluted")
+    public static final Item NatureIngotPolluted = new ItemOHRBase("nature_crystal_polluted");
     public static final Item FrigidDrillingBitRtx3080 = new ItemOHRBase("frigid_drilling_bit_rtx3080");
 }
