@@ -40,6 +40,9 @@ public final class SubscribeWorldOreGenEvent {
     private static WorldGenerator legend = new WorldGenMinable(OHRBlocks.LegendOre.getDefaultState(),
             6,
             SubscribeWorldOreGenEvent::stoneAndSand);
+    private static WorldGenerator voidOre = new WorldGenMinable(OHRBlocks.VoidOre.getDefaultState(),
+            3,
+            SubscribeWorldOreGenEvent::endStone);
 
     @SubscribeEvent
     public static void onOceanSoulOreGen(OreGenEvent.Pre event) {
@@ -106,6 +109,18 @@ public final class SubscribeWorldOreGenEvent {
         gen(lavaSoul, event.getWorld(), event.getRand(), event.getPos(), 0, 255, 4);
     }
 
+    @SubscribeEvent
+    public static void onVoidOreGen(OreGenEvent.Pre event) {
+        World world = event.getWorld();
+        if (world.isRemote) {
+            return;
+        }
+        if (world.provider.getDimensionType() != DimensionType.THE_END) {
+            return;
+        }
+        gen(voidOre, world, event.getRand(), event.getPos(), 5, 75, 8);
+    }
+
     private static void gen(WorldGenerator gen, World world, Random random, BlockPos pos, int minHeight, int maxHeight, int chance) {
         if (minHeight > maxHeight || minHeight < 0 || maxHeight > 256) {
             throw new IllegalArgumentException("矿物生成超出世界边界");
@@ -129,6 +144,11 @@ public final class SubscribeWorldOreGenEvent {
     private static boolean materialRock(IBlockState block) {
         if (nullCheck(block)) return false;
         return block.getMaterial() == Material.ROCK;
+    }
+
+    private static boolean endStone(IBlockState block) {
+        if (nullCheck(block)) return false;
+        return block.getBlock() == Blocks.END_STONE;
     }
 
     private static boolean nullCheck(IBlockState blockState) {//草，java这样写真难受

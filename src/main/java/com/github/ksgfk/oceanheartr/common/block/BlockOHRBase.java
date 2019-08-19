@@ -1,6 +1,7 @@
 package com.github.ksgfk.oceanheartr.common.block;
 
 import com.github.ksgfk.oceanheartr.OceanHeartR;
+import com.github.ksgfk.oceanheartr.common.event.BreakOHRBlock;
 import com.github.ksgfk.oceanheartr.common.event.ClickOHRBlockEvent;
 import com.github.ksgfk.oceanheartr.common.event.ExplosionDestroyOHRBlockEvent;
 import com.github.ksgfk.oceanheartr.common.event.OHRBlockActiveEvent;
@@ -42,5 +43,11 @@ public class BlockOHRBase extends Block {
     @Override
     public void onExplosionDestroy(World worldIn, BlockPos pos, Explosion explosionIn) {
         MinecraftForge.EVENT_BUS.post(new ExplosionDestroyOHRBlockEvent(worldIn, pos, worldIn.getBlockState(pos), explosionIn));
+    }
+
+    @Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+        MinecraftForge.EVENT_BUS.post(new BreakOHRBlock(worldIn, pos, state));
+        super.breakBlock(worldIn, pos, state);
     }
 }
