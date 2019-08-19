@@ -1,9 +1,9 @@
-package com.github.ksgfk.oceanheartr.common.event.subscriber;
+package com.github.ksgfk.oceanheartr.common.event;
 
 import com.github.ksgfk.oceanheartr.common.entity.EntityBoomOceanSoulOre;
-import com.github.ksgfk.oceanheartr.common.event.ClickOHRBlockEvent;
-import com.github.ksgfk.oceanheartr.common.event.ExplosionDestroyOHRBlockEvent;
-import com.github.ksgfk.oceanheartr.common.event.OHRBlockActiveEvent;
+import com.github.ksgfk.oceanheartr.api.event.ClickOHRBlockEvent;
+import com.github.ksgfk.oceanheartr.api.event.ExplosionDestroyOHRBlockEvent;
+import com.github.ksgfk.oceanheartr.api.event.OHRBlockActiveEvent;
 import com.github.ksgfk.oceanheartr.common.init.OHRBlocks;
 import com.github.ksgfk.oceanheartr.common.init.OHRItems;
 import net.minecraft.block.state.IBlockState;

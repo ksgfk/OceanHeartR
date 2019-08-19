@@ -33,8 +33,8 @@ public final class OHRBlocks {
     @OreDict(name = "blockNature")
     public static final Block NatureBlock = new BlockOHRBase("nature_block", Material.ROCK);
     @OreDict(name = "blockNaturePolluted")
-    public static final Block NatureOrePolluted = new BlockOHRBase("nature_block_polluted", Material.ROCK);
+    public static final Block NatureOrePolluted = new BlockOHRBase("nature_block_polluted", Material.GLASS);
     @OreDict(name = "oreNature")
     @FurnaceSmelting(output = "nature_crystal")
-    public static final Block NatureOre = new BlockOHRBase("nature_ore", Material.ROCK);
+    public static final Block NatureOre = new BlockOHRBase("nature_ore", Material.GLASS);
 }

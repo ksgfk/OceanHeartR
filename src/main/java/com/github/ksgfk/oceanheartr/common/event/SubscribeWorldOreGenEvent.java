@@ -1,4 +1,4 @@
-package com.github.ksgfk.oceanheartr.common.event.subscriber;
+package com.github.ksgfk.oceanheartr.common.event;
 
 import com.github.ksgfk.oceanheartr.annotation.OreGenBusSubscriber;
 import com.github.ksgfk.oceanheartr.common.init.OHRBlocks;

@@ -1,10 +1,10 @@
 package com.github.ksgfk.oceanheartr.common.block;
 
 import com.github.ksgfk.oceanheartr.OceanHeartR;
-import com.github.ksgfk.oceanheartr.common.event.BreakOHRBlock;
-import com.github.ksgfk.oceanheartr.common.event.ClickOHRBlockEvent;
-import com.github.ksgfk.oceanheartr.common.event.ExplosionDestroyOHRBlockEvent;
-import com.github.ksgfk.oceanheartr.common.event.OHRBlockActiveEvent;
+import com.github.ksgfk.oceanheartr.api.event.BreakOHRBlock;
+import com.github.ksgfk.oceanheartr.api.event.ClickOHRBlockEvent;
+import com.github.ksgfk.oceanheartr.api.event.ExplosionDestroyOHRBlockEvent;
+import com.github.ksgfk.oceanheartr.api.event.OHRBlockActiveEvent;
 import com.github.ksgfk.oceanheartr.common.init.OHRCreativeTab;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

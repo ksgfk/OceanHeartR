@@ -1,4 +1,4 @@
-package com.github.ksgfk.oceanheartr.common.event;
+package com.github.ksgfk.oceanheartr.api.event;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
